@@ -7,4 +7,9 @@ export class Time {
     constructor(seconds: number) {
         this.seconds = seconds;
     }
+
+    getTimeAsString(): string {
+        // TODO
+        return "";
+    }
 }
