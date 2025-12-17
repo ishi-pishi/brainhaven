@@ -11,7 +11,7 @@ export class Session {
     private breakDuration: Time;
     private numBlocks: number;
 
-    constructor(workDuration: Time, breakDuration: Time, numBlocks: Time) {
+    constructor(workDuration: Time, breakDuration: Time, numBlocks: number) {
         this.workDuration = workDuration;
         this.breakDuration = breakDuration;
         this.numBlocks = numBlocks;
