@@ -15,4 +15,12 @@ export class Countdown {
         this.elapsed = new Time(0);
         this.session = session;
     }
+    
+    startTimer() {
+        // TODO
+    }
+
+    pauseTimer() {
+        // TODO
+    }
 }
