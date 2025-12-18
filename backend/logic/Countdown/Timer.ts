@@ -18,7 +18,7 @@ export class Timer {
         if (!this.isFinished()) {
             this.elapsed.increment(1);
         }
-        return this.isFinished();
+        return this.isFinished(); // todo - create observer?
     }
 
     getTimeLeft() {
