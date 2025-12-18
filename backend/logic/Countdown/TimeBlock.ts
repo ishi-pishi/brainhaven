@@ -4,10 +4,6 @@ import { Time } from "./Time";
  */
 export abstract class TimeBlock {
     constructor(protected duration: Time) {}
-
-    countdownInterval() {
-        // TODO
-    }
 }
 
 export class WorkBlock extends TimeBlock {}
