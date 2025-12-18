@@ -14,7 +14,7 @@ import { ActiveSessionState } from "./SessionStates/ActiveSessionState";
  * - Completed
  */
 export class ActiveSession {
-    private elapsed: Time;
+    private elapsed: Time; // TODO: switch to timer
     private session: Session;
     private state: ActiveSessionState;
 
