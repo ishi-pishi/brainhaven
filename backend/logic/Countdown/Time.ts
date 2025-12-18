@@ -8,8 +8,22 @@ export class Time {
         this.seconds = seconds;
     }
 
+    // Decrements time by given number of seconds, to a minimum of 0
+    decrement(seconds: number = 1) {
+        this.seconds = Math.max(0, this.seconds - seconds);
+    }
+
+    // Returns time in HH:MM:SS format
     getTimeAsString(): string {
-        // TODO
-        return "";
+        const { hours, minutes, seconds } = this.getComponents();
+        return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    }
+
+    // Returns time split into components (hours, minutes and seconds)
+    getComponents(): { hours: number; minutes: number; seconds: number } {
+        const hours = Math.floor(this.seconds / 3600);
+        const minutes = Math.floor((this.seconds % 3600) / 60);
+        const seconds = this.seconds % 60;
+        return { hours, minutes, seconds };
     }
 }

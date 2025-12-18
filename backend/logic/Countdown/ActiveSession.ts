@@ -1,12 +1,13 @@
 import { Time } from "./Time";
-import { Session } from "./Session/Session";
+import { Session } from "./Session";
+import { TimeBlock, WorkBlock, BreakBlock } from "./TimeBlock";
 
 /**
  * Represents an ACTIVE session that is counting down, containing
  * - Session we are completing
  * - Total time elapsed so far
  */
-export class Countdown {
+export class ActiveSession {
     private elapsed: Time;
     private session: Session;
 
