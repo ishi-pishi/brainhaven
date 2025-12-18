@@ -1,6 +1,6 @@
-import { Time } from "./Time";
+import { Timer } from "./Timer";
 import { Session } from "./Session";
-import { ActiveSessionState } from "./SessionStates/ActiveSessionState";
+import { ActiveSessionState } from "./ActiveSessionState";
 
 /**
  * Represents an ACTIVE session that is counting down, containing
@@ -14,14 +14,13 @@ import { ActiveSessionState } from "./SessionStates/ActiveSessionState";
  * - Completed
  */
 export class ActiveSession {
-    private elapsed: Time; // TODO: switch to timer
+    private timer: Timer;
     private session: Session;
     private state: ActiveSessionState;
 
     // Construct a new session with no elapsed time
     constructor(session: Session) {
-        this.elapsed = new Time(0);
+        this.timer = new Timer(0); // TODO: this is wrong.
         this.session = session;
-        // todo: init state
     }
 }
