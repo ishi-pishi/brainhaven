@@ -19,4 +19,19 @@ export class Session {
         this.break = new Time(breakSeconds);
         this.numCycles = numCycles;
     }
+
+    /** Returns the work duration as a Time */
+    getWorkDuration(): Time {
+        return this.work;
+    }
+
+    /** Returns the break duration as a Time */
+    getBreakDuration(): Time {
+        return this.break;
+    }
+
+    /** Returns the number of cycles */
+    getNumCycles(): number {
+        return this.numCycles;
+    }
 } 
