@@ -1,5 +1,5 @@
 import { Time } from "./Time";
-import { Session } from "./Session";
+import { Session } from "./Session/Session";
 
 /**
  * Represents an ACTIVE session that is counting down, containing

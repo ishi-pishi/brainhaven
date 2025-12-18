@@ -7,5 +7,5 @@ export abstract class TimeBlock {
     constructor(protected duration: Time) {}
 }
 
-class WorkBlock extends TimeBlock {}
-class BreakBlock extends TimeBlock {}
+export class WorkBlock extends TimeBlock {}
+export class BreakBlock extends TimeBlock {}
