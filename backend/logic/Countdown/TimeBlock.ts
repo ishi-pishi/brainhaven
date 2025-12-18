@@ -5,7 +5,7 @@ import { Time } from "./Time";
 export abstract class TimeBlock {
     constructor(protected duration: Time) {}
 
-    countdown() {
+    countdownInterval() {
         // TODO
     }
 }

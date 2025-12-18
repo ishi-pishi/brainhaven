@@ -8,7 +8,12 @@ export class Time {
         this.seconds = seconds;
     }
 
-    // Decrements time by given number of seconds, to a minimum of 0
+    // Increments time by a given number of seconds (Default 1)
+    increment(seconds: number = 1) {
+        this.seconds++;
+    }
+
+    // Decrements time by given number of seconds (default 1), to a minimum of 0
     decrement(seconds: number = 1) {
         this.seconds = Math.max(0, this.seconds - seconds);
     }
