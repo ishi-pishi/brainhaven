@@ -1,4 +1,4 @@
-import { TimeBlock } from "./TimeBlock";
+import { TimeBlock, WorkBlock, BreakBlock } from "./TimeBlock";
 
 /**
  * Represents a focus session, containing:
@@ -7,6 +7,7 @@ import { TimeBlock } from "./TimeBlock";
  * - number of blocks (each block containing a work followed by a break)
  */
 export class Session {
-    private block: TimeBlock
+    private work: WorkBlock;
+    private break: BreakBlock;
     private numBlocks: number;
 } 
