@@ -1,37 +1,26 @@
-import { Time } from "./Time";
+import { Timer } from "./Timer";
+import { SessionSettings } from "./SessionSettings";
+import { SessionState } from "./SessionState";
 
 /**
- * Represents a focus session, containing:
- * - duration of time spent in work
- * - duration of time spent in break
- * - number of cycles (each block containing a work followed by a break)
+ * Represents an ACTIVE session that is counting down, containing
+ * - Total time elapsed so far
+ * - Session we are tracking
+ * 
+ * This is the context; the state can be:
+ * - Ready
+ * - Running
+ * - Paused
+ * - Completed
  */
-export class Session {
-    private work: Time;
-    private break: Time;
-    private numCycles: number;
+export class ActiveSession {
+    private timer: Timer;
+    private session: SessionSettings;
+    private state: SessionState;
 
-    // Constructs session with work/break amounts with the given number of SECONDS
-    // and numBlocks.
-    // Important: work/break are in seconds NOT time.
-    constructor(workSeconds: number, breakSeconds: number, numCycles: number) {
-        this.work = new Time(workSeconds);
-        this.break = new Time(breakSeconds);
-        this.numCycles = numCycles;
+    // Construct a new session with no elapsed time
+    constructor(session: SessionSettings, initialState: SessionState) {
+        this.timer = new Timer(0); // TODO: this is wrong.
+        this.session = session;
     }
-
-    /** Returns the work duration as a Time */
-    getWorkDuration(): Time {
-        return this.work;
-    }
-
-    /** Returns the break duration as a Time */
-    getBreakDuration(): Time {
-        return this.break;
-    }
-
-    /** Returns the number of cycles */
-    getNumCycles(): number {
-        return this.numCycles;
-    }
-} 
+}

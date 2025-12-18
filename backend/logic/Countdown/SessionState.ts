@@ -1,10 +1,10 @@
-import { ActiveSession } from "./ActiveSession";
+import { ActiveSession } from "./Session";
 
 /**
  * Defines the methods for an ActiveSession State.
  */
 
-export interface ActiveSessionState {
+export interface SessionState {
     start(ctx: ActiveSession): void;
     pause(ctx: ActiveSession): void;
     tick(ctx: ActiveSession): void;

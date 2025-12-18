@@ -1,11 +1,11 @@
-import { Session } from "./Session";
+import { SessionSettings } from "./SessionSettings";
 import { TimeBlock, WorkBlock, BreakBlock } from "./TimeBlock";
 
 export class BlockQueue {
     private blocks: TimeBlock[];
     private currentIndex = 0;
 
-    constructor(session: Session) {
+    constructor(session: SessionSettings) {
         this.blocks = [];
         for (let i = 0; i < session.getNumCycles(); i++) {
             this.blocks.push(new WorkBlock(session.getWorkDuration()));
