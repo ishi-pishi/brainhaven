@@ -1,6 +1,9 @@
+import { Time } from "./Time";
 import { Timer } from "./Timer";
+import { BlockQueue } from "./BlockQueue";
 import { SessionSettings } from "./SessionSettings";
-import { SessionState } from "./SessionState";
+import { ReadyState, SessionState } from "./SessionState";
+import { TimeBlock } from "./TimeBlock";
 
 /**
  * Represents an ACTIVE session that is counting down, containing
@@ -13,14 +16,49 @@ import { SessionState } from "./SessionState";
  * - Paused
  * - Completed
  */
-export class ActiveSession {
-    private timer: Timer;
-    private session: SessionSettings;
-    private state: SessionState;
+
+// TODO: right now, this is just a ticking timer. it does not switch blocks.
+export class Session {
+    private timer: Timer = new Timer(0);
+    private settings: SessionSettings;
+    private state: SessionState = new ReadyState(this);
+    protected bq: BlockQueue;
 
     // Construct a new session with no elapsed time
-    constructor(session: SessionSettings, initialState: SessionState) {
-        this.timer = new Timer(0); // TODO: this is wrong.
-        this.session = session;
+    constructor(settings: SessionSettings) {
+        this.settings = settings;
+        this.setState(new ReadyState(this));
+        this.bq = new BlockQueue(settings);
+        this.setTimerToBlock();
+    }
+
+    togglePause() {
+        this.state.togglePause();
+    }
+
+    startTimer() {
+        this.timer.start();
+    }
+
+    stopTimer() {
+        this.timer.stop();
+    }
+
+
+    // Sets current state to given state
+    setState(newState: SessionState) {
+        this.state.exit?.();
+        this.state = newState;
+        this.state.enter?.();
+    }
+
+    // Sets timer to the duration OF CURRENT TIME BLOCK
+    private setTimerToBlock() {
+        const firstBlock = this.getCurrentBlock();
+        this.timer = new Timer(firstBlock?.getDuration() ?? new Time(0));
+    }
+
+    getCurrentBlock(): TimeBlock | null {
+        return this.bq.current();
     }
 }

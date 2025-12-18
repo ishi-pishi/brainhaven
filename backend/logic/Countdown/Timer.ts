@@ -42,6 +42,7 @@ export class Timer {
     onTick(): boolean {
         if (!this.isFinished()) {
             this.elapsed.increment(1);
+            console.log(this.elapsed.getTimeAsString()); // TODO: remove
         }
         return this.isFinished(); // todo - create observer?
     }

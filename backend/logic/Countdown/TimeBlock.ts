@@ -4,6 +4,10 @@ import { Time } from "./Time";
  */
 export abstract class TimeBlock {
     constructor(protected duration: Time) {}
+
+    getDuration(): Time {
+        return this.duration;
+    }
 }
 
 export class WorkBlock extends TimeBlock {}
