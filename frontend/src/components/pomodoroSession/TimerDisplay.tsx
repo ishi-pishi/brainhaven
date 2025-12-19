@@ -6,14 +6,13 @@ export default function TimerDisplay() {
   const timerManager = TimerManager.getInstance();
 
   useEffect(() => {
-    const tickHandler = (msLeft: number) => setTimeLeftMs(msLeft);
-    timerManager.setTickCallback(tickHandler);
+    const unsubscribe = timerManager.addTickListener(setTimeLeftMs);
 
-    // TEMP: start a timer for testing
-    timerManager.startTimer(20_000); // 10 seconds
-
-    return () => timerManager.setTickCallback(() => { });
+    return () => {
+      unsubscribe();
+    };
   }, [timerManager]);
+
 
   return (
     <div className="text-5xl font-bold text-center p-6">
@@ -22,17 +21,15 @@ export default function TimerDisplay() {
   );
 }
 
-
-// Helper
-const MS_PER_MINUTE = 60_000;
+// formatting helper
 const MS_PER_SECOND = 1_000;
+const SECOND_PER_MIN = 60;
 
 function formatTime(ms: number): string {
-  const minutes = Math.floor(ms / MS_PER_MINUTE)
+  const secondsLeft = Math.max(0, Math.ceil(ms / MS_PER_SECOND));
+  const minutes = Math.floor(secondsLeft / SECOND_PER_MIN)
     .toString()
     .padStart(2, "0");
-  const seconds = Math.floor((ms % MS_PER_MINUTE) / MS_PER_SECOND)
-    .toString()
-    .padStart(2, "0");
+  const seconds = (secondsLeft % 60).toString().padStart(2, "0");
   return `${minutes}:${seconds}`;
 }

@@ -1,7 +1,6 @@
 /**
- * Timer logic in milliseconds.
- * Handles start, pause, resume, elapsed time, and completion check.
- * Does not handle intervals or UI updates
+ * Timer logic in MILLISECONDS.
+ * Stores timer duration, as well as time started/finished.
  */
 export class Timer {
   private readonly durationMs: number;

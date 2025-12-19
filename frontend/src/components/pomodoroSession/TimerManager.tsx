@@ -1,41 +1,50 @@
 import { Timer } from "./Timer";
 
+type TickListener = (timeLeftMs: number) => void;
+
 /**
- * Timer controller.
- * - Singleton, so there can only be one timer with a controller at a time
- * - This class deals with the interval stuff, whereas the Timer methods have the methods
- *   to calculate next times.
+ * Runs the timer as a singleton instance.
+ * Contains interval logic (e.g., can recalculate time every second)
+ * as WELL as subscription logic.
  */
 export class TimerManager {
   private static instance: TimerManager;
-
   private currentTimer: Timer | null = null;
-  private intervalId: number | null = null;
-  private tickCallback: ((timeLeftMs: number) => void) | null = null;
+  private intervalId: ReturnType<typeof setInterval> | null = null;
+  private listeners = new Set<TickListener>();
+  private tickIntervalMs = 1000;
 
-  private constructor() {} // private so no external `new TimerManager()`
+  private constructor() {}
 
-  // singleton accessor
   static getInstance(): TimerManager {
-    if (!TimerManager.instance) {
-      TimerManager.instance = new TimerManager();
-    }
+    if (!TimerManager.instance) TimerManager.instance = new TimerManager();
     return TimerManager.instance;
   }
 
-  startTimer(durationMs: number) {
+  startTimerMs(durationMs: number) {
     this.stopInterval();
     this.currentTimer = new Timer(durationMs);
     this.currentTimer.start();
+    this.emitTick(); 
     this.startInterval();
+  }
+
+  startTimerSeconds(seconds: number) {
+    this.startTimerMs(seconds * 1000);
+  }
+
+  startTimerMinutes(minutes: number) {
+    this.startTimerMs(minutes * 60_000);
   }
 
   pauseTimer() {
     this.currentTimer?.pause();
+    this.emitTick();
   }
 
   resumeTimer() {
     this.currentTimer?.resume();
+    this.emitTick();
   }
 
   getTimeLeftMs(): number {
@@ -46,26 +55,38 @@ export class TimerManager {
     return this.currentTimer?.isFinished() ?? true;
   }
 
-  setTickCallback(cb: (timeLeftMs: number) => void) {
-    this.tickCallback = cb;
+  // Also contains Subscription information.
+  addTickListener(cb: TickListener) {
+    this.listeners.add(cb);
+    cb(this.getTimeLeftMs());
+    return () => this.listeners.delete(cb);
   }
 
-  /**
-   * Private methods
-   */
+  removeTickListener(cb: TickListener) {
+    this.listeners.delete(cb);
+  }
+
+  setTickIntervalMs(ms: number) {
+    this.tickIntervalMs = Math.max(100, ms);
+    if (this.intervalId !== null) {
+      this.stopInterval();
+      this.startInterval();
+    }
+  }
+
+  private emitTick() {
+    const msLeft = this.getTimeLeftMs();
+    for (const cb of Array.from(this.listeners)) cb(msLeft);
+  }
+
   private startInterval() {
     if (!this.currentTimer) return;
+    this.stopInterval();
     this.intervalId = setInterval(() => {
       if (!this.currentTimer) return;
-
-      if (this.tickCallback) {
-        this.tickCallback(this.currentTimer.getTimeLeftMs());
-      }
-
-      if (this.currentTimer.isFinished()) {
-        this.stopInterval();
-      }
-    }, 1000);
+      this.emitTick();
+      if (this.currentTimer.isFinished()) this.stopInterval();
+    }, this.tickIntervalMs);
   }
 
   private stopInterval() {
