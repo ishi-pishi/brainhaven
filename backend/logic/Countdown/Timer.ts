@@ -18,26 +18,6 @@ export class Timer {
         this.elapsed = new Time(0);
     }
 
-    // Runs on tick function every second
-    start(): void {
-        if (this.intervalId) return;
-
-        this.intervalId = setInterval(() => {
-            const finished = this.onTick();
-            if (finished) {
-                this.stop();
-            }
-        }, 1000);
-    }
-
-    // Stops ticking
-    stop(): void {
-        if (!this.intervalId) return;
-
-        clearInterval(this.intervalId);
-        this.intervalId = undefined;
-    }
-
     // Moves timer forward by one tick; returns amount of time left.
     onTick(): boolean {
         if (!this.isFinished()) {

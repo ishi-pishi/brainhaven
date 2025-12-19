@@ -36,14 +36,6 @@ export class Session {
         this.state.togglePause();
     }
 
-    startTimer() {
-        this.timer.start();
-    }
-
-    stopTimer() {
-        this.timer.stop();
-    }
-
 
     // Sets current state to given state
     setState(newState: SessionState) {
