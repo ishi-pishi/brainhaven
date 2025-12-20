@@ -1,12 +1,42 @@
 // TimerManager.ts
 import { Timer } from "./Timer";
-import { TMSubject } from "./TMSubject";
+
+export type TickListener = (timeLeftMs: number) => void;
+export type FinishedListener = () => void;
+
+export class TMSubject {
+  private tickListeners = new Set<TickListener>();
+  private finishedListeners = new Set<FinishedListener>();
+
+  addTickListener(cb: TickListener) {
+    this.tickListeners.add(cb);
+    return () => this.tickListeners.delete(cb);
+  }
+
+  addFinishedListener(cb: FinishedListener) {
+    this.finishedListeners.add(cb);
+    return () => this.finishedListeners.delete(cb);
+  }
+
+  emitTick(msLeft: number) {
+    for (const cb of this.tickListeners) {
+      try { cb(msLeft); } catch (err) { console.error("tick listener error", err); }
+    }
+  }
+
+  emitFinished() {
+    for (const cb of this.finishedListeners) {
+      try { cb(); } catch (err) { console.error("finished listener error", err); }
+    }
+  }
+}
 
 export class TimerManager {
   private static instance: TimerManager;
   private currentTimer: Timer | null = null;
   private intervalId: ReturnType<typeof setInterval> | null = null;
   private tickIntervalMs = 1000;
+  private finishedEmitted = false;
 
   private subject = new TMSubject();
 
@@ -20,8 +50,9 @@ export class TimerManager {
   startTimerMs(durationMs: number) {
     this.stopInterval();
     this.currentTimer = new Timer(durationMs);
+    this.finishedEmitted = false;
     this.currentTimer.start();
-    this.emitTick(); // emit immediately
+    this.emitTick();
     this.startInterval();
   }
 
@@ -59,26 +90,33 @@ export class TimerManager {
     }
   }
 
-  addTickListener(cb: (msLeft: number) => void) {
+  addTickListener(cb: TickListener) {
     const unsub = this.subject.addTickListener(cb);
     cb(this.getTimeLeftMs());
     return unsub;
   }
 
-  addFinishedListener(cb: () => void) {
+  addFinishedListener(cb: FinishedListener) {
     return this.subject.addFinishedListener(cb);
   }
 
+  // Private helper
   private emitTick() {
+    if (!this.currentTimer) return;
+
     const msLeft = this.getTimeLeftMs();
     this.subject.emitTick(msLeft);
-    if (this.isFinished()) this.subject.emitFinished();
+
+    if (this.isFinished() && !this.finishedEmitted) {
+      this.finishedEmitted = true;
+      this.subject.emitFinished();
+    }
   }
 
-  // Helpers
   private startInterval() {
     if (!this.currentTimer) return;
     this.stopInterval();
+
     this.intervalId = setInterval(() => {
       if (!this.currentTimer) return;
       this.emitTick();
