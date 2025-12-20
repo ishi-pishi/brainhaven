@@ -8,6 +8,8 @@ export default function TimerDisplay() {
   useEffect(() => {
     const unsubscribe = timerManager.addTickListener(setTimeLeftMs);
 
+    timerManager.startTimerSeconds(10);
+
     return () => {
       unsubscribe();
     };

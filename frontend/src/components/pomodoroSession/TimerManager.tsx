@@ -1,18 +1,14 @@
+// TimerManager.ts
 import { Timer } from "./Timer";
+import { TMSubject } from "./TMSubject";
 
-type TickListener = (timeLeftMs: number) => void;
-
-/**
- * Runs the timer as a singleton instance.
- * Contains interval logic (e.g., can recalculate time every second)
- * as WELL as subscription logic.
- */
 export class TimerManager {
   private static instance: TimerManager;
   private currentTimer: Timer | null = null;
   private intervalId: ReturnType<typeof setInterval> | null = null;
-  private listeners = new Set<TickListener>();
   private tickIntervalMs = 1000;
+
+  private subject = new TMSubject();
 
   private constructor() {}
 
@@ -25,7 +21,7 @@ export class TimerManager {
     this.stopInterval();
     this.currentTimer = new Timer(durationMs);
     this.currentTimer.start();
-    this.emitTick(); 
+    this.emitTick(); // emit immediately
     this.startInterval();
   }
 
@@ -55,37 +51,38 @@ export class TimerManager {
     return this.currentTimer?.isFinished() ?? true;
   }
 
-  // Also contains Subscription information.
-  addTickListener(cb: TickListener) {
-    this.listeners.add(cb);
-    cb(this.getTimeLeftMs());
-    return () => this.listeners.delete(cb);
-  }
-
-  removeTickListener(cb: TickListener) {
-    this.listeners.delete(cb);
-  }
-
   setTickIntervalMs(ms: number) {
-    this.tickIntervalMs = Math.max(100, ms);
+    this.tickIntervalMs = Math.max(50, ms);
     if (this.intervalId !== null) {
       this.stopInterval();
       this.startInterval();
     }
   }
 
-  private emitTick() {
-    const msLeft = this.getTimeLeftMs();
-    for (const cb of Array.from(this.listeners)) cb(msLeft);
+  addTickListener(cb: (msLeft: number) => void) {
+    const unsub = this.subject.addTickListener(cb);
+    cb(this.getTimeLeftMs());
+    return unsub;
   }
 
+  addFinishedListener(cb: () => void) {
+    return this.subject.addFinishedListener(cb);
+  }
+
+  private emitTick() {
+    const msLeft = this.getTimeLeftMs();
+    this.subject.emitTick(msLeft);
+    if (this.isFinished()) this.subject.emitFinished();
+  }
+
+  // Helpers
   private startInterval() {
     if (!this.currentTimer) return;
     this.stopInterval();
     this.intervalId = setInterval(() => {
       if (!this.currentTimer) return;
       this.emitTick();
-      if (this.currentTimer.isFinished()) this.stopInterval();
+      if (this.isFinished()) this.stopInterval();
     }, this.tickIntervalMs);
   }
 
