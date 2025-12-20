@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { TimerManager } from "./TimerManager";
+import { TimerManager } from "../../timer/TimerManager";
 
 export default function TimerDisplay() {
   const [timeLeftMs, setTimeLeftMs] = useState(0);

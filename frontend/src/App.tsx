@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import TimerDisplay from "./components/pomodoroSession/TimerDisplay";
-import { TimerManager } from "./components/pomodoroSession/TimerManager";
+import { TimerManager } from "./timer/TimerManager";
 
 export default function App() {
   useEffect(() => {
