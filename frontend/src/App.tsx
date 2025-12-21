@@ -1,11 +1,14 @@
 import { useEffect } from "react";
 
 import TimerDisplay from "./components/pomodoroSession/TimerDisplay";
-import { TimerManager } from "./timer/TimerManager";
+import { ActiveSession } from "./timer/ActiveSession";
+import { SessionSettings } from "./timer/SessionSettings";
 
 export default function App() {
   useEffect(() => {
-    TimerManager.getInstance().startTimerSeconds(10);
+    const settings = new SessionSettings(10*1000, 5*1000, 2);
+    const session = new ActiveSession(settings);
+    session.start(); // starts the first block internally
   }, []);
   
   return (

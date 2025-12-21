@@ -4,7 +4,7 @@ export class BlockQueue {
     private blocks: TimeBlock[];
     private currentIndex = 0;
 
-    /** Constructs queue of work blocks interspersed by break blocks */
+    /** Constructs queue of work blocks interspersed by break */
     constructor(session: SessionSettings) {
         this.blocks = [];
         for (let i = 0; i < session.getNumCycles() - 1; i++) {
@@ -16,8 +16,11 @@ export class BlockQueue {
     }
 
     /** Returns the current block */
-    current(): TimeBlock | null {
-        return this.blocks[this.currentIndex] || null;
+    current(): TimeBlock {
+        if (this.isEmpty()) {
+            throw new Error("The queue is empty. Do not throw.");
+        }
+        return this.blocks[this.currentIndex];
     }
 
     /** Move to the next block */
@@ -47,6 +50,6 @@ export abstract class TimeBlock {
 }
 
 
-export class WorkBlock extends TimeBlock {}
-export class BreakBlock extends TimeBlock {}
+export class WorkBlock extends TimeBlock { }
+export class BreakBlock extends TimeBlock { }
 
