@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+
+/* global override */
+body {
+  font-family: 'Lora', serif !important;
+}
