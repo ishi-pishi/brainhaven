@@ -1,9 +1,11 @@
-import { SessionSettings } from "./components/setSettings/settingsMenu";
+import TimerDisplay from "./components/pomodoroSession/TimerDisplay";
+import { SettingsMenu } from "./components/setSettings/settingsMenu";
 
 export default function App() {
   return (
     <div className="">
-      <SessionSettings></SessionSettings>
+      <SettingsMenu></SettingsMenu>
+      <TimerDisplay></TimerDisplay>
     </div>
   );
 }

@@ -1,16 +1,21 @@
 import { useState } from 'react';
 
+import { SessionSettings } from '../../logic/timer/SessionSettings';
+import { ActiveSession } from '../../logic/timer/ActiveSession';
+
 
 // SessionSettings page
-export function SessionSettings() {
+export function SettingsMenu() {
     // All in min
     const [workTime, setWorkTime] = useState(25);
     const [breakTime, setBreakTime] = useState(5);
     const [numBlocks, setNumBlocks] = useState(4);
 
     const handleStartSession = () => {
-        // TODO
-        console.log("hi man");
+        // TODO: nav to next page
+        const settings = new SessionSettings(toMs(workTime), toMs(breakTime), numBlocks);
+        const session = new ActiveSession(settings); // start session
+        session.start();
     };
 
     return (
@@ -71,4 +76,8 @@ function NumberPicker({ value, setValue, min, max, step = 1, label }: any) {
             />
         </div>
     );
+}
+
+function toMs(mins: number) {
+    return mins * 60 * 1000;
 }
