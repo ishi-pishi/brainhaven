@@ -7,7 +7,7 @@ export default function App() {
   useEffect(() => {
     TimerManager.getInstance().startTimerSeconds(10);
   }, []);
-
+  
   return (
     <div className="">
       <TimerDisplay />

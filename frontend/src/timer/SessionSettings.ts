@@ -1,5 +1,3 @@
-import { Time } from "./Time";
-
 /**
  * Represents the parameters of focus session, containing:
  * - duration of time spent in work
@@ -7,27 +5,27 @@ import { Time } from "./Time";
  * - number of cycles (each block containing a work followed by a break)
  */
 export class SessionSettings {
-    private work: Time;
-    private break: Time;
+    private workMs: number;
+    private breakMs: number;
     private numCycles: number;
 
     // Constructs  settings with work/break amounts with the given number of SECONDS
     // and numBlocks.
     // Important: work/break are in seconds NOT time.
-    constructor(workSeconds: number, breakSeconds: number, numCycles: number) {
-        this.work = new Time(workSeconds);
-        this.break = new Time(breakSeconds);
+    constructor(workMs: number, breakMs: number, numCycles: number) {
+        this.workMs = workMs;
+        this.breakMs = breakMs;
         this.numCycles = numCycles;
     }
 
-    /** Returns the work duration as a Time */
-    getWorkDuration(): Time {
-        return this.work;
+    /** Returns the work duration in milliseconds */
+    getWorkDuration(): number {
+        return this.workMs;
     }
 
-    /** Returns the break duration as a Time */
-    getBreakDuration(): Time {
-        return this.break;
+    /** Returns the break duration in milliseconds */
+    getBreakDuration(): number {
+        return this.breakMs;
     }
 
     /** Returns the number of cycles */
