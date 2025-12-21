@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 
 import TimerDisplay from "./components/pomodoroSession/TimerDisplay";
-import { ActiveSession } from "./timer/ActiveSession";
-import { SessionSettings } from "./timer/SessionSettings";
+import { ActiveSession } from "./logic/timer/ActiveSession";
+import { SessionSettings } from "./logic/timer/SessionSettings";
 
 export default function App() {
   useEffect(() => {
