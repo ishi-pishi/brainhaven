@@ -28,6 +28,11 @@ export class SessionSettings {
         return this.breakMs;
     }
 
+    /** Return the total time in milliseconds */
+    getTotalTime(): number {
+        return this.workMs* this.numCycles + this.breakMs * (this.numCycles - 1 );
+    }
+
     /** Returns the number of cycles */
     getNumCycles(): number {
         return this.numCycles;
