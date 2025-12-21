@@ -1,18 +1,23 @@
 import { useState } from 'react';
 
+import { useNavigate } from "react-router-dom";
+
 import { SessionSettings } from '../../logic/timer/SessionSettings';
 import { ActiveSession } from '../../logic/timer/ActiveSession';
 
 
 // SessionSettings page
 export function SettingsMenu() {
+    const navigate = useNavigate();
+    
     // All in min
     const [workTime, setWorkTime] = useState(25);
     const [breakTime, setBreakTime] = useState(5);
     const [numBlocks, setNumBlocks] = useState(4);
 
     const handleStartSession = () => {
-        // TODO: nav to next page
+        navigate("/timer");
+
         const settings = new SessionSettings(toMs(workTime), toMs(breakTime), numBlocks);
         const session = new ActiveSession(settings); // start session
         session.start();

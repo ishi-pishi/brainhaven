@@ -1,11 +1,14 @@
-import TimerDisplay from "./components/pomodoroSession/TimerDisplay";
-import { SettingsMenu } from "./components/setSettings/settingsMenu";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { SettingsMenuPage } from "./pages/SettingsMenuPage"
+import { TimerPage } from "./pages/TimerPage"
 
 export default function App() {
   return (
-    <div className="">
-      <SettingsMenu></SettingsMenu>
-      <TimerDisplay></TimerDisplay>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<SettingsMenuPage />} />
+        <Route path="/timer" element={<TimerPage />} />
+      </Routes>
+    </Router>
   );
 }
