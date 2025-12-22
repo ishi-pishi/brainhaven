@@ -9,7 +9,7 @@ import { ActiveSession } from '../../logic/timer/ActiveSession';
 // SessionSettings page
 export function SettingsMenu() {
     const navigate = useNavigate();
-    
+
     // All in min
     const [workTime, setWorkTime] = useState(25);
     const [breakTime, setBreakTime] = useState(5);
@@ -24,11 +24,11 @@ export function SettingsMenu() {
     };
 
     return (
-        <div className="p-6 max-w-md border rounded-lg shadow-lg">
-            <h2 className="text-xl font-bold mb-4">Session Settings</h2>
+        <div className="flex flex-col items-center p-6 max-w-sm w-full mx-auto border rounded-lg shadow-lg">
+            <h2 className="text-xl font-bold mb-4">Customize Session</h2>
 
             <NumberPicker
-                label="Work Time (min)"
+                label="Focus Time (min)"
                 value={workTime}
                 setValue={setWorkTime}
                 min={0}
@@ -52,12 +52,14 @@ export function SettingsMenu() {
                 step={1}
             />
 
-            <button
-                onClick={handleStartSession}
-                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-                Start Session
-            </button>
+            <div className="mt-4 flex justify-center">
+                <button
+                    onClick={handleStartSession}
+                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                    Start Session
+                </button>
+            </div>
         </div>
     );
 }

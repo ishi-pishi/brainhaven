@@ -1,11 +1,10 @@
-import { PauseButton } from "../components/pomodoroSession/PauseButton";
-import TimerDisplay from "../components/pomodoroSession/TimerDisplay";
+import { TimerSection } from "../components/pomodoroSession/TimerSection";
+
 
 export function TimerPage() {
   return (
     <div className="">
-      <TimerDisplay />
-      <PauseButton />
+      <TimerSection />
     </div>
   );
 }
