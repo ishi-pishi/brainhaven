@@ -1,16 +1,13 @@
 import { useState } from 'react';
-
 import { useNavigate } from "react-router-dom";
 
 import { SessionSettings } from '../../logic/timer/SessionSettings';
 import { ActiveSession } from '../../logic/timer/ActiveSession';
 
-
-// SessionSettings page
 export function SettingsMenu() {
     const navigate = useNavigate();
 
-    // All in min
+    // All times in minutes
     const [workTime, setWorkTime] = useState(25);
     const [breakTime, setBreakTime] = useState(5);
     const [numBlocks, setNumBlocks] = useState(4);
@@ -19,7 +16,7 @@ export function SettingsMenu() {
         navigate("/timer");
 
         const settings = new SessionSettings(toMs(workTime), toMs(breakTime), numBlocks);
-        const session = new ActiveSession(settings); // start session
+        const session = new ActiveSession(settings);
         session.start();
     };
 
@@ -31,7 +28,7 @@ export function SettingsMenu() {
                 label="Focus Time (min)"
                 value={workTime}
                 setValue={setWorkTime}
-                min={0}
+                min={1}
                 max={200}
                 step={5}
             />
@@ -39,7 +36,7 @@ export function SettingsMenu() {
                 label="Break Time (min)"
                 value={breakTime}
                 setValue={setBreakTime}
-                min={0}
+                min={1}
                 max={200}
                 step={5}
             />
@@ -64,10 +61,9 @@ export function SettingsMenu() {
     );
 }
 
-
-// NumberPicker
+// NumberPicker with integer clamp
 function NumberPicker({ value, setValue, min, max, step = 1, label }: any) {
-    const clamp = (v: number) => Math.min(Math.max(v, min), max);
+    const clamp = (v: number) => Math.min(Math.max(Math.round(v), min), max);
 
     return (
         <div className="flex items-center gap-2 mb-3">
