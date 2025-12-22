@@ -29,6 +29,10 @@ export class ActiveSession {
     this.startCurrentBlock();
   }
 
+  getCurrentBlockLabel(): string {
+    return this.bq.getCurrentLabel();
+  }
+
   private onBlockFinished() {
     this.bq.advance();
     if (!this.bq.isEmpty()) {

@@ -3,10 +3,12 @@ import { SessionSettings } from "./SessionSettings";
 export class BlockQueue {
     private blocks: TimeBlock[];
     private currentIndex = 0;
+    private cycles = 0;
 
     /** Constructs queue of work blocks interspersed by break */
     constructor(session: SessionSettings) {
         this.blocks = [];
+        this.cycles = session.getNumCycles();
         for (let i = 0; i < session.getNumCycles() - 1; i++) {
             this.blocks.push(new WorkBlock(session.getWorkDuration()));
             this.blocks.push(new BreakBlock(session.getBreakDuration()));
@@ -18,7 +20,7 @@ export class BlockQueue {
     /** Returns the current block */
     current(): TimeBlock {
         if (this.isEmpty()) {
-            throw new Error("The queue is empty. Do not throw.");
+            throw new Error("The queue is empty");
         }
         return this.blocks[this.currentIndex];
     }
@@ -31,6 +33,13 @@ export class BlockQueue {
     /** Returns true if all blocks are done */
     isEmpty(): boolean {
         return this.currentIndex >= this.blocks.length;
+    }
+
+    getCurrentLabel(): string {
+        const block = this.current();
+        const blockNum = this.currentIndex + 1;
+        const totalBlocks = this.cycles;
+        return `${block.getLabel()} ${blockNum}/${totalBlocks}`;
     }
 }
 
@@ -47,9 +56,19 @@ export abstract class TimeBlock {
     getDuration(): number {
         return this.durationMs;
     }
+
+    abstract getLabel(): string;
 }
 
 
-export class WorkBlock extends TimeBlock { }
-export class BreakBlock extends TimeBlock { }
+export class WorkBlock extends TimeBlock {
+    getLabel(): string {
+        return "Focus";
+    }
+}
 
+export class BreakBlock extends TimeBlock {
+    getLabel(): string {
+        return "Break";
+    }
+}
