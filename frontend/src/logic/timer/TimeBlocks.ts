@@ -10,7 +10,8 @@ export class BlockQueue {
     constructor(session: SessionSettings) {
         this.blocks = [];
         this.cycles = session.getNumCycles();
-        for (let i = 0; i < session.getNumCycles() - 1; i++) {
+
+        for (let i = 0; i < this.cycles - 1; i++) {
             this.blocks.push(new WorkBlock(session.getWorkDuration()));
             this.blocks.push(new BreakBlock(session.getBreakDuration()));
         }
@@ -28,8 +29,13 @@ export class BlockQueue {
 
     /** Move to the next block */
     advance(): void {
-        if (this.currentIndex < this.blocks.length) this.currentIndex++;
-        if (this.current instanceof BreakBlock) {
+        // capture the block we are finishing
+        const finishedBlock = this.current();
+
+        this.currentIndex++;
+
+        // only increment cycle AFTER a break finishes
+        if (finishedBlock instanceof BreakBlock) {
             this.cycleIndex++;
         }
     }
@@ -40,9 +46,14 @@ export class BlockQueue {
     }
 
     getCurrentLabel(): string {
+        if (this.isEmpty()) {
+            return "";
+        }
+
         const block = this.current();
         const blockNum = this.cycleIndex + 1;
         const totalBlocks = this.cycles;
+
         return `${block.getLabel()} ${blockNum}/${totalBlocks}`;
     }
 }
@@ -63,7 +74,6 @@ export abstract class TimeBlock {
 
     abstract getLabel(): string;
 }
-
 
 export class WorkBlock extends TimeBlock {
     getLabel(): string {

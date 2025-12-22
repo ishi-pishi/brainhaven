@@ -8,15 +8,12 @@ export function CurrentBlockDisplay() {
     const session = ActiveSession.getInstance();
     if (!session) return;
 
-    // Update immediately
-    setLabel(session.getCurrentBlockLabel());
-
-    // Poll every 500ms
-    const interval = setInterval(() => {
+    const updateLabel = () => {
       setLabel(session.getCurrentBlockLabel());
-    }, 500);
+    };
 
-    return () => clearInterval(interval); // cleanup
+    updateLabel();
+    session.addBlockChangeListener(updateLabel);
   }, []);
 
   return (

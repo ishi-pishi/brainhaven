@@ -2,14 +2,11 @@ import { TimerManager } from "./TimerManager";
 import { SessionSettings } from "./SessionSettings";
 import { BlockQueue } from "./TimeBlocks";
 
-/**
- *   Manages an ActiveSession.
- *   This tracks which PomodoroBlock we are on and updates the timer accordingly.
- *   Singleton.
- */
 export class ActiveSession {
   private static instance: ActiveSession | null = null;
   private bq: BlockQueue;
+
+  private blockChangeListeners: (() => void)[] = [];
 
   constructor(settings: SessionSettings) {
     ActiveSession.instance = this;
@@ -20,12 +17,23 @@ export class ActiveSession {
     timer.addFinishedListener(() => this.onBlockFinished());
   }
 
-  // Singleton getInstance; returns null if there is none.
   static getInstance(): ActiveSession | null {
     return ActiveSession.instance;
   }
 
+  /** UI / controller can subscribe to block changes */
+  addBlockChangeListener(listener: () => void) {
+    this.blockChangeListeners.push(listener);
+  }
+
+  private notifyBlockChange() {
+    for (const l of this.blockChangeListeners) {
+      l();
+    }
+  }
+
   start() {
+    this.notifyBlockChange(); // initial block
     this.startCurrentBlock();
   }
 
@@ -35,7 +43,9 @@ export class ActiveSession {
 
   private onBlockFinished() {
     this.bq.advance();
+
     if (!this.bq.isEmpty()) {
+      this.notifyBlockChange(); // block actually changed
       this.startCurrentBlock();
     } else {
       console.log("Session complete!");
@@ -44,8 +54,6 @@ export class ActiveSession {
 
   private startCurrentBlock() {
     const block = this.bq.current();
-    if (block) {
-      TimerManager.getInstance().startTimerMs(block.getDuration());
-    }
+    TimerManager.getInstance().startTimerMs(block.getDuration());
   }
 }
