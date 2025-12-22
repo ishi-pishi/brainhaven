@@ -1,7 +1,28 @@
 @import "tailwindcss";
 
-
-/* global override */
 body {
   font-family: 'Lora', serif !important;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+:root {
+  --bg: #F5F1E8;
+  --text: #3b3b3b;
+  --accent: #6B4F3F;
+  --accent-2: #8B5E3C;
+  --border: #D8D2C4;
+}
+
+button {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+hr {
+  border-color: var(--border);
+}
+
+.secondary {
+  color: var(--accent-2);
 }
