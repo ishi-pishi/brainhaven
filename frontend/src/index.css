@@ -19,6 +19,16 @@ button {
   color: var(--bg);
 }
 
+button:hover {
+  filter: brightness(1.1);
+}
+
+button:active {
+  transform: scale(0.95) translateY(0.125rem);
+  filter: brightness(0.85);
+  transition: transform 0.05s, filter 0.05s;
+}
+
 hr {
   border-color: var(--border);
 }
