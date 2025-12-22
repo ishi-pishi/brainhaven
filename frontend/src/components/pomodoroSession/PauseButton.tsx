@@ -8,14 +8,16 @@ export function PauseButton() {
     setIsPaused(prev => !prev);
     const timer = TimerManager.getInstance()
     if (!isPaused) {
-        timer.pauseTimer();
+      timer.pauseTimer();
     } else {
-        timer.resumeTimer();
+      timer.resumeTimer();
     }
   };
 
   return (
-    <button onClick={handleClick}>
+    <button onClick={handleClick}
+      className="w-20 h-12 text-2xl rounded-lg bg-accent hover:bg-accent-2 transition-all duration-150 shadow-md flex items-center justify-center active:scale-95 active:translate-y-0.5"
+    >
       {isPaused ? "▶" : "⏸"}
     </button>
   );
