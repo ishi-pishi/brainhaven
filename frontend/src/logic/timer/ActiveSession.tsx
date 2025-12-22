@@ -41,6 +41,10 @@ export class ActiveSession {
     return this.bq.getCurrentLabel();
   }
 
+  getCurrentCycleLabel(): string {
+    return this.bq.getCurrentCycleString();
+  }
+
   private onBlockFinished() {
     this.bq.advance();
 

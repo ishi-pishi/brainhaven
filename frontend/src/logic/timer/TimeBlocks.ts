@@ -47,14 +47,18 @@ export class BlockQueue {
 
     getCurrentLabel(): string {
         if (this.isEmpty()) {
-            return "";
+            return "Session Complete";
         }
 
-        const block = this.current();
-        const blockNum = this.cycleIndex + 1;
-        const totalBlocks = this.cycles;
+        return this.current().getLabel();
+    }
 
-        return `${block.getLabel()} ${blockNum}/${totalBlocks}`;
+    getCurrentCycleString(): string {
+        return `Cycle ${this.getCurrentCycle()} of ${this.cycles}`;
+    }
+
+    getCurrentCycle(): number {
+        return this.cycleIndex + 1;
     }
 }
 
