@@ -1,4 +1,4 @@
-interface TimeBlockData {
+interface BlockData {
   id: string;
   type: "work" | "break";
   durationMs: number;
@@ -12,6 +12,6 @@ interface SessionData {
   id: string;
   startedAt: number;
   finishedAt?: number;
-  blocks: TimeBlockData[];
+  blocks: BlockData[];
   remarks?: string;
 }
