@@ -65,8 +65,8 @@ export class ActiveSession extends Observable {
       this.startCurrentBlock();
     } else {
       console.log("Session complete!");
-      this.notifyListeners();
       this.finished = true;
+      this.notifyListeners();
     }
   }
 

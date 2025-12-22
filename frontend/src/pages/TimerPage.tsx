@@ -12,7 +12,7 @@ export function TimerPage() {
 
     const checkFinished = () => {
       if (session.isFinished()) {
-        navigate("/SettingsMenuPage", { replace: true });
+        navigate("/", { replace: true });
       }
     };
 
