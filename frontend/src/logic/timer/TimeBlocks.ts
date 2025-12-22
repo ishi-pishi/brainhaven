@@ -4,6 +4,7 @@ export class BlockQueue {
     private blocks: TimeBlock[];
     private currentIndex = 0;
     private cycles = 0;
+    private cycleIndex = 0;
 
     /** Constructs queue of work blocks interspersed by break */
     constructor(session: SessionSettings) {
@@ -28,6 +29,9 @@ export class BlockQueue {
     /** Move to the next block */
     advance(): void {
         if (this.currentIndex < this.blocks.length) this.currentIndex++;
+        if (this.current instanceof BreakBlock) {
+            this.cycleIndex++;
+        }
     }
 
     /** Returns true if all blocks are done */
@@ -37,7 +41,7 @@ export class BlockQueue {
 
     getCurrentLabel(): string {
         const block = this.current();
-        const blockNum = this.currentIndex + 1;
+        const blockNum = this.cycleIndex + 1;
         const totalBlocks = this.cycles;
         return `${block.getLabel()} ${blockNum}/${totalBlocks}`;
     }
