@@ -2,13 +2,30 @@ import { TimerManager } from "./TimerManager";
 import { SessionSettings } from "./SessionSettings";
 import { BlockQueue } from "./TimeBlocks";
 
-export class ActiveSession {
+
+export class Observable {
+  private listeners: (() => void)[] = [];
+
+  /** Subscribe to changes */
+  addListener(listener: () => void) {
+    this.listeners.push(listener);
+  }
+
+  /** Notify all subscribers */
+  protected notifyListeners() {
+    for (const l of this.listeners) {
+      l();
+    }
+  }
+}
+
+
+export class ActiveSession extends Observable {
   private static instance: ActiveSession | null = null;
   private bq: BlockQueue;
 
-  private blockChangeListeners: (() => void)[] = [];
-
   constructor(settings: SessionSettings) {
+    super();
     ActiveSession.instance = this;
 
     this.bq = new BlockQueue(settings);
@@ -21,19 +38,8 @@ export class ActiveSession {
     return ActiveSession.instance;
   }
 
-  /** UI / controller can subscribe to block changes */
-  addBlockChangeListener(listener: () => void) {
-    this.blockChangeListeners.push(listener);
-  }
-
-  private notifyBlockChange() {
-    for (const l of this.blockChangeListeners) {
-      l();
-    }
-  }
-
   start() {
-    this.notifyBlockChange(); // initial block
+    this.notifyListeners(); // initial block
     this.startCurrentBlock();
   }
 
@@ -49,7 +55,7 @@ export class ActiveSession {
     this.bq.advance();
 
     if (!this.bq.isEmpty()) {
-      this.notifyBlockChange(); // block actually changed
+      this.notifyListeners(); // block changed
       this.startCurrentBlock();
     } else {
       console.log("Session complete!");

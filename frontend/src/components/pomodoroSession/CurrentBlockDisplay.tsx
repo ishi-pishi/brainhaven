@@ -15,7 +15,7 @@ export function CurrentBlockDisplay() {
     };
 
     updateLabels();
-    session.addBlockChangeListener(updateLabels);
+    session.addListener(updateLabels);
   }, []);
 
   return (
