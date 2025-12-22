@@ -18,7 +18,7 @@ export function CurrentBlockDisplay() {
 
   return (
     <div className="text-xl font-semibold text-text">
-      Progress: {label}
+      {label}
     </div>
   );
 }
