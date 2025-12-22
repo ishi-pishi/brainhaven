@@ -1,4 +1,4 @@
-// TimerManager.ts
+
 export type TickListener = (timeLeftMs: number) => void;
 export type FinishedListener = () => void;
 
