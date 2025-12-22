@@ -23,12 +23,14 @@ export class Observable {
 export class ActiveSession extends Observable {
   private static instance: ActiveSession | null = null;
   private bq: BlockQueue;
+  private finished: boolean = false;
 
   constructor(settings: SessionSettings) {
     super();
     ActiveSession.instance = this;
 
     this.bq = new BlockQueue(settings);
+    this.finished = false;
 
     const timer = TimerManager.getInstance();
     timer.addFinishedListener(() => this.onBlockFinished());
@@ -38,8 +40,12 @@ export class ActiveSession extends Observable {
     return ActiveSession.instance;
   }
 
+  isFinished() {
+    return this.finished;
+  }
+
   start() {
-    this.notifyListeners(); // initial block
+    this.notifyListeners();
     this.startCurrentBlock();
   }
 
@@ -59,6 +65,8 @@ export class ActiveSession extends Observable {
       this.startCurrentBlock();
     } else {
       console.log("Session complete!");
+      this.notifyListeners();
+      this.finished = true;
     }
   }
 
