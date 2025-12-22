@@ -21,7 +21,7 @@ export function SettingsMenu() {
     };
 
     return (
-        <div className="flex flex-col items-center p-6 max-w-sm w-full mx-auto border rounded-lg shadow-lg">
+        <div className="flex flex-col items-center p-6 max-w-[16rem] w-full mx-auto border rounded-lg shadow-lg">
             <h2 className="text-xl font-bold mb-4">Customize Session</h2>
 
             <NumberPicker
