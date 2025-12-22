@@ -15,7 +15,7 @@ export default function TimerDisplay() {
 
 
   return (
-    <div className="text-5xl font-bold text-center p-6">
+    <div className="text-9xl font-bold text-center p-6">
       {formatTime(timeLeftMs)}
     </div>
   );
