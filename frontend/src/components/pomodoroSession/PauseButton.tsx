@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { TimerManager } from "../../logic/timer/TimerManager";
 
+import { Button } from "../ui/button";
+
 export function PauseButton() {
   const [isPaused, setIsPaused] = useState(false);
 
@@ -15,10 +17,8 @@ export function PauseButton() {
   };
 
   return (
-    <button onClick={handleClick}
-      className="w-40 h-12 text-2xl rounded-md bg-accent shadow-md flex items-center justify-center"
-    >
+    <Button onClick={handleClick}>
       {isPaused ? "▶ Play" : "⏸Pause"}
-    </button>
+    </Button>
   );
 }

@@ -19,9 +19,9 @@ export function CurrentBlockDisplay() {
   }, []);
 
   return (
-    <div className="text-3xl font-semibold text-text flex flex-col items-center">
+    <div className="flex flex-col items-center">
       <div>{label}</div>
-      <div className="text-sm text-muted">{cycle}</div>
+      <div>{cycle}</div>
     </div>
   );
 }

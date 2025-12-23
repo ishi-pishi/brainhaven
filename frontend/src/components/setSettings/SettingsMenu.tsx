@@ -28,7 +28,9 @@ export function SettingsMenu() {
     return (
         <Card>
             <CardHeader>
-                Customize Session
+                <CardTitle>
+                    Customize Session
+                </CardTitle>
             </CardHeader>
             <CardDescription>
                 Adjust your work/break durations and the number of cycles you would like to work for.
