@@ -41,7 +41,7 @@ export function SettingsMenu() {
                 <Input id="focus-time"
                     type="number"
                     value={workTime}
-                    min={1}
+                    min={0}
                     max={200}
                     step={5}
                     onChange={e => setWorkTime(Math.round(Number(e.target.value)))}>
@@ -50,7 +50,7 @@ export function SettingsMenu() {
                 <Input id="break-time"
                     type="number"
                     value={breakTime}
-                    min={1}
+                    min={0}
                     max={200}
                     step={5}
                     onChange={e => setBreakTime(Math.round(Number(e.target.value)))}>
