@@ -3,8 +3,6 @@ interface BlockData {
   type: "work" | "break";
   durationMs: number;
   tags: string[];
-  startedAt: number;
-  endedAt?: number;
   productivityRating?: number;
 }
 

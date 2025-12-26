@@ -29,12 +29,10 @@ export class BlockQueue {
 
     /** Move to the next block */
     advance(): void {
-        // capture the block we are finishing
         const finishedBlock = this.current();
 
         this.currentIndex++;
 
-        // only increment cycle AFTER a break finishes
         if (finishedBlock instanceof BreakBlock) {
             this.cycleIndex++;
         }
