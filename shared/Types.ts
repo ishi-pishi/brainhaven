@@ -1,4 +1,4 @@
-interface BlockData {
+export interface BlockData {
   id: string;
   type: "work" | "break";
   durationMs: number;
@@ -6,7 +6,7 @@ interface BlockData {
   productivityRating?: number;
 }
 
-interface SessionData {
+export interface SessionData {
   id: string;
   startedAt: number;
   finishedAt?: number;

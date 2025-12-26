@@ -1,6 +1,11 @@
+import { SessionData, BlockData } from "../shared/Types"
 
-const FILE_PATH = 
+// Converts Session to JSON
+export function ParseSession(session: SessionData) {
 
-export function ParseSession() {
-    Boolean;
+}
+
+// Converts Block to JSON
+function ParseBlock(block: BlockData) {
+
 }
