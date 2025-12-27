@@ -1,6 +1,6 @@
 import { SessionData } from "../../shared/Types"
 
-export interface ISessionFacade {
+export interface ISessionManager {
     loadSessions(): SessionData[];
     saveSession(session: SessionData): void;
 }

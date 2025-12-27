@@ -1,8 +1,8 @@
-import { ISessionFacade, SessionManagerError } from "./ISessionManager";
+import { ISessionManager, SessionManagerError } from "./ISessionManager";
 import { SessionData } from "../../shared/Types";
 import fs from "fs";
 
-export class LocalSessionFacade implements ISessionFacade {
+export class LocalSessionFacade implements ISessionManager {
     private FILE_PATH = "./sessions.json";
 
     loadSessions(): SessionData[] {

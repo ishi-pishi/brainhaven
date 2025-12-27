@@ -1,8 +1,8 @@
 import express from "express"
+import { ISessionManager } from "../SessionManager/ISessionManager";
 
 const app = express();
 const port = 3000;
-
 
 // GET /sessions/:id
 app.get('/sessions/:id', (req, res) => {
