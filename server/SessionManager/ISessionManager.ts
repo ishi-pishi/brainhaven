@@ -12,3 +12,10 @@ export class SessionManagerError extends Error {
         this.name = "SessionManagerError";
     }
 }
+
+export class NotFoundError extends SessionManagerError {
+    constructor(message: string) {
+        super(message);
+        this.name = "NotFoundError";
+    }
+}
