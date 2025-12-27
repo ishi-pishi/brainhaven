@@ -1,5 +1,5 @@
 import { ISessionFacade, SessionManagerError } from "./ISessionManager";
-import { SessionData } from "../shared/Types";
+import { SessionData } from "../../shared/Types";
 import fs from "fs";
 
 export class LocalSessionFacade implements ISessionFacade {
