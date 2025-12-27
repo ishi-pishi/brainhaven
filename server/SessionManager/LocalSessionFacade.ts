@@ -1,4 +1,4 @@
-import { ISessionManager, NotFoundError, SessionManagerError } from "./ISessionManager";
+import { ISessionManager, NotFoundError, InvalidSessionError, SessionManagerError } from "./ISessionManager";
 import { BlockData, SessionData, SessionMap } from "../../shared/Types";
 import fs from "fs";
 
@@ -32,15 +32,15 @@ export class LocalSessionFacade implements ISessionManager {
 
         const sessions = await this.loadSessions();
         sessions[newSession.id] = newSession;
-        await fs.writeFileSync(this.FILE_PATH, JSON.stringify(sessions));
+        fs.writeFileSync(this.FILE_PATH, JSON.stringify(sessions));
     }
 
     private validateSession(session: any): asserts session is SessionData {
         if (!session || typeof session !== "object") {
-            throw new SessionManagerError("Session must be an object");
+            throw new InvalidSessionError("Session must be an object");
         }
         if (typeof session.id !== "string" || typeof session.startedAt !== "number" || !Array.isArray(session.blocks)) {
-            throw new SessionManagerError("Session missing required fields");
+            throw new InvalidSessionError("Session missing required fields");
         }
 
         session.blocks.forEach((b: any) => this.validateBlock(b));
@@ -55,7 +55,7 @@ export class LocalSessionFacade implements ISessionManager {
             typeof block.durationMs !== "number" ||
             !Array.isArray(block.tags)
         ) {
-            throw new SessionManagerError("Invalid block data");
+            throw new InvalidSessionError("Invalid block data");
         }
     }
 }
