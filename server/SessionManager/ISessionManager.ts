@@ -1,7 +1,7 @@
-import { SessionData } from "../../shared/Types"
+import { SessionData, SessionMap } from "../../shared/Types"
 
 export interface ISessionManager {
-    loadSessions(): SessionData[];
+    loadSessions(): SessionMap;
     saveSession(session: SessionData): void;
 }
 
