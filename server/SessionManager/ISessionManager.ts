@@ -3,6 +3,7 @@ import { SessionData, SessionMap } from "../../shared/Types"
 export interface ISessionManager {
     loadSessions(): Promise<SessionMap>;
     saveSession(session: SessionData): Promise<void>;
+    loadSessionById(id: string): Promise<SessionData>;
 }
 
 export class SessionManagerError extends Error {

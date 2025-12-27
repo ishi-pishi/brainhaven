@@ -11,10 +11,10 @@ export class LocalSessionFacade implements ISessionManager {
         return JSON.parse(raw) as SessionMap;
     }
 
-    // loadSessionById(): SessionData {
-    //     const sessions = this.loadSessions();
-    //     return {};
-    // }
+    async loadSessionById(id: string): Promise<SessionData> {
+        const sessions = await this.loadSessions();
+        return sessions[id];
+    }
 
     async saveSession(newSession: SessionData): Promise<void> {
         const sessions = await this.loadSessions();
