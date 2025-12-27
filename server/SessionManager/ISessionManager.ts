@@ -1,4 +1,4 @@
-import { SessionData } from "../shared/Types"
+import { SessionData } from "../../shared/Types"
 
 export interface ISessionFacade {
     loadSessions(): SessionData[];
