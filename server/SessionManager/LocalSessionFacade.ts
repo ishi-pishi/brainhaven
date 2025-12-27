@@ -5,7 +5,7 @@ import fs from "fs";
 export class LocalSessionFacade implements ISessionManager {
     private FILE_PATH = "./sessions.json";
 
-    loadSessions(): SessionMap {
+    async loadSessions(): Promise<SessionMap> {
         if (!fs.existsSync(this.FILE_PATH)) return {};
         const raw = fs.readFileSync(this.FILE_PATH, "utf-8");
         return JSON.parse(raw) as SessionMap;
@@ -16,9 +16,9 @@ export class LocalSessionFacade implements ISessionManager {
     //     return {};
     // }
 
-    saveSession(newSession: SessionData): void {
-        const sessions = this.loadSessions();
+    async saveSession(newSession: SessionData): Promise<void> {
+        const sessions = await this.loadSessions();
         sessions[newSession.id] = newSession;
-        fs.writeFileSync(this.FILE_PATH, JSON.stringify(sessions));
+        await fs.writeFileSync(this.FILE_PATH, JSON.stringify(sessions));
     }
 }

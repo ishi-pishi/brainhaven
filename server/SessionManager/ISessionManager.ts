@@ -1,8 +1,8 @@
 import { SessionData, SessionMap } from "../../shared/Types"
 
 export interface ISessionManager {
-    loadSessions(): SessionMap;
-    saveSession(session: SessionData): void;
+    loadSessions(): Promise<SessionMap>;
+    saveSession(session: SessionData): Promise<void>;
 }
 
 export class SessionManagerError extends Error {
