@@ -17,8 +17,8 @@ export function PauseButton() {
   };
 
   return (
-    <Button onClick={handleClick}>
-      {isPaused ? "▶ Play" : "⏸Pause"}
+    <Button onClick={handleClick} className="w-20">
+      {isPaused ? "▶ Play" : "⏸ Pause"}
     </Button>
   );
 }
