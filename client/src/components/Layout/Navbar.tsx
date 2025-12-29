@@ -1,7 +1,6 @@
 // components/Navbar.tsx
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
 
 import {
   NavigationMenu,
@@ -12,16 +11,6 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "../ui/button";
 import { ClockIcon, SettingsIcon, HomeIcon } from "lucide-react";
 
 import { AuthCard } from "./AuthCard";
@@ -76,8 +65,6 @@ function DropdownItem({
 }
 
 export function Navbar() {
-  const [authOpen, setAuthOpen] = useState(false);
-
   return (
     <nav className="fixed top-0 left-0 w-full z-50 border-b bg-background/80 backdrop-blur-md px-6 py-3">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
@@ -109,8 +96,8 @@ export function Navbar() {
                 Customize
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid gap-2 md:w-[420px] lg:w-[520px] lg:grid-cols-[.9fr_1fr] p-4">
-                  <li className="row-span-2 rounded-md bg-gradient-to-b from-muted/40 to-muted/10 p-4">
+                <ul className="grid gap-2 md:w-105 lg:w-130 lg:grid-cols-[.9fr_1fr] p-4">
+                  <li className="row-span-2 rounded-md bg-linear-to-b from-muted/40 to-muted/10 p-4">
                     <NavigationMenuLink asChild>
                       <NavLink to="/timer" className="no-underline">
                         <div className="mb-2 text-lg font-medium">Timer</div>
