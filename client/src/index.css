@@ -3,10 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-body {
-  font-family: 'Lora', serif;
-}
-
 :root {
   --bg: #F5F1E8;
   --text: #3b3b3b;
