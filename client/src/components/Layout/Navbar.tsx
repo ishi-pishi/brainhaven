@@ -65,13 +65,6 @@ export function Navbar() {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 border-b bg-background/80 backdrop-blur-md px-6 py-3">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="rounded-md px-2 py-1 ring-1 ring-muted/10">
-            <HomeIcon className="h-5 w-5" />
-          </div>
-          <div className="text-lg font-semibold">brainhaven</div>
-        </div>
-
         <NavigationMenu>
           <NavigationMenuList className="flex items-center gap-4">
             {/* Home (simple link) */}
@@ -135,6 +128,13 @@ export function Navbar() {
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
+
+        <div className="flex items-center gap-3">
+          <div className="rounded-md px-2 py-1 ring-1 ring-muted/10">
+            <HomeIcon className="h-5 w-5" />
+          </div>
+          <div className="text-lg font-semibold">brainhaven</div>
+        </div>
       </div>
     </nav>
   );
