@@ -7,9 +7,11 @@ export class TMSubject {
   private finishedListeners = new Set<FinishedListener>();
 
   addTickListener(cb: TickListener) {
-    this.tickListeners.add(cb);
-    return () => this.tickListeners.delete(cb);
-  }
+  this.tickListeners.add(cb);
+  return () => {
+    this.tickListeners.delete(cb);
+  };
+}
 
   addFinishedListener(cb: FinishedListener) {
     this.finishedListeners.add(cb);
