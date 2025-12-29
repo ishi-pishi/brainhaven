@@ -5,13 +5,27 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+    // CardFooter,
+} from "@/components/ui/card";
 
 export function SignUpCard() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+
         try {
             await createUserWithEmailAndPassword(auth, email, password);
             alert("Signed up!");
@@ -22,42 +36,55 @@ export function SignUpCard() {
     };
 
     return (
-        <div className="max-w-sm p-6 border rounded-lg shadow-md flex flex-col gap-6">
-            <header className="mb-4">
-                <h2 className="text-lg font-semibold">Create an account</h2>
-                <p className="text-sm text-muted-foreground">
+        <Card className="max-w-sm w-full">
+            <CardHeader>
+                <CardTitle>Create an account</CardTitle>
+                <CardDescription>
                     Enter your email and password to sign up.
-                </p>
-            </header>
+                </CardDescription>
+            </CardHeader>
 
-            <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-                <div className="grid gap-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                        id="email"
-                        type="email"
-                        placeholder="m@example.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
+            <CardContent>
+                <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+                    <div className="grid gap-2">
+                        <Label htmlFor="email">Email</Label>
+                        <Input
+                            id="email"
+                            type="email"
+                            placeholder="m@example.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                <div className="grid gap-2">
-                    <Label htmlFor="password">Password</Label>
-                    <Input
-                        id="password"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="password">Password</Label>
+                        <Input
+                            id="password"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                <Button type="submit" className="w-full">
-                    Sign Up
-                </Button>
-            </form>
-        </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="confirm-password">Confirm Password</Label>
+                        <Input
+                            id="confirm-password"
+                            type="password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <Button type="submit" className="w-full mt-2">
+                        Sign Up
+                    </Button>
+                </form>
+            </CardContent>
+        </Card>
     );
 }
