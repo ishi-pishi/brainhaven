@@ -1,14 +1,5 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardAction,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -30,7 +21,7 @@ export function AuthCard({ mode }: { mode: "login" | "signup" }) {
                 </button>
             </DialogTrigger>
 
-            <DialogContent className="sm:max-w-[400px] p-6">
+            <DialogContent className="sm:max-w-100 p-6">
                 <div className="flex flex-col gap-6">
                     <header className="mb-4">
                         <h2 className="text-lg font-semibold">
