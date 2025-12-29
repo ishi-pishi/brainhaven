@@ -1,4 +1,4 @@
-import { SettingsMenu } from "../components/setSettings/SettingsMenu";
+import { SettingsMenu } from "../components/TimerSettings/SettingsMenu";
 
 export function SettingsMenuPage() {
   return (
