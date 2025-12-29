@@ -13,8 +13,6 @@ import {
 } from "@/components/ui/navigation-menu";
 import { ClockIcon, SettingsIcon, HomeIcon } from "lucide-react";
 
-import { AuthCard } from "./AuthCard";
-
 /**
  *  Navbar for React Router.
  */
@@ -116,7 +114,7 @@ export function Navbar() {
                     description="Set work/break lengths and start a session."
                   />
                   <DropdownItem
-                    to="/menu"
+                    to="/timer-menu"
                     Icon={SettingsIcon}
                     title="Session Settings"
                     description="Customize presets, long break rules, and sounds."
@@ -129,8 +127,6 @@ export function Navbar() {
 
         {/* RIGHT: logo + login */}
         <div className="flex items-center gap-4">
-          <AuthCard mode="login" />
-
           <div className="flex items-center gap-3">
             <div className="rounded-md px-2 py-1 ring-1 ring-muted/10">
               <HomeIcon className="h-5 w-5" />

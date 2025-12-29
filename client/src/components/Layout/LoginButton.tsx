@@ -1,40 +1,64 @@
 import { useState } from "react";
+import { auth } from "@/lib/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
-export function AuthCard({ mode }: { mode: "login" | "signup" }) {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+interface AuthCardProps {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+}
+
+export function LoginButton() {
     const [open, setOpen] = useState(false);
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <button
-                    className="text-sm px-2 py-1 rounded-md hover:underline transition-colors"
-                    type="button"
-                >
-                    {mode === "login" ? "Login" : "Sign Up"}
-                </button>
-            </DialogTrigger>
+        <>
+            {/* Just text with underline */}
+            <span
+                className="text-sm underline cursor-pointer"
+                onClick={() => setOpen(true)}
+            >
+                Login
+            </span>
 
+            <AuthCard open={open} onOpenChange={setOpen} />
+        </>
+    );
+}
+
+export function AuthCard({ open, onOpenChange }: AuthCardProps) {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            alert("Logged in!");
+            onOpenChange(false); // close dialog after success
+        } catch (err: any) {
+            console.error(err);
+            alert(err.message);
+        }
+    };
+
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-100 p-6">
                 <div className="flex flex-col gap-6">
                     <header className="mb-4">
-                        <h2 className="text-lg font-semibold">
-                            {mode === "login" ? "Login to your account" : "Create an account"}
-                        </h2>
+                        <h2 className="text-lg font-semibold">Login to your account</h2>
                         <p className="text-sm text-muted-foreground">
-                            {mode === "login"
-                                ? "Enter your email below to login."
-                                : "Enter your email below to sign up."}
+                            Enter your email below to login.
                         </p>
                     </header>
 
-                    <form className="flex flex-col gap-4">
+                    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>
                             <Input
@@ -50,14 +74,12 @@ export function AuthCard({ mode }: { mode: "login" | "signup" }) {
                         <div className="grid gap-2">
                             <div className="flex items-center">
                                 <Label htmlFor="password">Password</Label>
-                                {mode === "login" && (
-                                    <a
-                                        href="#"
-                                        className="ml-auto text-sm underline-offset-4 hover:underline"
-                                    >
-                                        Forgot your password?
-                                    </a>
-                                )}
+                                <a
+                                    href="#"
+                                    className="ml-auto text-sm underline-offset-4 hover:underline"
+                                >
+                                    Forgot your password?
+                                </a>
                             </div>
                             <Input
                                 id="password"
@@ -69,11 +91,7 @@ export function AuthCard({ mode }: { mode: "login" | "signup" }) {
                         </div>
 
                         <Button type="submit" className="w-full">
-                            {mode === "login" ? "Login" : "Sign Up"}
-                        </Button>
-
-                        <Button variant="outline" className="w-full">
-                            {mode === "login" ? "Login with Google" : "Sign up with Google"}
+                            Login
                         </Button>
                     </form>
                 </div>
