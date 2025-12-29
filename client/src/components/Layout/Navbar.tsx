@@ -1,6 +1,8 @@
 // components/Navbar.tsx
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useState } from "react";
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,7 +12,19 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "../ui/button";
 import { ClockIcon, SettingsIcon, HomeIcon } from "lucide-react";
+
+import { AuthCard } from "./AuthCard";
 
 /**
  *  Navbar for React Router.
@@ -35,7 +49,7 @@ function DropdownItem({
           className={({ isActive }) =>
             [
               "block rounded-md px-3 py-2 transition-all duration-200",
-              "hover:translate-y-[-2px] focus:shadow-lg focus:outline-none",
+              "hover:translate-y-0.5 focus:shadow-lg focus:outline-none",
               isActive ? "bg-muted/60 font-semibold" : "bg-transparent",
             ].join(" ")
           }
@@ -62,12 +76,14 @@ function DropdownItem({
 }
 
 export function Navbar() {
+  const [authOpen, setAuthOpen] = useState(false);
+
   return (
     <nav className="fixed top-0 left-0 w-full z-50 border-b bg-background/80 backdrop-blur-md px-6 py-3">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
+        {/* LEFT: menu */}
         <NavigationMenu>
           <NavigationMenuList className="flex items-center gap-4">
-            {/* Home (simple link) */}
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
                 <NavLink
@@ -88,15 +104,12 @@ export function Navbar() {
               </NavigationMenuLink>
             </NavigationMenuItem>
 
-            {/* Customize (trigger + dropdown content) */}
             <NavigationMenuItem>
               <NavigationMenuTrigger className="inline-flex items-center gap-2 px-3 py-2 rounded-md">
                 Customize
               </NavigationMenuTrigger>
-
               <NavigationMenuContent>
                 <ul className="grid gap-2 md:w-[420px] lg:w-[520px] lg:grid-cols-[.9fr_1fr] p-4">
-                  {/* Big intro card */}
                   <li className="row-span-2 rounded-md bg-gradient-to-b from-muted/40 to-muted/10 p-4">
                     <NavigationMenuLink asChild>
                       <NavLink to="/timer" className="no-underline">
@@ -109,14 +122,12 @@ export function Navbar() {
                     </NavigationMenuLink>
                   </li>
 
-                  {/* List items */}
                   <DropdownItem
                     to="/timer"
                     Icon={ClockIcon}
                     title="Timer"
                     description="Set work/break lengths and start a session."
                   />
-
                   <DropdownItem
                     to="/menu"
                     Icon={SettingsIcon}
@@ -129,11 +140,16 @@ export function Navbar() {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <div className="flex items-center gap-3">
-          <div className="rounded-md px-2 py-1 ring-1 ring-muted/10">
-            <HomeIcon className="h-5 w-5" />
+        {/* RIGHT: logo + login */}
+        <div className="flex items-center gap-4">
+          <AuthCard mode="login" />
+
+          <div className="flex items-center gap-3">
+            <div className="rounded-md px-2 py-1 ring-1 ring-muted/10">
+              <HomeIcon className="h-5 w-5" />
+            </div>
+            <div className="text-lg font-semibold">brainhaven</div>
           </div>
-          <div className="text-lg font-semibold">brainhaven</div>
         </div>
       </div>
     </nav>
