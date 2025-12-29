@@ -96,7 +96,7 @@ export function SettingsMenu() {
                     <div className="text-center font-semibold">Difficulty</div>
                     <div className="relative h-4 w-full rounded-lg overflow-hidden bg-linear-to-r from-blue-400 via-green-400 to-orange-500">
                         <div
-                            className="absolute top-0 h-full w-1 bg-black"
+                            className="absolute top-0 h-full w-0.5 bg-white"
                             style={{ left: `${difficultyValue * 100}%` }}
                         />
                     </div>
