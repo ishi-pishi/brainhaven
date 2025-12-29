@@ -1,4 +1,4 @@
-import { LoginButton } from "@/components/Layout/LoginButton";
+import { LoginButton } from "@/components/Auth/Login";
 
 export function LandingPage() {
     return (<LoginButton />);

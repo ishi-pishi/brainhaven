@@ -47,6 +47,10 @@ export function AuthCard({ open, onOpenChange }: AuthCardProps) {
         }
     };
 
+    const handleSignUpClick = () => {
+        window.location.href = "/signup";
+    };
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-100 p-6">
@@ -94,6 +98,16 @@ export function AuthCard({ open, onOpenChange }: AuthCardProps) {
                             Login
                         </Button>
                     </form>
+
+                    {/* Cute sign-up link under the form */}
+                    <div className="text-center mt-2">
+                        <span
+                            className="text-sm underline cursor-pointer"
+                            onClick={handleSignUpClick}
+                        >
+                            Sign Up
+                        </span>
+                    </div>
                 </div>
             </DialogContent>
         </Dialog>
