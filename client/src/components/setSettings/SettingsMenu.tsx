@@ -23,6 +23,21 @@ export function SettingsMenu() {
         session.start();
     };
 
+    const calculateDifficulty = () => {
+        let val = breakTime === 0
+            ? 1
+            : workTime / breakTime <= 5
+                ? 0.5 * (workTime / breakTime - 1) / 4
+                : 0.5 + 0.5 * (workTime / breakTime - 5) / 5;
+
+        if (val < 0) val = 0;
+        if (val > 0.99) val = 0.99;
+        return val;
+    };
+
+
+    const difficultyValue = calculateDifficulty();
+
     return (
         <Card className="mx-auto max-w-sm w-full border">
             <CardHeader>
@@ -70,6 +85,21 @@ export function SettingsMenu() {
                         id="cycles-slider"
                         className="w-full"
                     />
+                </div>
+
+                <div className="mt-4 text-center font-semibold text-lg">
+                    Total time: {Math.floor((workTime * numCycles + breakTime * (numCycles - 1)) / 60)}h{" "}
+                    {(workTime * numCycles + breakTime * (numCycles - 1)) % 60}m
+                </div>
+
+                <div className="mt-2 space-y-1">
+                    <div className="text-center font-semibold">Difficulty</div>
+                    <div className="relative h-4 w-full rounded-lg overflow-hidden bg-linear-to-r from-blue-400 via-green-400 to-orange-500">
+                        <div
+                            className="absolute top-0 h-full w-1 bg-black"
+                            style={{ left: `${difficultyValue * 100}%` }}
+                        />
+                    </div>
                 </div>
             </CardContent>
 
