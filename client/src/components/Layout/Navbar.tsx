@@ -13,13 +13,7 @@ import {
 import { ClockIcon, SettingsIcon, HomeIcon } from "lucide-react";
 
 /**
- * Polished shadcn-style navbar for React Router.
- * - Top-level "Home" link
- * - "Customize" trigger with dropdown content (Timer, Settings)
- * - active link styling via NavLink
- * - nice spacing, shadows, transitions
- *
- * If you don't have lucide-react: `npm i lucide-react` or swap icons for SVG/text.
+ *  Navbar for React Router.
  */
 
 function DropdownItem({
@@ -69,7 +63,7 @@ function DropdownItem({
 
 export function Navbar() {
   return (
-    <nav className="w-full border-b bg-background/80 backdrop-blur-md px-6 py-3">
+    <nav className="fixed top-0 left-0 w-full z-50 border-b bg-background/80 backdrop-blur-md px-6 py-3">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="rounded-md px-2 py-1 ring-1 ring-muted/10">
