@@ -20,7 +20,7 @@ export function CurrentBlockDisplay() {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="text-2xl font-semibold">{label}</div>
+      <div className="text-2xl font-normal">{label}</div>
       <div>{cycle}</div>
     </div>
   );
