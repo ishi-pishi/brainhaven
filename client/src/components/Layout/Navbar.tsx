@@ -12,7 +12,7 @@ export function Navbar() {
       <div className="flex items-center justify-between max-w-6xl mx-auto">
         {/* Logo / Title */}
         <div className="text-lg font-semibold">
-          Pomodoro
+          brainhaven
         </div>
 
         {/* Links */}
@@ -28,7 +28,7 @@ export function Navbar() {
 
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
-                <Link to="/customize" className="hover:underline">
+                <Link to="/" className="hover:underline">
                   Customize Session
                 </Link>
               </NavigationMenuLink>
