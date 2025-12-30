@@ -20,7 +20,7 @@ export function SettingsMenu() {
         navigate("/timer");
         const settings = new SessionSettings(toMs(workTime), toMs(breakTime), numCycles);
         const session = new ActiveSession(settings);
-        session.start();
+        session.startNewBlock();
     };
 
     const calculateDifficulty = () => {
