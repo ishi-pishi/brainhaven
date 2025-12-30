@@ -19,7 +19,10 @@ export class Observable {
   }
 }
 
-
+/**
+ *  ActiveSession tracks blocks and is responsible of controlling the current timer based on
+ *  block progression.
+ */
 export class ActiveSession extends Observable {
   private static instance: ActiveSession | null = null;
   private bq: BlockQueue;
@@ -57,16 +60,24 @@ export class ActiveSession extends Observable {
     return this.bq.getCurrentCycleString();
   }
 
+  startNewBlock(): void {
+    this.notifyListeners();
+    this.startCurrentBlock();
+  }
+
+  endSession(): void {
+    this.finished = true;
+    this.notifyListeners();
+    TimerManager.getInstance().pauseTimer();
+  }
+
   private onBlockFinished() {
     this.bq.advance();
 
     if (!this.bq.isEmpty()) {
-      this.notifyListeners(); // block changed
-      this.startCurrentBlock();
+      this.startNewBlock();
     } else {
-      console.log("Session complete!");
-      this.finished = true;
-      this.notifyListeners();
+      this.endSession();
     }
   }
 
