@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { TimerSection } from "../components/Timer/TimerSection";
-import { ActiveSession } from "../logic/timer/ActiveSession";
+import { TimerSection } from "@/components/Timer/TimerSection";
+import { ActiveSession } from "@/logic/timer/ActiveSession";
 import { useNavigate } from "react-router-dom";
 
 export function TimerPage() {

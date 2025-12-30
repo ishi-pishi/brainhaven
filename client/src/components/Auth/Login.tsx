@@ -13,24 +13,6 @@ interface AuthCardProps {
     onOpenChange: (open: boolean) => void;
 }
 
-export function LoginButton() {
-    const [open, setOpen] = useState(false);
-
-    return (
-        <>
-            {/* Just text with underline */}
-            <span
-                className="text-sm underline cursor-pointer"
-                onClick={() => setOpen(true)}
-            >
-                Login
-            </span>
-
-            <AuthCard open={open} onOpenChange={setOpen} />
-        </>
-    );
-}
-
 export function AuthCard({ open, onOpenChange }: AuthCardProps) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

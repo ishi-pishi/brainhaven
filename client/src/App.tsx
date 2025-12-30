@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import { SettingsMenuPage } from "./pages/SettingsMenuPage"
-import { TimerPage } from "./pages/TimerPage"
-import { LandingPage } from "./pages/LandingPage";
-import { SignupPage } from "./pages/SignupPage";
+// Pages
+import { LandingPage } from "./pages/Landing/LandingPage";
+import { SettingsMenuPage } from "./pages/App/SettingsMenuPage"
+import { TimerPage } from "./pages/App/TimerPage"
+import { SignupPage } from "./pages/App/SignupPage";
+import { HomePage } from "./pages/App/HomePage";
 
 import { AppLayout } from "./components/Layout/AppLayout";
 
@@ -14,6 +16,7 @@ export default function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route element={<AppLayout />}>
+          <Route path="/home" element={<HomePage />} />
           <Route path="/timer-menu" element={<SettingsMenuPage />} />
           <Route path="/timer" element={<TimerPage />} />
         </Route>
