@@ -5,7 +5,7 @@ import { LandingPage } from "./pages/Landing/LandingPage";
 import { SettingsMenuPage } from "./pages/App/SettingsMenuPage"
 import { TimerPage } from "./pages/App/TimerPage"
 import { SignupPage } from "./pages/App/SignupPage";
-import { HomePage } from "./pages/App/HomePage";
+import { DashBoard } from "./pages/App/DashBoard";
 
 import { AppLayout } from "./components/Layout/AppLayout";
 
@@ -16,7 +16,7 @@ export default function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route element={<AppLayout />}>
-          <Route path="/home" element={<HomePage />} />
+          <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/timer-menu" element={<SettingsMenuPage />} />
           <Route path="/timer" element={<TimerPage />} />
         </Route>

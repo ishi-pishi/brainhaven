@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth } from "@/lib/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
@@ -16,13 +17,14 @@ interface AuthCardProps {
 export function AuthCard({ open, onOpenChange }: AuthCardProps) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const nav = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             await signInWithEmailAndPassword(auth, email, password);
             alert("Logged in!");
-            onOpenChange(false); // close dialog after success
+            nav("/dashboard"); 
         } catch (err: any) {
             console.error(err);
             alert(err.message);

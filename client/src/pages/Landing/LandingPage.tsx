@@ -51,7 +51,6 @@ export function LoginButton() {
 
     return (
         <>
-            {/* Just text with underline */}
             <Button
                 className="text-sm cursor-pointer"
                 onClick={() => setOpen(true)}
