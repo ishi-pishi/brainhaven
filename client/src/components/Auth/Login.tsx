@@ -24,7 +24,7 @@ export function AuthCard({ open, onOpenChange }: AuthCardProps) {
         try {
             await signInWithEmailAndPassword(auth, email, password);
             alert("Logged in!");
-            nav("/dashboard"); 
+            nav("/dashboard");
         } catch (err: any) {
             console.error(err);
             alert(err.message);
@@ -78,20 +78,19 @@ export function AuthCard({ open, onOpenChange }: AuthCardProps) {
                             />
                         </div>
 
-                        <Button type="submit" className="w-full">
+                        <Button type="submit" className="w-full cursor-pointer">
                             Login
                         </Button>
-                    </form>
 
-                    {/* Cute sign-up link under the form */}
-                    <div className="text-center mt-2">
-                        <span
-                            className="text-sm underline cursor-pointer"
-                            onClick={handleSignUpClick}
-                        >
-                            Sign Up
-                        </span>
-                    </div>
+                        <div className="text-center mt-2">
+                            <span
+                                className="text-sm underline cursor-pointer"
+                                onClick={handleSignUpClick}
+                            >
+                                Sign Up
+                            </span>
+                        </div>
+                    </form>
                 </div>
             </DialogContent>
         </Dialog>
