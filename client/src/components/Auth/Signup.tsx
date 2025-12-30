@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth } from "@/lib/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -18,6 +19,7 @@ export function SignUpCard() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const nav = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,6 +31,7 @@ export function SignUpCard() {
         try {
             await createUserWithEmailAndPassword(auth, email, password);
             alert("Signed up!");
+            nav("/dashboard");
         } catch (err: any) {
             console.error(err);
             alert(err.message);
@@ -80,7 +83,7 @@ export function SignUpCard() {
                         />
                     </div>
 
-                    <Button type="submit" className="w-full mt-2">
+                    <Button type="submit" className="w-full mt-2" onClick={handleSubmit}>
                         Sign Up
                     </Button>
                 </form>
