@@ -2,9 +2,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Pages
 import { LandingPage } from "./pages/Landing/LandingPage";
+import { SignupPage } from "./pages/Landing/SignupPage";
+
 import { SettingsMenuPage } from "./pages/App/SettingsMenuPage"
 import { TimerPage } from "./pages/App/TimerPage"
-import { SignupPage } from "./pages/App/SignupPage";
 import { DashBoard } from "./pages/App/DashBoard";
 
 import { AppLayout } from "./components/Layout/AppLayout";

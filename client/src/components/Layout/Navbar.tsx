@@ -1,4 +1,3 @@
-// components/Navbar.tsx
 import React from "react";
 import { NavLink } from "react-router-dom";
 
@@ -12,10 +11,6 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { ClockIcon, SettingsIcon, HomeIcon } from "lucide-react";
-
-/**
- *  Navbar for React Router.
- */
 
 function DropdownItem({
   to,
@@ -35,16 +30,16 @@ function DropdownItem({
           to={to}
           className={({ isActive }) =>
             [
-              "block rounded-md px-3 py-2 transition-all duration-200",
+              "block rounded-md px-2 py-1 transition-all duration-200",
               "hover:translate-y-0.5 focus:shadow-lg focus:outline-none",
               isActive ? "bg-muted/60 font-semibold" : "bg-transparent",
             ].join(" ")
           }
         >
-          <div className="flex items-start gap-3">
+          <div className="flex items-start gap-2">
             {Icon ? (
               <div className="mt-0.5">
-                <Icon className="h-5 w-5" />
+                <Icon className="h-4 w-4" />
               </div>
             ) : null}
             <div>
@@ -64,11 +59,11 @@ function DropdownItem({
 
 export function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 border-b bg-background/80 backdrop-blur-md px-6 py-3">
+    <nav className="fixed top-0 left-0 w-full z-50 border-b bg-background/80 backdrop-blur-md px-6 py-2">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         {/* LEFT: menu */}
         <NavigationMenu>
-          <NavigationMenuList className="flex items-center gap-4">
+          <NavigationMenuList className="flex items-center gap-3">
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
                 <NavLink
@@ -81,7 +76,7 @@ export function Navbar() {
                       : " hover:bg-muted/10")
                   }
                 >
-                  <span className="inline-flex items-center gap-2 px-3 py-2 rounded-md">
+                  <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md">
                     <HomeIcon className="h-4 w-4" />
                     Home
                   </span>
@@ -90,8 +85,8 @@ export function Navbar() {
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="inline-flex items-center gap-2 px-3 py-2 rounded-md">
-                Customize
+              <NavigationMenuTrigger className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md">
+                Timer
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid gap-2 md:w-105 lg:w-130 lg:grid-cols-[.9fr_1fr] p-4">
@@ -111,7 +106,7 @@ export function Navbar() {
                     to="/timer"
                     Icon={ClockIcon}
                     title="Timer"
-                    description="Set work/break lengths and start a session."
+                    description="Start a pomodoro session."
                   />
                   <DropdownItem
                     to="/timer-menu"
@@ -126,10 +121,10 @@ export function Navbar() {
         </NavigationMenu>
 
         {/* RIGHT: logo + login */}
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-3">
-            <div className="rounded-md px-2 py-1 ring-1 ring-muted/10">
-              <HomeIcon className="h-5 w-5" />
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <div className="rounded-md px-1.5 py-0.5 ring-1 ring-muted/10">
+              <HomeIcon className="h-4 w-4" />
             </div>
             <div className="text-lg font-semibold">brainhaven</div>
           </div>
