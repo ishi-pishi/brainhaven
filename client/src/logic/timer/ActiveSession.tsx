@@ -35,7 +35,6 @@ export class ActiveSession extends Observable {
   private bq: BlockQueue;
   private finished: boolean = false;
   private timer: TimerManager;
-  private settings;
 
   /**
    *  Constructs a new unfinished ActiveSession based on current settings
@@ -49,7 +48,6 @@ export class ActiveSession extends Observable {
 
     this.bq = new BlockQueue(settings);
     this.finished = false;
-    this.settings = settings;
 
     this.timer = TimerManager.getInstance();
     this.timer.addFinishedListener(() => this.onBlockFinished());
