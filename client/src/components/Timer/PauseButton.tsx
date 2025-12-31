@@ -10,7 +10,7 @@ export function PauseButton() {
     setIsPaused(prev => !prev);
     const timer = TimerManager.getInstance()
     if (!isPaused) {
-      timer.pauseTimer();
+      timer.pause();
     } else {
       timer.resumeTimer();
     }

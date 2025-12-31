@@ -1,5 +1,10 @@
 import { SessionSettings } from "./SessionSettings";
 
+/**
+ *  Contains a queue of work and break blocks that can be moved through.
+ * 
+ *  
+ */
 export class BlockQueue {
     private blocks: TimeBlock[];
     private currentIndex = 0;
@@ -43,6 +48,7 @@ export class BlockQueue {
         return this.currentIndex >= this.blocks.length;
     }
 
+    /** Returns the 'label' of the current block */
     getCurrentLabel(): string {
         if (this.isEmpty()) {
             return "Session Complete";

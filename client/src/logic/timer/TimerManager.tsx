@@ -31,11 +31,22 @@ export class TMSubject {
   }
 }
 
+/**
+ *  TimerManager class.
+ *  This class is a singleton which controls an instance of the Timer and can
+ *  tick it over seconds.
+ *  
+ *  It contains:
+ *    - An instance for singleton
+ *    - The Timer it ticks on
+ *    - The interval it is using to tick the timer
+ *    - The interval for each tick (set to 1s)
+ */
 export class TimerManager {
   private static instance: TimerManager;
   private currentTimer: Timer | null = null;
   private intervalId: ReturnType<typeof setInterval> | null = null;
-  private tickIntervalMs = 1000;
+  private TICK_INTERVAL_MS = 1000;
   private finishedEmitted = false;
 
   private subject = new TMSubject();
@@ -56,15 +67,15 @@ export class TimerManager {
     this.startInterval();
   }
 
-  startTimerSeconds(seconds: number) {
+  startSeconds(seconds: number) {
     this.startTimerMs(seconds * 1000);
   }
 
-  startTimerMinutes(minutes: number) {
+  startMinutes(minutes: number) {
     this.startTimerMs(minutes * 60_000);
   }
 
-  pauseTimer() {
+  pause() {
     this.currentTimer?.pause();
     this.emitTick();
   }
@@ -83,7 +94,7 @@ export class TimerManager {
   }
 
   setTickIntervalMs(ms: number) {
-    this.tickIntervalMs = Math.max(50, ms);
+    this.TICK_INTERVAL_MS = Math.max(50, ms);
     if (this.intervalId !== null) {
       this.stopInterval();
       this.startInterval();
@@ -100,7 +111,7 @@ export class TimerManager {
     return this.subject.addFinishedListener(cb);
   }
 
-  // Private helper
+  // Private helpers
   private emitTick() {
     if (!this.currentTimer) return;
 
@@ -121,7 +132,7 @@ export class TimerManager {
       if (!this.currentTimer) return;
       this.emitTick();
       if (this.isFinished()) this.stopInterval();
-    }, this.tickIntervalMs);
+    }, this.TICK_INTERVAL_MS);
   }
 
   private stopInterval() {
