@@ -1,0 +1,38 @@
+type User @table {
+  displayName: String!
+  createdAt: Timestamp!
+  email: String
+  avatarUrl: String
+  currencyBalance: Int
+}
+
+type StudySession @table {
+  startTime: Timestamp!
+  endTime: Timestamp!
+  subject: Subject!
+  durationMinutes: Int!
+  productivityRating: Int!
+  createdAt: Timestamp!
+  reflections: String
+  earnedCurrency: Int
+  user: User!
+}
+
+type Subject @table {
+  name: String!
+  createdAt: Timestamp!
+  description: String
+  user: User!
+}
+
+type StudyGoal @table {
+  description: String!
+  targetValue: Float!
+  currentValue: Float!
+  unit: String!
+  createdAt: Timestamp!
+  status: String!
+  dueDate: Date
+  user: User!
+  subject: Subject
+}

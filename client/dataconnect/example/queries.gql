@@ -1,0 +1,39 @@
+mutation CreateUser @auth(level: USER) {
+  user_insert(data: {
+    id_expr: "uuidV4()",
+    displayName: "New User",
+    createdAt_expr: "request.time"
+  })
+}
+
+query ListSubjects @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users.") {
+  subjects {
+    id
+    name
+    description
+  }
+}
+
+mutation CreateStudySession($subjectId: UUID!, $durationMinutes: Int!, $endTime: Timestamp!, $productivityRating: Int!, $startTime: Timestamp!) @auth(level: USER) {
+  studySession_insert(data: {
+    subjectId: $subjectId,
+    userId_expr: "auth.uid",
+    createdAt_expr: "request.time",
+    durationMinutes: $durationMinutes,
+    endTime: $endTime,
+    productivityRating: $productivityRating,
+    startTime: $startTime
+  })
+}
+
+query GetStudyGoalsForUser @auth(level: USER) {
+  studyGoals(where: {userId: {eq_expr: "auth.uid"}}) {
+    id
+    description
+    targetValue
+    currentValue
+    unit
+    dueDate
+    status
+  }
+}

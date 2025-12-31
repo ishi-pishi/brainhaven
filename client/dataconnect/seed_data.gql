@@ -1,0 +1,76 @@
+mutation CreateDemoData @transaction @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users.") {
+  user_insertMany(data: [
+    {
+      id: "550e8400-e29b-41d4-a716-446655440000",
+      displayName: "demouser1",
+      email: "demouser1@example.com",
+      createdAt: "2024-04-26T12:00:00Z"
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440001",
+      displayName: "demouser2",
+      email: "demouser2@example.com",
+      createdAt: "2024-04-26T12:00:00Z"
+    }
+  ])
+  subject_insertMany(data: [
+    {
+      id: "650e8400-e29b-41d4-a716-446655440002",
+      userId: "550e8400-e29b-41d4-a716-446655440000",
+      name: "Math",
+      createdAt: "2024-04-26T12:00:00Z"
+    },
+    {
+      id: "650e8400-e29b-41d4-a716-446655440003",
+      userId: "550e8400-e29b-41d4-a716-446655440001",
+      name: "History",
+      createdAt: "2024-04-26T12:00:00Z"
+    }
+  ])
+  studySession_insertMany(data: [
+    {
+      id: "750e8400-e29b-41d4-a716-446655440004",
+      subjectId: "650e8400-e29b-41d4-a716-446655440002",
+      userId: "550e8400-e29b-41d4-a716-446655440000",
+      startTime: "2024-04-27T10:00:00Z",
+      endTime: "2024-04-27T11:00:00Z",
+      durationMinutes: 60,
+      productivityRating: 5,
+      createdAt: "2024-04-26T12:00:00Z"
+    },
+    {
+      id: "750e8400-e29b-41d4-a716-446655440005",
+      subjectId: "650e8400-e29b-41d4-a716-446655440003",
+      userId: "550e8400-e29b-41d4-a716-446655440001",
+      startTime: "2024-04-27T14:00:00Z",
+      endTime: "2024-04-27T15:00:00Z",
+      durationMinutes: 60,
+      productivityRating: 4,
+      createdAt: "2024-04-26T12:00:00Z"
+    }
+  ])
+   studyGoal_insertMany(data: [
+    {
+      id: "850e8400-e29b-41d4-a716-446655440006",
+      subjectId: "650e8400-e29b-41d4-a716-446655440002",
+      userId: "550e8400-e29b-41d4-a716-446655440000",
+      description: "Complete chapter 1",
+      status: "in progress",
+      targetValue: 1.0,
+      currentValue: 0.5,
+      unit: "chapters",
+      createdAt: "2024-04-26T12:00:00Z"
+    },
+    {
+      id: "850e8400-e29b-41d4-a716-446655440007",
+      subjectId: "650e8400-e29b-41d4-a716-446655440003",
+      userId: "550e8400-e29b-41d4-a716-446655440001",
+      description: "Finish reading section 2",
+      status: "completed",
+      targetValue: 1.0,
+      currentValue: 1.0,
+      unit: "sections",
+      createdAt: "2024-04-26T12:00:00Z"
+    }
+  ])
+}
