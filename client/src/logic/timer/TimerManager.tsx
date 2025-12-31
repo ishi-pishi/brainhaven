@@ -2,7 +2,7 @@
 export type TickListener = (timeLeftMs: number) => void;
 export type FinishedListener = () => void;
 
-export class TMSubject {
+export class TimerManagerSubject {
   private tickListeners = new Set<TickListener>();
   private finishedListeners = new Set<FinishedListener>();
 
@@ -49,7 +49,7 @@ export class TimerManager {
   private TICK_INTERVAL_MS = 1000;
   private finishedEmitted = false;
 
-  private subject = new TMSubject();
+  private subject = new TimerManagerSubject();
 
   private constructor() {}
 

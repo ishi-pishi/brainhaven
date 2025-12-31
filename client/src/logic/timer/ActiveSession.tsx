@@ -21,10 +21,8 @@ export class Observable {
 
 /**
  *  ActiveSession tracks blocks and is responsible of controlling the current timer based on
- *  block progression.
- * 
- *  In some ways this is kind of a wrapper for both TimerManager and BlockQueue;
- *  it advances through a BlockQueue and alters the timer accordingly.
+ *  block progression. This doesn't have many timer controls in it; it's mainly just
+ *  responsible for orchestrating the timer through the blocks.
  * 
  *  Contains:
  *     - Instance of Active Session for singleton access
@@ -108,13 +106,6 @@ export class ActiveSession extends Observable {
     } else {
       this.endSession();
     }
-  }
-
-  /**
-   *  TIMER-ONLY CONTROLLERS
-   */
-  pauseTimer() {
-    this.timer.pause();
   }
 
   // Finds the block we are currently on and starts the timer from its duration.
