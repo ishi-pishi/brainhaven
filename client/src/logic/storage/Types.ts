@@ -13,7 +13,7 @@ export interface SessionData {
   startedAt: number;
   finishedAt?: number;
   blocks: BlockData[];
-  remarks?: string;
+  reflection?: string;
 }
 
 // Map of sessions keyed by their ids
