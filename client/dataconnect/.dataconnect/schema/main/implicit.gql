@@ -1,17 +1,3 @@
-extend type StudyGoal {
-  """
-  ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
-  """
-  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "StudyGoal", purpose: IMPLICIT_KEY_FIELD)
-  """
-  ✨ Implicit foreign key field based on `StudyGoal`.`subject`. It must match the value of `Subject`.`id`. See `@ref` for how to customize it.
-  """
-  subjectId: UUID @fdc_generated(from: "StudyGoal.subject", purpose: IMPLICIT_REF_FIELD)
-  """
-  ✨ Implicit foreign key field based on `StudyGoal`.`user`. It must match the value of `User`.`id`. See `@ref` for how to customize it.
-  """
-  userId: UUID! @fdc_generated(from: "StudyGoal.user", purpose: IMPLICIT_REF_FIELD)
-}
 extend type StudySession {
   """
   ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
@@ -20,7 +6,7 @@ extend type StudySession {
   """
   ✨ Implicit foreign key field based on `StudySession`.`subject`. It must match the value of `Subject`.`id`. See `@ref` for how to customize it.
   """
-  subjectId: UUID! @fdc_generated(from: "StudySession.subject", purpose: IMPLICIT_REF_FIELD)
+  subjectId: UUID @fdc_generated(from: "StudySession.subject", purpose: IMPLICIT_REF_FIELD)
   """
   ✨ Implicit foreign key field based on `StudySession`.`user`. It must match the value of `User`.`id`. See `@ref` for how to customize it.
   """

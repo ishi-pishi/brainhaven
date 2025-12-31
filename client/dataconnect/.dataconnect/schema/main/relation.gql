@@ -1,175 +1,3 @@
-extend type StudyGoal {
-  """
-  Implicit metadata field that cannot be written. It provides extra information about query results.
-  """
-  _metadata: _Metadata @fdc_generated(from: "StudyGoal", purpose: METADATA_FIELD)
-  """
-  ✨ Count the number of rows in the `StudyGoal` table.
-  """
-  _count: Int! @fdc_generated(from: "StudyGoal.", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `StudyGoal` table where the `createdAt` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  createdAt_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "StudyGoal.createdAt", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `StudyGoal` table where the `currentValue` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  currentValue_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "StudyGoal.currentValue", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `StudyGoal` table where the `description` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  description_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "StudyGoal.description", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `StudyGoal` table where the `dueDate` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  dueDate_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "StudyGoal.dueDate", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `StudyGoal` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  id_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "StudyGoal.id", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `StudyGoal` table where the `status` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  status_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "StudyGoal.status", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `StudyGoal` table where the `subjectId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  subjectId_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "StudyGoal.subjectId", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `StudyGoal` table where the `targetValue` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  targetValue_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "StudyGoal.targetValue", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `StudyGoal` table where the `unit` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  unit_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "StudyGoal.unit", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `StudyGoal` table where the `userId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  userId_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "StudyGoal.userId", purpose: QUERY_COUNT)
-  """
-  ✨ Sum the `currentValue` field in the `StudyGoal` table.
-  """
-  currentValue_sum(
-    """
-    Set to true to sum the distinct values.
-    """
-    distinct: Boolean = false
-  ): Float @fdc_generated(from: "StudyGoal.currentValue", purpose: QUERY_SUM)
-  """
-  ✨ Sum the `targetValue` field in the `StudyGoal` table.
-  """
-  targetValue_sum(
-    """
-    Set to true to sum the distinct values.
-    """
-    distinct: Boolean = false
-  ): Float @fdc_generated(from: "StudyGoal.targetValue", purpose: QUERY_SUM)
-  """
-  ✨ Average the `currentValue` field in the `StudyGoal` table.
-  """
-  currentValue_avg(
-    """
-    Set to true to average the distinct values.
-    """
-    distinct: Boolean = false
-  ): Float @fdc_generated(from: "StudyGoal.currentValue", purpose: QUERY_AVG)
-  """
-  ✨ Average the `targetValue` field in the `StudyGoal` table.
-  """
-  targetValue_avg(
-    """
-    Set to true to average the distinct values.
-    """
-    distinct: Boolean = false
-  ): Float @fdc_generated(from: "StudyGoal.targetValue", purpose: QUERY_AVG)
-  """
-  ✨ Minimum of the `createdAt` field in the `StudyGoal` table.
-  """
-  createdAt_min: Timestamp @fdc_generated(from: "StudyGoal.createdAt", purpose: QUERY_MIN)
-  """
-  ✨ Minimum of the `currentValue` field in the `StudyGoal` table.
-  """
-  currentValue_min: Float @fdc_generated(from: "StudyGoal.currentValue", purpose: QUERY_MIN)
-  """
-  ✨ Minimum of the `dueDate` field in the `StudyGoal` table.
-  """
-  dueDate_min: Date @fdc_generated(from: "StudyGoal.dueDate", purpose: QUERY_MIN)
-  """
-  ✨ Minimum of the `targetValue` field in the `StudyGoal` table.
-  """
-  targetValue_min: Float @fdc_generated(from: "StudyGoal.targetValue", purpose: QUERY_MIN)
-  """
-  ✨ Maximum of the `createdAt` field in the `StudyGoal` table.
-  """
-  createdAt_max: Timestamp @fdc_generated(from: "StudyGoal.createdAt", purpose: QUERY_MAX)
-  """
-  ✨ Maximum of the `currentValue` field in the `StudyGoal` table.
-  """
-  currentValue_max: Float @fdc_generated(from: "StudyGoal.currentValue", purpose: QUERY_MAX)
-  """
-  ✨ Maximum of the `dueDate` field in the `StudyGoal` table.
-  """
-  dueDate_max: Date @fdc_generated(from: "StudyGoal.dueDate", purpose: QUERY_MAX)
-  """
-  ✨ Maximum of the `targetValue` field in the `StudyGoal` table.
-  """
-  targetValue_max: Float @fdc_generated(from: "StudyGoal.targetValue", purpose: QUERY_MAX)
-  """
-  A generated field that is used for caching results in SDKs.
-  """
-  _id: ID! @fdc_generated(from: "StudyGoal.id", purpose: GLOBAL_ID)
-}
 extend type StudySession {
   """
   Implicit metadata field that cannot be written. It provides extra information about query results.
@@ -180,6 +8,15 @@ extend type StudySession {
   """
   _count: Int! @fdc_generated(from: "StudySession.", purpose: QUERY_COUNT)
   """
+  ✨ Count the number of rows in the `StudySession` table where the `breakBlockMs` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  breakBlockMs_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "StudySession.breakBlockMs", purpose: QUERY_COUNT)
+  """
   ✨ Count the number of rows in the `StudySession` table where the `createdAt` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
   createdAt_count(
@@ -189,14 +26,14 @@ extend type StudySession {
     distinct: Boolean = false
   ): Int! @fdc_generated(from: "StudySession.createdAt", purpose: QUERY_COUNT)
   """
-  ✨ Count the number of rows in the `StudySession` table where the `durationMinutes` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  ✨ Count the number of rows in the `StudySession` table where the `durationMs` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
-  durationMinutes_count(
+  durationMs_count(
     """
     Set to true to count the number of distinct values.
     """
     distinct: Boolean = false
-  ): Int! @fdc_generated(from: "StudySession.durationMinutes", purpose: QUERY_COUNT)
+  ): Int! @fdc_generated(from: "StudySession.durationMs", purpose: QUERY_COUNT)
   """
   ✨ Count the number of rows in the `StudySession` table where the `earnedCurrency` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
@@ -224,6 +61,15 @@ extend type StudySession {
     """
     distinct: Boolean = false
   ): Int! @fdc_generated(from: "StudySession.id", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `StudySession` table where the `intendedCycles` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  intendedCycles_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "StudySession.intendedCycles", purpose: QUERY_COUNT)
   """
   ✨ Count the number of rows in the `StudySession` table where the `productivityRating` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
@@ -270,14 +116,32 @@ extend type StudySession {
     distinct: Boolean = false
   ): Int! @fdc_generated(from: "StudySession.userId", purpose: QUERY_COUNT)
   """
-  ✨ Sum the `durationMinutes` field in the `StudySession` table.
+  ✨ Count the number of rows in the `StudySession` table where the `workBlockMs` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
-  durationMinutes_sum(
+  workBlockMs_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "StudySession.workBlockMs", purpose: QUERY_COUNT)
+  """
+  ✨ Sum the `breakBlockMs` field in the `StudySession` table.
+  """
+  breakBlockMs_sum(
     """
     Set to true to sum the distinct values.
     """
     distinct: Boolean = false
-  ): Int @fdc_generated(from: "StudySession.durationMinutes", purpose: QUERY_SUM)
+  ): Int @fdc_generated(from: "StudySession.breakBlockMs", purpose: QUERY_SUM)
+  """
+  ✨ Sum the `durationMs` field in the `StudySession` table.
+  """
+  durationMs_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int @fdc_generated(from: "StudySession.durationMs", purpose: QUERY_SUM)
   """
   ✨ Sum the `earnedCurrency` field in the `StudySession` table.
   """
@@ -288,6 +152,15 @@ extend type StudySession {
     distinct: Boolean = false
   ): Int @fdc_generated(from: "StudySession.earnedCurrency", purpose: QUERY_SUM)
   """
+  ✨ Sum the `intendedCycles` field in the `StudySession` table.
+  """
+  intendedCycles_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int @fdc_generated(from: "StudySession.intendedCycles", purpose: QUERY_SUM)
+  """
   ✨ Sum the `productivityRating` field in the `StudySession` table.
   """
   productivityRating_sum(
@@ -297,14 +170,32 @@ extend type StudySession {
     distinct: Boolean = false
   ): Int @fdc_generated(from: "StudySession.productivityRating", purpose: QUERY_SUM)
   """
-  ✨ Average the `durationMinutes` field in the `StudySession` table.
+  ✨ Sum the `workBlockMs` field in the `StudySession` table.
   """
-  durationMinutes_avg(
+  workBlockMs_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int @fdc_generated(from: "StudySession.workBlockMs", purpose: QUERY_SUM)
+  """
+  ✨ Average the `breakBlockMs` field in the `StudySession` table.
+  """
+  breakBlockMs_avg(
     """
     Set to true to average the distinct values.
     """
     distinct: Boolean = false
-  ): Float @fdc_generated(from: "StudySession.durationMinutes", purpose: QUERY_AVG)
+  ): Float @fdc_generated(from: "StudySession.breakBlockMs", purpose: QUERY_AVG)
+  """
+  ✨ Average the `durationMs` field in the `StudySession` table.
+  """
+  durationMs_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "StudySession.durationMs", purpose: QUERY_AVG)
   """
   ✨ Average the `earnedCurrency` field in the `StudySession` table.
   """
@@ -315,6 +206,15 @@ extend type StudySession {
     distinct: Boolean = false
   ): Float @fdc_generated(from: "StudySession.earnedCurrency", purpose: QUERY_AVG)
   """
+  ✨ Average the `intendedCycles` field in the `StudySession` table.
+  """
+  intendedCycles_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "StudySession.intendedCycles", purpose: QUERY_AVG)
+  """
   ✨ Average the `productivityRating` field in the `StudySession` table.
   """
   productivityRating_avg(
@@ -324,13 +224,26 @@ extend type StudySession {
     distinct: Boolean = false
   ): Float @fdc_generated(from: "StudySession.productivityRating", purpose: QUERY_AVG)
   """
+  ✨ Average the `workBlockMs` field in the `StudySession` table.
+  """
+  workBlockMs_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "StudySession.workBlockMs", purpose: QUERY_AVG)
+  """
+  ✨ Minimum of the `breakBlockMs` field in the `StudySession` table.
+  """
+  breakBlockMs_min: Int @fdc_generated(from: "StudySession.breakBlockMs", purpose: QUERY_MIN)
+  """
   ✨ Minimum of the `createdAt` field in the `StudySession` table.
   """
   createdAt_min: Timestamp @fdc_generated(from: "StudySession.createdAt", purpose: QUERY_MIN)
   """
-  ✨ Minimum of the `durationMinutes` field in the `StudySession` table.
+  ✨ Minimum of the `durationMs` field in the `StudySession` table.
   """
-  durationMinutes_min: Int @fdc_generated(from: "StudySession.durationMinutes", purpose: QUERY_MIN)
+  durationMs_min: Int @fdc_generated(from: "StudySession.durationMs", purpose: QUERY_MIN)
   """
   ✨ Minimum of the `earnedCurrency` field in the `StudySession` table.
   """
@@ -340,6 +253,10 @@ extend type StudySession {
   """
   endTime_min: Timestamp @fdc_generated(from: "StudySession.endTime", purpose: QUERY_MIN)
   """
+  ✨ Minimum of the `intendedCycles` field in the `StudySession` table.
+  """
+  intendedCycles_min: Int @fdc_generated(from: "StudySession.intendedCycles", purpose: QUERY_MIN)
+  """
   ✨ Minimum of the `productivityRating` field in the `StudySession` table.
   """
   productivityRating_min: Int @fdc_generated(from: "StudySession.productivityRating", purpose: QUERY_MIN)
@@ -348,13 +265,21 @@ extend type StudySession {
   """
   startTime_min: Timestamp @fdc_generated(from: "StudySession.startTime", purpose: QUERY_MIN)
   """
+  ✨ Minimum of the `workBlockMs` field in the `StudySession` table.
+  """
+  workBlockMs_min: Int @fdc_generated(from: "StudySession.workBlockMs", purpose: QUERY_MIN)
+  """
+  ✨ Maximum of the `breakBlockMs` field in the `StudySession` table.
+  """
+  breakBlockMs_max: Int @fdc_generated(from: "StudySession.breakBlockMs", purpose: QUERY_MAX)
+  """
   ✨ Maximum of the `createdAt` field in the `StudySession` table.
   """
   createdAt_max: Timestamp @fdc_generated(from: "StudySession.createdAt", purpose: QUERY_MAX)
   """
-  ✨ Maximum of the `durationMinutes` field in the `StudySession` table.
+  ✨ Maximum of the `durationMs` field in the `StudySession` table.
   """
-  durationMinutes_max: Int @fdc_generated(from: "StudySession.durationMinutes", purpose: QUERY_MAX)
+  durationMs_max: Int @fdc_generated(from: "StudySession.durationMs", purpose: QUERY_MAX)
   """
   ✨ Maximum of the `earnedCurrency` field in the `StudySession` table.
   """
@@ -364,6 +289,10 @@ extend type StudySession {
   """
   endTime_max: Timestamp @fdc_generated(from: "StudySession.endTime", purpose: QUERY_MAX)
   """
+  ✨ Maximum of the `intendedCycles` field in the `StudySession` table.
+  """
+  intendedCycles_max: Int @fdc_generated(from: "StudySession.intendedCycles", purpose: QUERY_MAX)
+  """
   ✨ Maximum of the `productivityRating` field in the `StudySession` table.
   """
   productivityRating_max: Int @fdc_generated(from: "StudySession.productivityRating", purpose: QUERY_MAX)
@@ -372,45 +301,15 @@ extend type StudySession {
   """
   startTime_max: Timestamp @fdc_generated(from: "StudySession.startTime", purpose: QUERY_MAX)
   """
+  ✨ Maximum of the `workBlockMs` field in the `StudySession` table.
+  """
+  workBlockMs_max: Int @fdc_generated(from: "StudySession.workBlockMs", purpose: QUERY_MAX)
+  """
   A generated field that is used for caching results in SDKs.
   """
   _id: ID! @fdc_generated(from: "StudySession.id", purpose: GLOBAL_ID)
 }
 extend type Subject {
-  """
-  ✨ List `StudyGoal` objects in a one-to-many relationship (where `StudyGoal`.`subject` is this object).
-  """
-  studyGoals_on_subject(
-    """
-    Filter condition to narrow down the query results.
-    """
-    where: StudyGoal_Filter
-
-    """
-    Order the query results by specific fields.
-    """
-    orderBy: [StudyGoal_Order!]
-
-    """
-    Number of rows to skip before starting to return the results.
-    """
-    offset: Int
-
-    """
-    Maximum number of rows to return (defaults to 100 rows).
-    """
-    limit: Int = 100
-
-    """
-    Set to true to return distinct results.
-    """
-    distinct: Boolean = false
-
-    """
-    Filter condition to apply to the groups of aggregate queries.
-    """
-    having: StudyGoal_Having
-  ): [StudyGoal!]! @fdc_generated(from: "StudyGoal.subject", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
   """
   ✨ List `StudySession` objects in a one-to-many relationship (where `StudySession`.`subject` is this object).
   """
@@ -472,6 +371,15 @@ extend type Subject {
     distinct: Boolean = false
   ): Int! @fdc_generated(from: "Subject.description", purpose: QUERY_COUNT)
   """
+  ✨ Count the number of rows in the `Subject` table where the `icon` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  icon_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Subject.icon", purpose: QUERY_COUNT)
+  """
   ✨ Count the number of rows in the `Subject` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
   id_count(
@@ -512,40 +420,6 @@ extend type Subject {
   _id: ID! @fdc_generated(from: "Subject.id", purpose: GLOBAL_ID)
 }
 extend type User {
-  """
-  ✨ List `StudyGoal` objects in a one-to-many relationship (where `StudyGoal`.`user` is this object).
-  """
-  studyGoals_on_user(
-    """
-    Filter condition to narrow down the query results.
-    """
-    where: StudyGoal_Filter
-
-    """
-    Order the query results by specific fields.
-    """
-    orderBy: [StudyGoal_Order!]
-
-    """
-    Number of rows to skip before starting to return the results.
-    """
-    offset: Int
-
-    """
-    Maximum number of rows to return (defaults to 100 rows).
-    """
-    limit: Int = 100
-
-    """
-    Set to true to return distinct results.
-    """
-    distinct: Boolean = false
-
-    """
-    Filter condition to apply to the groups of aggregate queries.
-    """
-    having: StudyGoal_Having
-  ): [StudyGoal!]! @fdc_generated(from: "StudyGoal.user", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
   """
   ✨ List `StudySession` objects in a one-to-many relationship (where `StudySession`.`user` is this object).
   """
