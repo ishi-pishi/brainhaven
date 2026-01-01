@@ -11,7 +11,6 @@ This README will guide you through the process of using the generated JavaScript
   - [*Connecting to the local Emulator*](#connecting-to-the-local-emulator)
 - [**Queries**](#queries)
   - [*ListSubjects*](#listsubjects)
-  - [*GetStudyGoalsForUser*](#getstudygoalsforuser)
 - [**Mutations**](#mutations)
   - [*CreateUser*](#createuser)
   - [*CreateStudySession*](#createstudysession)
@@ -156,105 +155,6 @@ executeQuery(ref).then((response) => {
 });
 ```
 
-## GetStudyGoalsForUser
-You can execute the `GetStudyGoalsForUser` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
-```typescript
-getStudyGoalsForUser(): QueryPromise<GetStudyGoalsForUserData, undefined>;
-
-interface GetStudyGoalsForUserRef {
-  ...
-  /* Allow users to create refs without passing in DataConnect */
-  (): QueryRef<GetStudyGoalsForUserData, undefined>;
-}
-export const getStudyGoalsForUserRef: GetStudyGoalsForUserRef;
-```
-You can also pass in a `DataConnect` instance to the action shortcut function or `QueryRef` function.
-```typescript
-getStudyGoalsForUser(dc: DataConnect): QueryPromise<GetStudyGoalsForUserData, undefined>;
-
-interface GetStudyGoalsForUserRef {
-  ...
-  (dc: DataConnect): QueryRef<GetStudyGoalsForUserData, undefined>;
-}
-export const getStudyGoalsForUserRef: GetStudyGoalsForUserRef;
-```
-
-If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the getStudyGoalsForUserRef:
-```typescript
-const name = getStudyGoalsForUserRef.operationName;
-console.log(name);
-```
-
-### Variables
-The `GetStudyGoalsForUser` query has no variables.
-### Return Type
-Recall that executing the `GetStudyGoalsForUser` query returns a `QueryPromise` that resolves to an object with a `data` property.
-
-The `data` property is an object of type `GetStudyGoalsForUserData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
-```typescript
-export interface GetStudyGoalsForUserData {
-  studyGoals: ({
-    id: UUIDString;
-    description: string;
-    targetValue: number;
-    currentValue: number;
-    unit: string;
-    dueDate?: DateString | null;
-    status: string;
-  } & StudyGoal_Key)[];
-}
-```
-### Using `GetStudyGoalsForUser`'s action shortcut function
-
-```typescript
-import { getDataConnect } from 'firebase/data-connect';
-import { connectorConfig, getStudyGoalsForUser } from '@dataconnect/generated';
-
-
-// Call the `getStudyGoalsForUser()` function to execute the query.
-// You can use the `await` keyword to wait for the promise to resolve.
-const { data } = await getStudyGoalsForUser();
-
-// You can also pass in a `DataConnect` instance to the action shortcut function.
-const dataConnect = getDataConnect(connectorConfig);
-const { data } = await getStudyGoalsForUser(dataConnect);
-
-console.log(data.studyGoals);
-
-// Or, you can use the `Promise` API.
-getStudyGoalsForUser().then((response) => {
-  const data = response.data;
-  console.log(data.studyGoals);
-});
-```
-
-### Using `GetStudyGoalsForUser`'s `QueryRef` function
-
-```typescript
-import { getDataConnect, executeQuery } from 'firebase/data-connect';
-import { connectorConfig, getStudyGoalsForUserRef } from '@dataconnect/generated';
-
-
-// Call the `getStudyGoalsForUserRef()` function to get a reference to the query.
-const ref = getStudyGoalsForUserRef();
-
-// You can also pass in a `DataConnect` instance to the `QueryRef` function.
-const dataConnect = getDataConnect(connectorConfig);
-const ref = getStudyGoalsForUserRef(dataConnect);
-
-// Call `executeQuery()` on the reference to execute the query.
-// You can use the `await` keyword to wait for the promise to resolve.
-const { data } = await executeQuery(ref);
-
-console.log(data.studyGoals);
-
-// Or, you can use the `Promise` API.
-executeQuery(ref).then((response) => {
-  const data = response.data;
-  console.log(data.studyGoals);
-});
-```
-
 # Mutations
 
 There are two ways to execute a Data Connect Mutation using the generated Web SDK:
@@ -396,7 +296,7 @@ The `CreateStudySession` mutation requires an argument of type `CreateStudySessi
 ```typescript
 export interface CreateStudySessionVariables {
   subjectId: UUIDString;
-  durationMinutes: number;
+  durationMs: number;
   endTime: TimestampString;
   productivityRating: number;
   startTime: TimestampString;
@@ -420,7 +320,7 @@ import { connectorConfig, createStudySession, CreateStudySessionVariables } from
 // The `CreateStudySession` mutation requires an argument of type `CreateStudySessionVariables`:
 const createStudySessionVars: CreateStudySessionVariables = {
   subjectId: ..., 
-  durationMinutes: ..., 
+  durationMs: ..., 
   endTime: ..., 
   productivityRating: ..., 
   startTime: ..., 
@@ -430,7 +330,7 @@ const createStudySessionVars: CreateStudySessionVariables = {
 // You can use the `await` keyword to wait for the promise to resolve.
 const { data } = await createStudySession(createStudySessionVars);
 // Variables can be defined inline as well.
-const { data } = await createStudySession({ subjectId: ..., durationMinutes: ..., endTime: ..., productivityRating: ..., startTime: ..., });
+const { data } = await createStudySession({ subjectId: ..., durationMs: ..., endTime: ..., productivityRating: ..., startTime: ..., });
 
 // You can also pass in a `DataConnect` instance to the action shortcut function.
 const dataConnect = getDataConnect(connectorConfig);
@@ -454,7 +354,7 @@ import { connectorConfig, createStudySessionRef, CreateStudySessionVariables } f
 // The `CreateStudySession` mutation requires an argument of type `CreateStudySessionVariables`:
 const createStudySessionVars: CreateStudySessionVariables = {
   subjectId: ..., 
-  durationMinutes: ..., 
+  durationMs: ..., 
   endTime: ..., 
   productivityRating: ..., 
   startTime: ..., 
@@ -463,7 +363,7 @@ const createStudySessionVars: CreateStudySessionVariables = {
 // Call the `createStudySessionRef()` function to get a reference to the mutation.
 const ref = createStudySessionRef(createStudySessionVars);
 // Variables can be defined inline as well.
-const ref = createStudySessionRef({ subjectId: ..., durationMinutes: ..., endTime: ..., productivityRating: ..., startTime: ..., });
+const ref = createStudySessionRef({ subjectId: ..., durationMs: ..., endTime: ..., productivityRating: ..., startTime: ..., });
 
 // You can also pass in a `DataConnect` instance to the `MutationRef` function.
 const dataConnect = getDataConnect(connectorConfig);

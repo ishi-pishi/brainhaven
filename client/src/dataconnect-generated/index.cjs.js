@@ -42,15 +42,3 @@ exports.createStudySessionRef = createStudySessionRef;
 exports.createStudySession = function createStudySession(dcOrVars, vars) {
   return executeMutation(createStudySessionRef(dcOrVars, vars));
 };
-
-const getStudyGoalsForUserRef = (dc) => {
-  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
-  dcInstance._useGeneratedSdk();
-  return queryRef(dcInstance, 'GetStudyGoalsForUser');
-}
-getStudyGoalsForUserRef.operationName = 'GetStudyGoalsForUser';
-exports.getStudyGoalsForUserRef = getStudyGoalsForUserRef;
-
-exports.getStudyGoalsForUser = function getStudyGoalsForUser(dc) {
-  return executeQuery(getStudyGoalsForUserRef(dc));
-};

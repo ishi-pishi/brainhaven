@@ -1,4 +1,4 @@
-import { createUserRef, listSubjectsRef, createStudySessionRef, getStudyGoalsForUserRef, connectorConfig } from '../../esm/index.esm.js';
+import { createUserRef, listSubjectsRef, createStudySessionRef, connectorConfig } from '../../esm/index.esm.js';
 import { validateArgs, CallerSdkTypeEnum } from 'firebase/data-connect';
 import { useDataConnectQuery, useDataConnectMutation, validateReactArgs } from '@tanstack-query-firebase/react/data-connect';
 
@@ -22,11 +22,4 @@ export function useCreateStudySession(dcOrOptions, options) {
     return createStudySessionRef(dcInstance, vars);
   }
   return useDataConnectMutation(refFactory, inputOpts, CallerSdkTypeEnum.GeneratedReact);
-}
-
-
-export function useGetStudyGoalsForUser(dcOrOptions, options) {
-  const { dc: dcInstance, options: inputOpts } = validateReactArgs(connectorConfig, dcOrOptions, options);
-  const ref = getStudyGoalsForUserRef(dcInstance);
-  return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }

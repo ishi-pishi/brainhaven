@@ -18,7 +18,6 @@ You can also follow the instructions from the [Data Connect documentation](https
   - [*Connecting to the local Emulator*](#connecting-to-the-local-emulator)
 - [**Queries**](#queries)
   - [*ListSubjects*](#listsubjects)
-  - [*GetStudyGoalsForUser*](#getstudygoalsforuser)
 - [**Mutations**](#mutations)
   - [*CreateUser*](#createuser)
   - [*CreateStudySession*](#createstudysession)
@@ -186,83 +185,6 @@ export default function ListSubjectsComponent() {
 }
 ```
 
-## GetStudyGoalsForUser
-You can execute the `GetStudyGoalsForUser` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
-
-```javascript
-useGetStudyGoalsForUser(dc: DataConnect, options?: useDataConnectQueryOptions<GetStudyGoalsForUserData>): UseDataConnectQueryResult<GetStudyGoalsForUserData, undefined>;
-```
-You can also pass in a `DataConnect` instance to the Query hook function.
-```javascript
-useGetStudyGoalsForUser(options?: useDataConnectQueryOptions<GetStudyGoalsForUserData>): UseDataConnectQueryResult<GetStudyGoalsForUserData, undefined>;
-```
-
-### Variables
-The `GetStudyGoalsForUser` Query has no variables.
-### Return Type
-Recall that calling the `GetStudyGoalsForUser` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
-
-To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
-
-To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `GetStudyGoalsForUser` Query is of type `GetStudyGoalsForUserData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
-```javascript
-export interface GetStudyGoalsForUserData {
-  studyGoals: ({
-    id: UUIDString;
-    description: string;
-    targetValue: number;
-    currentValue: number;
-    unit: string;
-    dueDate?: DateString | null;
-    status: string;
-  } & StudyGoal_Key)[];
-}
-```
-
-To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
-
-### Using `GetStudyGoalsForUser`'s Query hook function
-
-```javascript
-import { getDataConnect } from 'firebase/data-connect';
-import { connectorConfig } from '@dataconnect/generated';
-import { useGetStudyGoalsForUser } from '@dataconnect/generated/react'
-
-export default function GetStudyGoalsForUserComponent() {
-  // You don't have to do anything to "execute" the Query.
-  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
-  const query = useGetStudyGoalsForUser();
-
-  // You can also pass in a `DataConnect` instance to the Query hook function.
-  const dataConnect = getDataConnect(connectorConfig);
-  const query = useGetStudyGoalsForUser(dataConnect);
-
-  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
-  const options = { staleTime: 5 * 1000 };
-  const query = useGetStudyGoalsForUser(options);
-
-  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
-  const dataConnect = getDataConnect(connectorConfig);
-  const options = { staleTime: 5 * 1000 };
-  const query = useGetStudyGoalsForUser(dataConnect, options);
-
-  // Then, you can render your component dynamically based on the status of the Query.
-  if (query.isPending) {
-    return <div>Loading...</div>;
-  }
-
-  if (query.isError) {
-    return <div>Error: {query.error.message}</div>;
-  }
-
-  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
-  if (query.isSuccess) {
-    console.log(query.data.studyGoals);
-  }
-  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
-}
-```
-
 # Mutations
 
 The React generated SDK provides Mutations hook functions that call and return [`useDataConnectMutation`](https://react-query-firebase.invertase.dev/react/data-connect/mutations) hooks from TanStack Query Firebase.
@@ -387,7 +309,7 @@ The `CreateStudySession` Mutation requires an argument of type `CreateStudySessi
 ```javascript
 export interface CreateStudySessionVariables {
   subjectId: UUIDString;
-  durationMinutes: number;
+  durationMs: number;
   endTime: TimestampString;
   productivityRating: number;
   startTime: TimestampString;
@@ -441,14 +363,14 @@ export default function CreateStudySessionComponent() {
   // The `useCreateStudySession` Mutation requires an argument of type `CreateStudySessionVariables`:
   const createStudySessionVars: CreateStudySessionVariables = {
     subjectId: ..., 
-    durationMinutes: ..., 
+    durationMs: ..., 
     endTime: ..., 
     productivityRating: ..., 
     startTime: ..., 
   };
   mutation.mutate(createStudySessionVars);
   // Variables can be defined inline as well.
-  mutation.mutate({ subjectId: ..., durationMinutes: ..., endTime: ..., productivityRating: ..., startTime: ..., });
+  mutation.mutate({ subjectId: ..., durationMs: ..., endTime: ..., productivityRating: ..., startTime: ..., });
 
   // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
   const options = {

@@ -1,4 +1,4 @@
-const { createUserRef, listSubjectsRef, createStudySessionRef, getStudyGoalsForUserRef, connectorConfig } = require('../index.cjs.js');
+const { createUserRef, listSubjectsRef, createStudySessionRef, connectorConfig } = require('../index.cjs.js');
 const { validateArgs, CallerSdkTypeEnum } = require('firebase/data-connect');
 const { useDataConnectQuery, useDataConnectMutation, validateReactArgs } = require('@tanstack-query-firebase/react/data-connect');
 
@@ -22,11 +22,4 @@ exports.useCreateStudySession = function useCreateStudySession(dcOrOptions, opti
     return createStudySessionRef(dcInstance, vars);
   }
   return useDataConnectMutation(refFactory, inputOpts, CallerSdkTypeEnum.GeneratedReact);
-}
-
-
-exports.useGetStudyGoalsForUser = function useGetStudyGoalsForUser(dcOrOptions, options) {
-  const { dc: dcInstance, options: inputOpts } = validateReactArgs(connectorConfig, dcOrOptions, options);
-  const ref = getStudyGoalsForUserRef(dcInstance);
-  return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }

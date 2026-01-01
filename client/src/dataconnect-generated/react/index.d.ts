@@ -1,4 +1,4 @@
-import { CreateUserData, ListSubjectsData, CreateStudySessionData, CreateStudySessionVariables, GetStudyGoalsForUserData } from '../';
+import { CreateUserData, ListSubjectsData, CreateStudySessionData, CreateStudySessionVariables } from '../';
 import { UseDataConnectQueryResult, useDataConnectQueryOptions, UseDataConnectMutationResult, useDataConnectMutationOptions} from '@tanstack-query-firebase/react/data-connect';
 import { UseQueryResult, UseMutationResult} from '@tanstack/react-query';
 import { DataConnect } from 'firebase/data-connect';
@@ -13,6 +13,3 @@ export function useListSubjects(dc: DataConnect, options?: useDataConnectQueryOp
 
 export function useCreateStudySession(options?: useDataConnectMutationOptions<CreateStudySessionData, FirebaseError, CreateStudySessionVariables>): UseDataConnectMutationResult<CreateStudySessionData, CreateStudySessionVariables>;
 export function useCreateStudySession(dc: DataConnect, options?: useDataConnectMutationOptions<CreateStudySessionData, FirebaseError, CreateStudySessionVariables>): UseDataConnectMutationResult<CreateStudySessionData, CreateStudySessionVariables>;
-
-export function useGetStudyGoalsForUser(options?: useDataConnectQueryOptions<GetStudyGoalsForUserData>): UseDataConnectQueryResult<GetStudyGoalsForUserData, undefined>;
-export function useGetStudyGoalsForUser(dc: DataConnect, options?: useDataConnectQueryOptions<GetStudyGoalsForUserData>): UseDataConnectQueryResult<GetStudyGoalsForUserData, undefined>;

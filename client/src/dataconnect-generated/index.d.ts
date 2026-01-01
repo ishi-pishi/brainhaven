@@ -16,7 +16,7 @@ export interface CreateStudySessionData {
 
 export interface CreateStudySessionVariables {
   subjectId: UUIDString;
-  durationMinutes: number;
+  durationMs: number;
   endTime: TimestampString;
   productivityRating: number;
   startTime: TimestampString;
@@ -26,29 +26,12 @@ export interface CreateUserData {
   user_insert: User_Key;
 }
 
-export interface GetStudyGoalsForUserData {
-  studyGoals: ({
-    id: UUIDString;
-    description: string;
-    targetValue: number;
-    currentValue: number;
-    unit: string;
-    dueDate?: DateString | null;
-    status: string;
-  } & StudyGoal_Key)[];
-}
-
 export interface ListSubjectsData {
   subjects: ({
     id: UUIDString;
     name: string;
     description?: string | null;
   } & Subject_Key)[];
-}
-
-export interface StudyGoal_Key {
-  id: UUIDString;
-  __typename?: 'StudyGoal_Key';
 }
 
 export interface StudySession_Key {
@@ -101,16 +84,4 @@ export const createStudySessionRef: CreateStudySessionRef;
 
 export function createStudySession(vars: CreateStudySessionVariables): MutationPromise<CreateStudySessionData, CreateStudySessionVariables>;
 export function createStudySession(dc: DataConnect, vars: CreateStudySessionVariables): MutationPromise<CreateStudySessionData, CreateStudySessionVariables>;
-
-interface GetStudyGoalsForUserRef {
-  /* Allow users to create refs without passing in DataConnect */
-  (): QueryRef<GetStudyGoalsForUserData, undefined>;
-  /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect): QueryRef<GetStudyGoalsForUserData, undefined>;
-  operationName: string;
-}
-export const getStudyGoalsForUserRef: GetStudyGoalsForUserRef;
-
-export function getStudyGoalsForUser(): QueryPromise<GetStudyGoalsForUserData, undefined>;
-export function getStudyGoalsForUser(dc: DataConnect): QueryPromise<GetStudyGoalsForUserData, undefined>;
 
