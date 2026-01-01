@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { connectDataConnectEmulator, getDataConnect } from 'firebase/data-connect';
+import { connectorConfig } from '@dataconnect/generated';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -20,8 +22,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const dataConnect = getDataConnect(connectorConfig);
 
 connectAuthEmulator(auth, "http://localhost:9099");
-
+connectDataConnectEmulator(dataConnect, "localhost", 8080);
 
 export { auth }
