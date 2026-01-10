@@ -1,0 +1,56 @@
+    rules_version = '2';
+    service cloud.firestore {
+      match /databases/{database}/documents {
+
+        // --- Users Collection ---
+        // Represents a user profile tied to Firebase Authentication
+        match /users/{userId} {
+          // Allow authenticated user to create their own profile (document ID must match their UID)
+          allow create: if request.auth != null && request.auth.uid == userId;
+
+          // Allow authenticated user to read (get/list) their own profile
+          allow get: if request.auth != null && request.auth.uid == userId;
+          allow list: if request.auth != null && request.auth.uid == userId;
+
+          // Allow authenticated user to update their own profile
+          allow update: if request.auth != null && request.auth.uid == userId;
+
+          // Prevent deletion of user profiles via the app (Auth service handles account deletion)
+          allow delete: if false;
+
+          // Optional: Add validation for fields on creation/update
+          allow create, update: if request.resource.data.displayName is string && request.resource.data.displayName.size() > 0;
+          allow create, update: if request.resource.data.currencyBalance is int && request.resource.data.currencyBalance >= 0;
+        }
+
+        // --- Subjects Collection ---
+        // Represents study subjects owned by a user
+        match /subjects/{subjectId} {
+          // Allow authenticated users to perform CRUD operations on their own subjects
+          allow read, update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+
+          // Allow authenticated users to create a subject
+          // Ensure the userId in the new subject document matches the authenticated user's UID
+          allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+
+          // Optional: Add validation for fields on creation/update
+          allow create, update: if request.resource.data.name is string && request.resource.data.name.size() > 0;
+        }
+
+        // --- StudySessions Collection ---
+        // Represents individual study sessions owned by a user
+        match /studySessions/{sessionId} {
+          // Allow authenticated users to perform CRUD operations on their own study sessions
+          allow read, update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+
+          // Allow authenticated users to create a study session
+          // Ensure the userId in the new session document matches the authenticated user's UID
+          allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+
+          // Optional: Add validation for fields on creation/update
+          allow create, update: if request.resource.data.startTime is timestamp;
+          allow create, update: if request.resource.data.endTime == null || request.resource.data.endTime is timestamp;
+          allow create, update: if request.resource.data.earnedCurrency is int && request.resource.data.earnedCurrency >= 0;
+        }
+      }
+    }

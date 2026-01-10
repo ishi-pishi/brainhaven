@@ -26,15 +26,6 @@ extend type StudySession {
     distinct: Boolean = false
   ): Int! @fdc_generated(from: "StudySession.createdAt", purpose: QUERY_COUNT)
   """
-  ✨ Count the number of rows in the `StudySession` table where the `durationMs` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  durationMs_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "StudySession.durationMs", purpose: QUERY_COUNT)
-  """
   ✨ Count the number of rows in the `StudySession` table where the `earnedCurrency` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
   earnedCurrency_count(
@@ -134,15 +125,6 @@ extend type StudySession {
     distinct: Boolean = false
   ): Int @fdc_generated(from: "StudySession.breakBlockMs", purpose: QUERY_SUM)
   """
-  ✨ Sum the `durationMs` field in the `StudySession` table.
-  """
-  durationMs_sum(
-    """
-    Set to true to sum the distinct values.
-    """
-    distinct: Boolean = false
-  ): Int @fdc_generated(from: "StudySession.durationMs", purpose: QUERY_SUM)
-  """
   ✨ Sum the `earnedCurrency` field in the `StudySession` table.
   """
   earnedCurrency_sum(
@@ -188,15 +170,6 @@ extend type StudySession {
     distinct: Boolean = false
   ): Float @fdc_generated(from: "StudySession.breakBlockMs", purpose: QUERY_AVG)
   """
-  ✨ Average the `durationMs` field in the `StudySession` table.
-  """
-  durationMs_avg(
-    """
-    Set to true to average the distinct values.
-    """
-    distinct: Boolean = false
-  ): Float @fdc_generated(from: "StudySession.durationMs", purpose: QUERY_AVG)
-  """
   ✨ Average the `earnedCurrency` field in the `StudySession` table.
   """
   earnedCurrency_avg(
@@ -241,10 +214,6 @@ extend type StudySession {
   """
   createdAt_min: Timestamp @fdc_generated(from: "StudySession.createdAt", purpose: QUERY_MIN)
   """
-  ✨ Minimum of the `durationMs` field in the `StudySession` table.
-  """
-  durationMs_min: Int @fdc_generated(from: "StudySession.durationMs", purpose: QUERY_MIN)
-  """
   ✨ Minimum of the `earnedCurrency` field in the `StudySession` table.
   """
   earnedCurrency_min: Int @fdc_generated(from: "StudySession.earnedCurrency", purpose: QUERY_MIN)
@@ -276,10 +245,6 @@ extend type StudySession {
   ✨ Maximum of the `createdAt` field in the `StudySession` table.
   """
   createdAt_max: Timestamp @fdc_generated(from: "StudySession.createdAt", purpose: QUERY_MAX)
-  """
-  ✨ Maximum of the `durationMs` field in the `StudySession` table.
-  """
-  durationMs_max: Int @fdc_generated(from: "StudySession.durationMs", purpose: QUERY_MAX)
   """
   ✨ Maximum of the `earnedCurrency` field in the `StudySession` table.
   """
@@ -361,24 +326,6 @@ extend type Subject {
     """
     distinct: Boolean = false
   ): Int! @fdc_generated(from: "Subject.createdAt", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `Subject` table where the `description` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  description_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Subject.description", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `Subject` table where the `icon` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  icon_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Subject.icon", purpose: QUERY_COUNT)
   """
   ✨ Count the number of rows in the `Subject` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
@@ -497,15 +444,6 @@ extend type User {
   """
   _count: Int! @fdc_generated(from: "User.", purpose: QUERY_COUNT)
   """
-  ✨ Count the number of rows in the `User` table where the `avatarUrl` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  avatarUrl_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "User.avatarUrl", purpose: QUERY_COUNT)
-  """
   ✨ Count the number of rows in the `User` table where the `createdAt` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
   createdAt_count(
@@ -532,15 +470,6 @@ extend type User {
     """
     distinct: Boolean = false
   ): Int! @fdc_generated(from: "User.displayName", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `User` table where the `email` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  email_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "User.email", purpose: QUERY_COUNT)
   """
   ✨ Count the number of rows in the `User` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """

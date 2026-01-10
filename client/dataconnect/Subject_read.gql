@@ -1,0 +1,16 @@
+
+# This is a file for you to write an un-named query.
+# Only one un-named query is allowed per file.
+query {
+  subjects{
+    name
+    createdAt
+    userId
+    user {
+      id
+      displayName
+      createdAt
+      currencyBalance
+    }
+  }
+}

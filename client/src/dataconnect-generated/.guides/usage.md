@@ -12,14 +12,22 @@ For each operation, there is a wrapper hook that can be used to call the operati
 
 Here are all of the hooks that get generated:
 ```ts
-import { useCreateUser, useListSubjects, useCreateStudySession } from '@dataconnect/generated/react';
+import { useMe, useMySubjects, useMyStudySessions, useCreateSubject, useCreateStudySession, useDeleteStudySession, useUpdateSubject } from '@dataconnect/generated/react';
 // The types of these hooks are available in react/index.d.ts
 
-const { data, isPending, isSuccess, isError, error } = useCreateUser();
+const { data, isPending, isSuccess, isError, error } = useMe();
 
-const { data, isPending, isSuccess, isError, error } = useListSubjects();
+const { data, isPending, isSuccess, isError, error } = useMySubjects();
+
+const { data, isPending, isSuccess, isError, error } = useMyStudySessions(myStudySessionsVars);
+
+const { data, isPending, isSuccess, isError, error } = useCreateSubject(createSubjectVars);
 
 const { data, isPending, isSuccess, isError, error } = useCreateStudySession(createStudySessionVars);
+
+const { data, isPending, isSuccess, isError, error } = useDeleteStudySession(deleteStudySessionVars);
+
+const { data, isPending, isSuccess, isError, error } = useUpdateSubject(updateSubjectVars);
 
 ```
 
@@ -58,17 +66,29 @@ If a user is not using a supported framework, they can use the generated SDK dir
 Here's an example of how to use it with the first 5 operations:
 
 ```js
-import { createUser, listSubjects, createStudySession } from '@dataconnect/generated';
+import { me, mySubjects, myStudySessions, createSubject, createStudySession, deleteStudySession, updateSubject } from '@dataconnect/generated';
 
 
-// Operation CreateUser: 
-const { data } = await CreateUser(dataConnect);
+// Operation Me: 
+const { data } = await Me(dataConnect);
 
-// Operation ListSubjects: 
-const { data } = await ListSubjects(dataConnect);
+// Operation MySubjects: 
+const { data } = await MySubjects(dataConnect);
+
+// Operation MyStudySessions:  For variables, look at type MyStudySessionsVars in ../index.d.ts
+const { data } = await MyStudySessions(dataConnect, myStudySessionsVars);
+
+// Operation CreateSubject:  For variables, look at type CreateSubjectVars in ../index.d.ts
+const { data } = await CreateSubject(dataConnect, createSubjectVars);
 
 // Operation CreateStudySession:  For variables, look at type CreateStudySessionVars in ../index.d.ts
 const { data } = await CreateStudySession(dataConnect, createStudySessionVars);
+
+// Operation DeleteStudySession:  For variables, look at type DeleteStudySessionVars in ../index.d.ts
+const { data } = await DeleteStudySession(dataConnect, deleteStudySessionVars);
+
+// Operation UpdateSubject:  For variables, look at type UpdateSubjectVars in ../index.d.ts
+const { data } = await UpdateSubject(dataConnect, updateSubjectVars);
 
 
 ```

@@ -7,28 +7,52 @@ const connectorConfig = {
 };
 exports.connectorConfig = connectorConfig;
 
-const createUserRef = (dc) => {
+const meRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'CreateUser');
+  return queryRef(dcInstance, 'Me');
 }
-createUserRef.operationName = 'CreateUser';
-exports.createUserRef = createUserRef;
+meRef.operationName = 'Me';
+exports.meRef = meRef;
 
-exports.createUser = function createUser(dc) {
-  return executeMutation(createUserRef(dc));
+exports.me = function me(dc) {
+  return executeQuery(meRef(dc));
 };
 
-const listSubjectsRef = (dc) => {
+const mySubjectsRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();
-  return queryRef(dcInstance, 'ListSubjects');
+  return queryRef(dcInstance, 'MySubjects');
 }
-listSubjectsRef.operationName = 'ListSubjects';
-exports.listSubjectsRef = listSubjectsRef;
+mySubjectsRef.operationName = 'MySubjects';
+exports.mySubjectsRef = mySubjectsRef;
 
-exports.listSubjects = function listSubjects(dc) {
-  return executeQuery(listSubjectsRef(dc));
+exports.mySubjects = function mySubjects(dc) {
+  return executeQuery(mySubjectsRef(dc));
+};
+
+const myStudySessionsRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'MyStudySessions', inputVars);
+}
+myStudySessionsRef.operationName = 'MyStudySessions';
+exports.myStudySessionsRef = myStudySessionsRef;
+
+exports.myStudySessions = function myStudySessions(dcOrVars, vars) {
+  return executeQuery(myStudySessionsRef(dcOrVars, vars));
+};
+
+const createSubjectRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'CreateSubject', inputVars);
+}
+createSubjectRef.operationName = 'CreateSubject';
+exports.createSubjectRef = createSubjectRef;
+
+exports.createSubject = function createSubject(dcOrVars, vars) {
+  return executeMutation(createSubjectRef(dcOrVars, vars));
 };
 
 const createStudySessionRef = (dcOrVars, vars) => {
@@ -41,4 +65,28 @@ exports.createStudySessionRef = createStudySessionRef;
 
 exports.createStudySession = function createStudySession(dcOrVars, vars) {
   return executeMutation(createStudySessionRef(dcOrVars, vars));
+};
+
+const deleteStudySessionRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'DeleteStudySession', inputVars);
+}
+deleteStudySessionRef.operationName = 'DeleteStudySession';
+exports.deleteStudySessionRef = deleteStudySessionRef;
+
+exports.deleteStudySession = function deleteStudySession(dcOrVars, vars) {
+  return executeMutation(deleteStudySessionRef(dcOrVars, vars));
+};
+
+const updateSubjectRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'UpdateSubject', inputVars);
+}
+updateSubjectRef.operationName = 'UpdateSubject';
+exports.updateSubjectRef = updateSubjectRef;
+
+exports.updateSubject = function updateSubject(dcOrVars, vars) {
+  return executeMutation(updateSubjectRef(dcOrVars, vars));
 };

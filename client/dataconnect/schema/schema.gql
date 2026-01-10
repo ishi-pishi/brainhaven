@@ -1,30 +1,34 @@
-type User @table {
-  displayName: String!
-  createdAt: Timestamp!
-  email: String!
-  avatarUrl: String
-  currencyBalance: Int!
+"""Represents a user in the system represented by their firebase auth ID."""
+type User @table(key: "id") {
+  id: String! @default(expr: "auth.uid")
+  displayName: String! @default (value: "New User")
+  createdAt: Timestamp! @default(expr: "request.time")
+  currencyBalance: Int! @default(value: 0)
 }
 
-type StudySession @table {
+"""Represents the 'area' that a user is working (e.g., "Studying for school" or "Hobbies" or "Leetcode").Each user can make multiple subjects."""
+type StudySession @table(key: "id") {
+  id: UUID! @default(expr: "uuidV4()")
+  createdAt: Timestamp! @default(expr: "request.time")
   startTime: Timestamp!
-  endTime: Timestamp!
-  subject: Subject
+  endTime: Timestamp
   workBlockMs: Int!
   breakBlockMs: Int!
   intendedCycles: Int
-  durationMs: Int!
   productivityRating: Int
-  createdAt: Timestamp!
   reflections: String
-  earnedCurrency: Int
-  user: User!
+  earnedCurrency: Int!
+  subjectId: UUID
+  subject: Subject @ref
+  userId: String!
+  user: User! @ref
 }
 
-type Subject @table {
+"""Represents a focused study session done by a user on a particular subject."""
+type Subject @table(key: "id") {
+  id: UUID! @default(expr: "uuidV4()")
   name: String!
-  createdAt: Timestamp!
-  description: String
-  icon: String
-  user: User!
+  createdAt: Timestamp! @default(expr: "request.time")
+  userId: String!
+  user: User! @ref
 }
