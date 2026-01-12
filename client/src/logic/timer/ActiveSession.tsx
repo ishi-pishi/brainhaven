@@ -6,12 +6,12 @@ import { BlockQueue } from "./TimeBlocks";
 export class Observable {
   private listeners: (() => void)[] = [];
 
-  /** Subscribe to changes */
+  // Subscribe to changes
   addListener(listener: () => void) {
     this.listeners.push(listener);
   }
 
-  /** Notify all subscribers */
+  // Notify all subscribers
   protected notifyListeners() {
     for (const l of this.listeners) {
       l();

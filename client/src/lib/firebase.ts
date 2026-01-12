@@ -4,7 +4,7 @@ import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { connectDataConnectEmulator, getDataConnect } from 'firebase/data-connect';
 import { connectorConfig } from '@dataconnect/generated';
 
-// TODO: Add SDKs for Firebase products that you want to use
+
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration

@@ -18,22 +18,22 @@ export class SessionSettings {
         this.numCycles = numCycles;
     }
 
-    /** Returns the work duration in milliseconds */
+    // Returns the work duration in milliseconds
     getWorkDuration(): number {
         return this.workMs;
     }
 
-    /** Returns the break duration in milliseconds */
+    // Returns the break duration in milliseconds
     getBreakDuration(): number {
         return this.breakMs;
     }
 
-    /** Return the total time in milliseconds */
+    //
     getTotalTime(): number {
         return this.workMs* this.numCycles + this.breakMs * (this.numCycles - 1 );
     }
 
-    /** Returns the number of cycles */
+    // Returns the number of cycles
     getNumCycles(): number {
         return this.numCycles;
     }

@@ -11,7 +11,7 @@ export class BlockQueue {
     private cycles = 0;
     private cycleIndex = 0;
 
-    /** Constructs queue of work blocks interspersed by break */
+    // Constructs queue of work blocks interspersed by break/
     constructor(session: SessionSettings) {
         this.blocks = [];
         this.cycles = session.getNumCycles();
@@ -24,7 +24,7 @@ export class BlockQueue {
         this.blocks.push(new WorkBlock(session.getWorkDuration()));
     }
 
-    /** Returns the current block */
+    // Returns the current block
     current(): TimeBlock {
         if (this.isEmpty()) {
             throw new Error("The queue is empty");
@@ -32,7 +32,7 @@ export class BlockQueue {
         return this.blocks[this.currentIndex];
     }
 
-    /** Move to the next block */
+    // Move to the next block
     advance(): void {
         const finishedBlock = this.current();
 
@@ -43,12 +43,12 @@ export class BlockQueue {
         }
     }
 
-    /** Returns true if all blocks are done */
+    // Returns true if all blocks are done
     isEmpty(): boolean {
         return this.currentIndex >= this.blocks.length;
     }
 
-    /** Returns the 'label' of the current block */
+    // Returns the 'label' of the current block
     getCurrentLabel(): string {
         if (this.isEmpty()) {
             return "Session Complete";
@@ -57,10 +57,13 @@ export class BlockQueue {
         return this.current().getLabel();
     }
 
+    // Returns a string representing the current cycle
+    // e.g., "Cycle 2 of 4"
     getCurrentCycleString(): string {
         return `Cycle ${this.getCurrentCycle()} of ${this.cycles}`;
     }
 
+    // Returns the current cycle as a number, 1-indexed
     getCurrentCycle(): number {
         return this.cycleIndex + 1;
     }
@@ -70,7 +73,7 @@ export class BlockQueue {
  * A class representing a block of time (either work or break)
  */
 export abstract class TimeBlock {
-    protected durationMs: number;
+    protected durationMs: number; // Duration of a block, either work or time
 
     constructor(durationMs: number) {
         this.durationMs = durationMs;
@@ -83,12 +86,14 @@ export abstract class TimeBlock {
     abstract getLabel(): string;
 }
 
+// Represents a block of work/focus
 export class WorkBlock extends TimeBlock {
     getLabel(): string {
         return "Focus";
     }
 }
 
+// Represents a block of break
 export class BreakBlock extends TimeBlock {
     getLabel(): string {
         return "Break";
