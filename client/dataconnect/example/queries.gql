@@ -46,6 +46,14 @@ query MyStudySessions(
   }
 }
 
+mutation CreateUser($displayName: String!) @auth(level: PUBLIC) {
+  user_insert(
+    data: {
+      displayName: $displayName
+    }
+  )
+}         
+
 mutation CreateSubject($name: String!) @auth(level: USER) {
   subject_insert(
     data: {
@@ -94,4 +102,8 @@ mutation UpdateSubject(
     key: $key,
     data: { name: $name }
   )
+}
+
+mutation DeleteSubject($key: Subject_Key!) @auth(level: USER) {
+  subject_delete(key: $key)
 }
