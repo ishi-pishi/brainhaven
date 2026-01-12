@@ -8,7 +8,8 @@
     },
     "singleProjectMode": true,
     "dataconnect": {
-      "dataDir": "dataconnect/.dataconnect/pgliteData"
+      "dataDir": "dataconnect/.dataconnect/pgliteData",
+      "port": 8080
     }
   },
   "dataconnect": {
