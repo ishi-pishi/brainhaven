@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "@/lib/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUser } from "@dataconnect/generated";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,7 +31,13 @@ export function SignUpCard() {
 
         try {
             await createUserWithEmailAndPassword(auth, email, password);
-            alert("Signed up!");
+            
+            try {
+                await createUser({ displayName: "placeholder display name" });
+            } catch (e: any) {
+                console.log("Error creating user in database: ", e.message);
+            }
+
             nav("/dashboard");
         } catch (err: any) {
             console.error(err);
