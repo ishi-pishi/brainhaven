@@ -26,6 +26,6 @@ const auth = getAuth(app);
 const dataConnect = getDataConnect(connectorConfig);
 
 connectAuthEmulator(auth, "http://localhost:9099");
-connectDataConnectEmulator(dataConnect, "localhost", 8080);
+connectDataConnectEmulator(dataConnect, "localhost", 8081);
 
 export { auth }
