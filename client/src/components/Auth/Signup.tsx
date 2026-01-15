@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "@/lib/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { createUser, me } from "@dataconnect/generated";
 
-import { getAuth } from "firebase/auth";
+import { signupWithEmail } from "@/logic/storage/Storage";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
 import {
     Card,
     CardHeader,
@@ -32,12 +30,10 @@ export function SignUpCard() {
         }
 
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
-            await createUser({ displayName: "placeholder display name" });
+            signupWithEmail(email, password);
             nav("/dashboard");
         } catch (err: any) {
-            console.error("Error creating user: ", err.message);
-            alert("Error creating user. Please Try again");
+            alert("Error creating user: " + err.message);
         }
     };
 
