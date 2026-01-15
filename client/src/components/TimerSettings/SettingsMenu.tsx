@@ -8,7 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from '@/components/ui/label';
 import { Slider } from "@/components/ui/slider";
+import { SubjectComboBox } from './SubjectComboBox';
 
+// Represents the settings menu before going into a timer session
+// showing timer settings and customizing diffiuclty
 export function SettingsMenu() {
     const navigate = useNavigate();
 
@@ -91,6 +94,8 @@ export function SettingsMenu() {
                     Total time: {Math.floor((workTime * numCycles + breakTime * (numCycles - 1)) / 60)}h{" "}
                     {(workTime * numCycles + breakTime * (numCycles - 1)) % 60}m
                 </div>
+
+                <SubjectComboBox />
 
                 <div className="mt-2 space-y-1">
                     <div className="text-center font-semibold">Difficulty</div>
