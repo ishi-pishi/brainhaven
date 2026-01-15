@@ -3,6 +3,9 @@ import { TimerManager } from "../../logic/timer/TimerManager";
 
 import { Button } from "../ui/button";
 
+/**
+ *  Component for pausing or resuming the timer.
+ */
 export function PauseButton() {
   const [isPaused, setIsPaused] = useState(false);
 

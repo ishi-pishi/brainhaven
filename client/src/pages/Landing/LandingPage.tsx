@@ -2,6 +2,9 @@ import { AuthCard } from "@/components/Auth/Login";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
 
+/**
+ *  This is the landing page before users are signed in.
+*/
 export function LandingPage() {
     const lineRef = useRef<SVGLineElement>(null);
 

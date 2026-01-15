@@ -12,51 +12,9 @@ import {
 } from "@/components/ui/navigation-menu";
 import { ClockIcon, SettingsIcon, HomeIcon } from "lucide-react";
 
-function DropdownItem({
-  to,
-  title,
-  description,
-  Icon,
-}: {
-  to: string;
-  title: string;
-  description?: string;
-  Icon?: React.ComponentType<any>;
-}) {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <NavLink
-          to={to}
-          className={({ isActive }) =>
-            [
-              "block rounded-md px-2 py-1 transition-all duration-200",
-              "hover:translate-y-0.5 focus:shadow-lg focus:outline-none",
-              isActive ? "bg-muted/60 font-semibold" : "bg-transparent",
-            ].join(" ")
-          }
-        >
-          <div className="flex items-start gap-2">
-            {Icon ? (
-              <div className="mt-0.5">
-                <Icon className="h-4 w-4" />
-              </div>
-            ) : null}
-            <div>
-              <div className="text-sm font-medium">{title}</div>
-              {description ? (
-                <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
-                  {description}
-                </p>
-              ) : null}
-            </div>
-          </div>
-        </NavLink>
-      </NavigationMenuLink>
-    </li>
-  );
-}
-
+/**
+ *  Navbar component at the top of the screen.
+ */
 export function Navbar() {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 border-b bg-background/80 backdrop-blur-md px-6 py-2">
@@ -131,5 +89,54 @@ export function Navbar() {
         </div>
       </div>
     </nav>
+  );
+}
+
+/**
+ *  Creates an item in the dropdown menu that comes down from the navbar.
+ *  I.e., if you press a button in the navbar, one of these menus will appear.
+*/
+function DropdownItem({
+  to,
+  title,
+  description,
+  Icon,
+}: {
+  to: string;
+  title: string;
+  description?: string;
+  Icon?: React.ComponentType<any>;
+}) {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <NavLink
+          to={to}
+          className={({ isActive }) =>
+            [
+              "block rounded-md px-2 py-1 transition-all duration-200",
+              "hover:translate-y-0.5 focus:shadow-lg focus:outline-none",
+              isActive ? "bg-muted/60 font-semibold" : "bg-transparent",
+            ].join(" ")
+          }
+        >
+          <div className="flex items-start gap-2">
+            {Icon ? (
+              <div className="mt-0.5">
+                <Icon className="h-4 w-4" />
+              </div>
+            ) : null}
+            <div>
+              <div className="text-sm font-medium">{title}</div>
+              {description ? (
+                <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                  {description}
+                </p>
+              ) : null}
+            </div>
+          </div>
+        </NavLink>
+      </NavigationMenuLink>
+    </li>
   );
 }

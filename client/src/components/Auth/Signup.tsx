@@ -16,6 +16,9 @@ import {
     // CardFooter,
 } from "@/components/ui/card";
 
+/**
+ *  Card component for sign up form (for new users)
+ */
 export function SignUpCard() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

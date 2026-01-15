@@ -14,6 +14,9 @@ interface AuthCardProps {
     onOpenChange: (open: boolean) => void;
 }
 
+/**
+ *  Card Component showing login form
+ */
 export function AuthCard({ open, onOpenChange }: AuthCardProps) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

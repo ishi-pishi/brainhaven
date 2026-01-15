@@ -2,11 +2,11 @@ import { useState, useEffect, useRef } from "react";
 import { TimerManager } from "../../logic/timer/TimerManager";
 import { ActiveSession } from "../../logic/timer/ActiveSession";
 import { CurrentBlockDisplay } from "./CurrentBlockDisplay";
+import { formatTime } from "../../logic/timer/utils";
 
 /**
  *  Displays the timer and bar itself which visibly updates as time elapses.
  */
-
 export default function TimerDisplay() {
   const [timeLeftMs, setTimeLeftMs] = useState(0);
   const [totalMs, setTotalMs] = useState(0);
@@ -75,6 +75,13 @@ export default function TimerDisplay() {
   );
 }
 
+/**
+ *  This is a function that descirbes the arc path which represents the timer.
+ *  It represents an arc which contains the timer.
+ * 
+ *   x and y are the center coordinates of the circle (to place it), the radius
+ *   is the radius of the circle, and the angle of each side of the arc.
+ */
 function describeArc(x: number, y: number, radius: number, startAngle: number, endAngle: number) {
   const start = polarToCartesian(x, y, radius, endAngle);
   const end = polarToCartesian(x, y, radius, startAngle);
@@ -83,17 +90,11 @@ function describeArc(x: number, y: number, radius: number, startAngle: number, e
   return `M ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArcFlag} 0 ${end.x} ${end.y}`;
 }
 
+/** 
+ *  This converts the polar coordinates to cartesian coordinates.
+ *  This just allows the arc to be displayed on the screen, since SVG uses cartesian coordinates.
+*/
 function polarToCartesian(centerX: number, centerY: number, radius: number, angleInDegrees: number) {
   const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
   return { x: centerX + radius * Math.cos(angleInRadians), y: centerY + radius * Math.sin(angleInRadians) };
-}
-
-const MS_PER_SECOND = 1_000;
-const SECOND_PER_MIN = 60;
-
-function formatTime(ms: number): string {
-  const secondsLeft = Math.max(0, Math.ceil(ms / MS_PER_SECOND));
-  const minutes = Math.floor(secondsLeft / SECOND_PER_MIN).toString().padStart(2, "0");
-  const seconds = (secondsLeft % 60).toString().padStart(2, "0");
-  return `${minutes}:${seconds}`;
 }
