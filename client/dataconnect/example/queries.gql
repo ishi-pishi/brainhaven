@@ -67,9 +67,10 @@ mutation CreateSubject($name: String!) @auth(level: USER) {
 mutation CreateStudySession(
   $subjectId: UUID!,
   $startTime: Timestamp!,
-  $endTime: Timestamp,
+  $endTime: Timestamp!,
   $workBlockMs: Int!,
   $breakBlockMs: Int!,
+  $intendedCycles: Int,
   $productivityRating: Int,
   $reflections: String,
   $earnedCurrency: Int!,
@@ -83,6 +84,7 @@ mutation CreateStudySession(
       endTime: $endTime,
       workBlockMs: $workBlockMs,
       breakBlockMs: $breakBlockMs,
+      intendedCycles: $intendedCycles,
       productivityRating: $productivityRating,
       reflections: $reflections,
       earnedCurrency: $earnedCurrency

@@ -93,19 +93,19 @@ input StudySession_Data {
   """
   earnedCurrency_update: [Int_Update!]
   """
-  ✨ Generated from Field `StudySession`.`endTime` of type `Timestamp`
+  ✨ Generated from Field `StudySession`.`endTime` of type `Timestamp!`
   """
   endTime: Timestamp
   """
-  ✨ `_expr` server value variant of `endTime` (✨ Generated from Field `StudySession`.`endTime` of type `Timestamp`)
+  ✨ `_expr` server value variant of `endTime` (✨ Generated from Field `StudySession`.`endTime` of type `Timestamp!`)
   """
   endTime_expr: Timestamp_Expr
   """
-  ✨ `_time` server value variant of `endTime` (✨ Generated from Field `StudySession`.`endTime` of type `Timestamp`)
+  ✨ `_time` server value variant of `endTime` (✨ Generated from Field `StudySession`.`endTime` of type `Timestamp!`)
   """
   endTime_time: Timestamp_Relative
   """
-  ✨ `_update` server value variant of `endTime` (✨ Generated from Field `StudySession`.`endTime` of type `Timestamp`)
+  ✨ `_update` server value variant of `endTime` (✨ Generated from Field `StudySession`.`endTime` of type `Timestamp!`)
   """
   endTime_update: [Timestamp_Update!]
   """
@@ -218,7 +218,7 @@ input StudySession_Filter {
   """
   earnedCurrency: Int_Filter
   """
-  ✨ Generated from Field `StudySession`.`endTime` of type `Timestamp`
+  ✨ Generated from Field `StudySession`.`endTime` of type `Timestamp!`
   """
   endTime: Timestamp_Filter
   """
@@ -495,7 +495,7 @@ input StudySession_Order {
   """
   earnedCurrency: OrderDirection
   """
-  ✨ Generated from Field `StudySession`.`endTime` of type `Timestamp`
+  ✨ Generated from Field `StudySession`.`endTime` of type `Timestamp!`
   """
   endTime: OrderDirection
   """

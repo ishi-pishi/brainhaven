@@ -6,12 +6,12 @@ type User @table(key: "id") {
   currencyBalance: Int! @default(value: 0)
 }
 
-"""Represents the 'area' that a user is working (e.g., "Studying for school" or "Hobbies" or "Leetcode").Each user can make multiple subjects."""
+"""Represents a COMPLETED focused study session done by a user on a particular subject."""
 type StudySession @table(key: "id") {
   id: UUID! @default(expr: "uuidV4()")
   createdAt: Timestamp! @default(expr: "request.time")
   startTime: Timestamp!
-  endTime: Timestamp
+  endTime: Timestamp!
   workBlockMs: Int!
   breakBlockMs: Int!
   intendedCycles: Int
@@ -24,7 +24,8 @@ type StudySession @table(key: "id") {
   user: User! @ref
 }
 
-"""Represents a focused study session done by a user on a particular subject."""
+
+"""Represents the 'area' that a user is working (e.g., "Studying for school" or "Hobbies" or "Leetcode").Each user can make multiple subjects."""
 type Subject @table(key: "id") {
   id: UUID! @default(expr: "uuidV4()")
   name: String!
