@@ -1,4 +1,3 @@
-import * as React from "react"
 import { Check, Plus } from "lucide-react"
 
 import {
@@ -13,7 +12,7 @@ import {
 export function SubjectComboBox() {
   return (
     <div className="w-[320px]">
-      <Command className="rounded-lg border transition-all duration-200 focus-within:w-[320px] w-[180px] overflow-hidden">
+      <Command className="rounded-lg border transition-all duration-200 focus-within:w-[320px] w-45 overflow-hidden">
         <CommandInput placeholder="Search or create subject…" className="transition-all duration-200" />
         <CommandList>
           <CommandEmpty>
