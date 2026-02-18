@@ -33,7 +33,7 @@ export function TimerPage() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="fixed inset-0 flex justify-center items-center">
       <TimerSection />
     </div>
   );

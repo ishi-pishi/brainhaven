@@ -8,7 +8,7 @@ export function SettingsMenuPage() {
   useDisableScroll();
   
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="fixed inset-0 flex justify-center items-center">
       <SettingsMenu />
     </div>
   );
