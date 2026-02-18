@@ -1,8 +1,7 @@
 import { useEffect, useState, useRef } from "react"
 import { Check, Plus } from "lucide-react"
-import { getSubjectNames } from "@/logic/storage/storage"
+import { getSubjectNames, deleteSubjectByName } from "@/logic/storage/storage"
 import { CreateSubjectPopup } from "./CreateSubjectPopup"
-import { auth } from "@/lib/firebase"
 
 import {
   Command,
@@ -32,7 +31,6 @@ export function SubjectComboBox() {
 
   useEffect(() => {
     async function fetchSubjects() {
-      console.debug("Auth at time of fetch", auth.currentUser?.uid)
       try {
         const names = await getSubjectNames()
         setSubjects(names)
@@ -81,12 +79,28 @@ export function SubjectComboBox() {
                         setOpen(false)
                       }}
                     >
-                      <Check
-                        className={`mr-2 h-4 w-4 ${
-                          selected === subject ? "opacity-100" : "opacity-0"
-                        }`}
-                      />
-                      {subject}
+                      <div className="flex items-center justify-between w-full">
+                        <div className="flex items-center">
+                          <Check
+                            className={`mr-2 h-4 w-4 ${selected === subject ? "opacity-100" : "opacity-0"
+                              }`}
+                          />
+                          {subject}
+                        </div>
+
+                        <button
+                          onClick={async (e) => {
+                            e.stopPropagation()
+                            await deleteSubjectByName(subject)
+                            setSubjects((prev) => prev.filter((s) => s !== subject))
+                            if (selected === subject) setSelected(null)
+                          }}
+                          aria-label={`Delete ${subject}`}
+                          className="ml-2 h-6 w-6 flex items-center justify-centehover:bg-red-200 text-red-600 hover:text-red-800 font-bold text-xs"
+                        >
+                          <span className="leading-none">Delete</span>
+                        </button>
+                      </div>
                     </CommandItem>
                   ))}
                 </CommandGroup>
@@ -96,8 +110,8 @@ export function SubjectComboBox() {
 
               <CommandItem
                 onSelect={() => {
-                  setOpen(false)            
-                  setTimeout(() => {         
+                  setOpen(false)
+                  setTimeout(() => {
                     setShowCreatePopup(true)
                   }, 0)
                 }}

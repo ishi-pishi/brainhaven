@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { createUser, createStudySession, mySubjects, createSubject } from "@dataconnect/generated";
+import { createUser, createStudySession, mySubjects, createSubject, deleteSubject} from "@dataconnect/generated";
 import { auth } from "@/lib/firebase";
 import type { StudySession } from "./types";
 
@@ -49,8 +49,25 @@ export async function getSubjectNames() {
 
 // Checks if a subject name already exists in the database
 // Returns true if it does, false if it doesn't
-async function subjectNameAlreadyExists(name: string) {
-    //
+export async function subjectNameAlreadyExists(name: string) {
     const existingSubjs = await getSubjectNames();
     return existingSubjs.some(subject => subject.toLowerCase() === name.toLowerCase());
+}
+
+// Deletes a subject from the database with given name.
+// Assumes the object of the name exists.
+export async function deleteSubjectByName(name: string) {
+    const subjects = await getSubjects();
+
+    const subject = subjects.find(subject => subject.name === name);
+    const id = subject?.id;
+    console.log("Deleting subject" + subject?.name);
+
+    if (id == null) {
+        throw new Error("Subject not found");
+    }
+
+    await deleteSubject({
+        key: { id: id }
+    });
 }
