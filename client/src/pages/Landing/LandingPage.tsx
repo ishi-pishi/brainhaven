@@ -20,7 +20,6 @@ export function LandingPage() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-white text-black px-4">
-            {/* Hero Section */}
             <h1 className="text-6xl font-bold mb-4 text-center">Brainhaven</h1>
             <p className="text-xl text-center mb-8">
                 Organize your thoughts. Focus your mind.
@@ -28,7 +27,6 @@ export function LandingPage() {
 
             <LoginButton />
 
-            {/* Minimal line-draw animation */}
             <svg width="150" height="150" className="mb-8">
                 <line
                     ref={lineRef}
@@ -41,7 +39,6 @@ export function LandingPage() {
                 />
             </svg>
 
-            {/* Placeholder for future sections */}
             <div className="mt-20 space-y-16">
                 <div className="text-center opacity-50">Features coming soon...</div>
             </div>
