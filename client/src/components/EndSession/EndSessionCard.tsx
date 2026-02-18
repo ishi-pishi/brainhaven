@@ -1,6 +1,14 @@
 import { useState } from "react";
 
 import {
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+} from "@/components/ui/popover";
+
+import { Info } from "lucide-react";
+
+import {
     Card,
     CardContent,
     CardDescription,
@@ -125,13 +133,46 @@ export function EndSessionCard() {
 
 
                 <div className="space-y-2">
+                    <div className="flex items-center gap-2">
 
-                    <Label htmlFor="reflection">
+                        <Label htmlFor="reflection">
 
-                        Reflection
+                            Reflection
 
-                    </Label>
+                        </Label>
 
+
+                        <Popover>
+
+                            <PopoverTrigger asChild>
+
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-5 w-5 opacity-60"
+                                >
+
+                                    <Info className="h-4 w-4" />
+
+                                </Button>
+
+                            </PopoverTrigger>
+
+
+
+                            <PopoverContent className="w-96 text-sm">
+                                This information will be analyzed by your AI agent to help you understand how you study.
+                                Make note of what strategies you used and whether they helped you, or whether there
+                                were particular distractions you want to avoid in the future.
+                                You can also note things like your environment, stressors, or other study conditions,
+                                which will be used alongside your productivity rating to help you understand
+                                where and how you study best.
+                            </PopoverContent>
+
+                        </Popover>
+
+
+                    </div>
                     <Textarea
 
                         id="reflection"

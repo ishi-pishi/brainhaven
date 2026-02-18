@@ -6,5 +6,9 @@ import { EndSessionCard } from "@/components/EndSession/EndSessionCard";
  *  a little reflection about how they feel like their study session went.
  */
 export function EndSessionPage() {
-    return(<EndSessionCard />);
+    return (
+        <div className="fixed inset-0 flex justify-center items-center">
+            <EndSessionCard />
+        </div>
+    );
 }
