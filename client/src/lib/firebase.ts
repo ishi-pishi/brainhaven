@@ -23,9 +23,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const dataConnect = getDataConnect(connectorConfig);
+const dataConnect = getDataConnect(app, connectorConfig);
 
 connectAuthEmulator(auth, "http://localhost:9099");
-connectDataConnectEmulator(dataConnect, "localhost", 8081);
+connectDataConnectEmulator(dataConnect, "127.0.0.1", 8081);
 
 export { auth }

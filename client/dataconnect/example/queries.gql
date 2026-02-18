@@ -8,7 +8,7 @@ query Me @auth(level: USER) {
 }
 
 query MySubjects @auth(level: USER) {
-  subjects(where: { userId: { eq: "auth.uid" } }) {
+  subjects(where: { userId: { eq_expr: "auth.uid" } }) {
     id
     name
     createdAt
@@ -23,7 +23,7 @@ query MyStudySessions(
 ) @auth(level: USER) {
   studySessions(
     where: {
-      userId: { eq: "auth.uid" },
+      userId: { eq_expr: "auth.uid" },
       subjectId: { eq: $subjectId },
       startTime: { gt: $startAfter, lt: $startBefore }
     },

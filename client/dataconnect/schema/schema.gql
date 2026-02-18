@@ -1,35 +1,35 @@
-"""Represents a user in the system represented by their firebase auth ID."""
-type User @table(key: "id") {
-  id: String! @default(expr: "auth.uid")
-  displayName: String! @default (value: "New User")
-  createdAt: Timestamp! @default(expr: "request.time")
-  currencyBalance: Int! @default(value: 0)
-}
+  """Represents a user in the system represented by their firebase auth ID."""
+  type User @table(key: "id") {
+    id: String! @default(expr: "auth.uid")
+    displayName: String! @default (value: "New User")
+    createdAt: Timestamp! @default(expr: "request.time")
+    currencyBalance: Int! @default(value: 0)
+  }
 
-"""Represents a COMPLETED focused study session done by a user on a particular subject."""
-type StudySession @table(key: "id") {
-  id: UUID! @default(expr: "uuidV4()")
-  createdAt: Timestamp! @default(expr: "request.time")
-  startTime: Timestamp!
-  endTime: Timestamp!
-  workBlockMs: Int!
-  breakBlockMs: Int!
-  intendedCycles: Int
-  productivityRating: Int
-  reflections: String
-  earnedCurrency: Int!
-  subjectId: UUID
-  subject: Subject @ref
-  userId: String!
-  user: User! @ref
-}
+  """Represents a COMPLETED focused study session done by a user on a particular subject."""
+  type StudySession @table(key: "id") {
+    id: UUID! @default(expr: "uuidV4()")
+    createdAt: Timestamp! @default(expr: "request.time")
+    startTime: Timestamp!
+    endTime: Timestamp!
+    workBlockMs: Int!
+    breakBlockMs: Int!
+    intendedCycles: Int
+    productivityRating: Int
+    reflections: String
+    earnedCurrency: Int!
+    subjectId: UUID
+    subject: Subject @ref
+    userId: String!
+    user: User! @ref
+  }
 
 
-"""Represents the 'area' that a user is working (e.g., "Studying for school" or "Hobbies" or "Leetcode").Each user can make multiple subjects."""
-type Subject @table(key: "id") {
-  id: UUID! @default(expr: "uuidV4()")
-  name: String!
-  createdAt: Timestamp! @default(expr: "request.time")
-  userId: String!
-  user: User! @ref
-}
+  """Represents the 'area' that a user is working (e.g., "Studying for school" or "Hobbies" or "Leetcode").Each user can make multiple subjects."""
+  type Subject @table(key: "id") {
+    id: UUID! @default(expr: "uuidV4()")
+    name: String!
+    createdAt: Timestamp! @default(expr: "request.time")
+    userId: String! @default(expr: "auth.uid")
+    user: User! @ref
+  }

@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { signupWithEmail } from "@/logic/storage/Storage";
+import { getSubjectNames, signupWithEmail } from "@/logic/storage/storage";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
+import { createSubject } from "@dataconnect/generated";
 
 import {
     Card,
