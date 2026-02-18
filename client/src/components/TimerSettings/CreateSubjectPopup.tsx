@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
-
-import { auth } from "@/lib/firebase"
 
 import {
   Dialog,
@@ -14,7 +12,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { saveSubject, getSubjectNames } from "@/logic/storage/storage";
+import { saveSubject } from "@/logic/storage/storage";
 
 export function CreateSubjectPopup({
   open,
@@ -70,3 +68,4 @@ export function CreateSubjectPopup({
     </Dialog>
   )
 }
+
