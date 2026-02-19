@@ -56,7 +56,7 @@ export function SettingsMenu() {
                     <Slider
                         value={[workTime]}
                         onValueChange={([v]) => setWorkTime(v)}
-                        min={5}
+                        min={0}
                         max={90}
                         step={5}
                         id="focus-slider"
@@ -69,7 +69,7 @@ export function SettingsMenu() {
                     <Slider
                         value={[breakTime]}
                         onValueChange={([v]) => setBreakTime(v)}
-                        min={5}
+                        min={0}
                         max={30}
                         step={5}
                         id="break-slider"

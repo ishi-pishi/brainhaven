@@ -15,10 +15,10 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/signup" element={<DashBoard />} />
         <Route element={<AppLayout />}>
           <Route path="/" element={<EndSessionPage />} />
-          <Route path="/dashboard" element={<DashBoard />} />
+          <Route path="/dashboard" element={<DashBoard />}    />
           <Route path="/timer-menu" element={<SettingsMenuPage />} />
           <Route path="/timer" element={<TimerPage />} />
           <Route path="/endsession" element={<EndSessionPage />} />
