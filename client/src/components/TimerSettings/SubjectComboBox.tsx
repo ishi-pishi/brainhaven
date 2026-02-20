@@ -79,7 +79,6 @@
                         key={subject.name}
                         onSelect={() => {
                           ActiveSession.getInstance()?.setSubject(subject.id);
-                          
                           setSelected(subject.name);
                           setOpen(false);
                         }}
@@ -135,9 +134,7 @@
           onCreate={async (name) => {
             const newSubjects = await getSubjects();
             setSubjects(newSubjects);
-            ActiveSession.getInstance()?.setSubject("NOT DONE YET");
-            setSelected(name)
-            setShowCreatePopup(false)
+            setShowCreatePopup(false);
           }}
         />
       </>
