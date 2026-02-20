@@ -79,6 +79,7 @@
                         key={subject.name}
                         onSelect={() => {
                           ActiveSession.getInstance()?.setSubject(subject.id);
+                          
                           setSelected(subject.name);
                           setOpen(false);
                         }}

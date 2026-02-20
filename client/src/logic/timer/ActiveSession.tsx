@@ -109,7 +109,7 @@ export class ActiveSession extends Observable {
   // Ends the current block and notifies listeners.
   endSession(): void {
     this.finished = true;
-    this.metadata.endedAt = Date.now();
+    this.metadata.endedAt = new Date();
     this.notifyListeners();
     TimerManager.getInstance().pause();
   }
@@ -158,7 +158,7 @@ export class ActiveSession extends Observable {
   // Finds the block we are currently on and starts the timer from its duration.
   private startCurrentBlockTimer() {
     const block = this.bq.current();
-    this.metadata.startedAt = Date.now();
+    this.metadata.startedAt = new Date();
     this.timer.startTimerMs(block.getDuration());
   }
 }

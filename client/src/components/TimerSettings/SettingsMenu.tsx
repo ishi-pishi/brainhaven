@@ -24,7 +24,7 @@ export function SettingsMenu() {
     const handleStartSession = () => {
         navigate("/timer");
         let settings = new SessionSettings(toMs(workTime), toMs(breakTime), numCycles);
-        settings = new SessionSettings(1000, 1000, 3); // TODO: remove this makes it 1 second
+        // settings = new SessionSettings(1000, 1000, 3); // uncomment this to simulate 1 second roudns
         session.setSettings(settings);
         session.startFirstBlock();
     };

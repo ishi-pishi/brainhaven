@@ -80,7 +80,7 @@ export function EndSessionCard() {
         console.log("Saving session: ", metadata);
 
         const studySession: StudySession = {
-            subjectId: metadata.subjectId, // todo
+            subjectId: metadata.subjectId,
             startTime: metadata.startedAt,
             endTime: metadata.endedAt,
             workBlockMs: metadata.workMs,
