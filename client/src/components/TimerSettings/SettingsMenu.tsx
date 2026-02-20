@@ -17,14 +17,16 @@ export function SettingsMenu() {
 
     const [workTime, setWorkTime] = useState(25);
     const [breakTime, setBreakTime] = useState(5);
-    const [numCycles, setNumCycles] = useState(4);
+    const [numCycles, setNumCycles] = useState(4); 
+
+    const session = new ActiveSession(new SessionSettings(toMs(workTime), toMs(breakTime), numCycles)); // init
 
     const handleStartSession = () => {
         navigate("/timer");
         let settings = new SessionSettings(toMs(workTime), toMs(breakTime), numCycles);
         settings = new SessionSettings(1000, 1000, 3); // TODO: remove this makes it 1 second
-        const session = new ActiveSession(settings);
-        session.startNewBlock();
+        session.setSettings(settings);
+        session.startFirstBlock();
     };
 
     const calculateDifficulty = () => {

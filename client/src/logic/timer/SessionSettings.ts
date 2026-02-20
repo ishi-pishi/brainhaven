@@ -28,7 +28,7 @@ export class SessionSettings {
         return this.breakMs;
     }
 
-    //
+    // Returns total intended time of session
     getTotalTime(): number {
         return this.workMs* this.numCycles + this.breakMs * (this.numCycles - 1 );
     }

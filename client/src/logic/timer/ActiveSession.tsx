@@ -51,6 +51,7 @@ export class ActiveSession extends Observable {
     ActiveSession.instance = this;
 
     this.metadata = {
+      subjectId: null,
       startedAt: null,
       endedAt: null,
       workMs: settings.getWorkDuration(),
@@ -65,11 +66,11 @@ export class ActiveSession extends Observable {
     this.timer.addFinishedListener(() => this.onBlockFinished());
   }
 
+
   // Singleton
   static getInstance(): ActiveSession | null {
     return ActiveSession.instance;
   }
-
 
   /**
    *  GETTERS --->
@@ -114,8 +115,29 @@ export class ActiveSession extends Observable {
   }
 
   // Provides metadata object
-  produceMetadata(): any {
+  getMetadata(): any {
     return this.metadata;
+  }
+
+  // Set subject when starting a session
+  setSubject(str: string): void {
+    this.metadata.subjectId = str;
+    console.log("Set session subject to: " + this.metadata.subjectId);
+  }
+
+  // Set settings
+  setSettings(settings: SessionSettings): void {
+    this.bq = new BlockQueue(settings);
+  }
+
+  // Start block from beginning
+  startFirstBlock(): void {
+    console.log("Starting session!");
+
+    if(this.metadata.subjectId === null) {
+      throw new Error("The subject has not been set! Choose a category for the study session.");
+    }
+    this.startNewBlock();
   }
 
   // Automatically advances to the next block when this book finishes.

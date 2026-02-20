@@ -1,8 +1,10 @@
 
-import { mySubjects, createSubject, deleteSubject} from "@dataconnect/generated";
+import { mySubjects, createSubject, deleteSubject } from "@dataconnect/generated";
 
-
-
+export type Subject = {
+    name: string
+    id: string
+}
 
 // Saves a subject to the database
 export async function saveSubject(name: string) {
@@ -14,16 +16,18 @@ export async function saveSubject(name: string) {
     return res;
 }
 
-// Returns all subjects in a user's database
-export async function getSubjects() {
-    const res = await mySubjects();
-    return res.data.subjects;
-}
 
 // Returns all subject names in a user's database
 export async function getSubjectNames() {
     const subjects = await getSubjects();
     return subjects.map(subject => subject.name); // not the problem - get subjects is returning nothing.
+}
+
+// Returns all subjects in a user's database
+export async function getSubjects() {
+    const res = await mySubjects();
+    const subjects = res.data.subjects;
+    return subjects.map(subject => ({ name: subject.name, id: subject.id }));
 }
 
 // Checks if a subject name already exists in the database

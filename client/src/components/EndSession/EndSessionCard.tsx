@@ -21,6 +21,11 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
+import { ActiveSession } from "@/logic/timer/ActiveSession";
+
+import { saveSession } from "@/logic/storage/session";
+import type { StudySession } from "@/logic/storage/session";
+
 const ratings = [
     {
         value: 1,
@@ -65,13 +70,28 @@ export function EndSessionCard() {
     const [reflection, setReflection] = useState("");
 
     const handleSubmit = () => {
+        const finishedSession = ActiveSession.getInstance();
 
-        console.log({
-            rating,
-            reflection
-        });
+        if (!finishedSession || !finishedSession.isFinished()) {
+            throw new Error("Tried to end session, but there is no finished session!")
+        }
 
-        // save to db later
+        const metadata = finishedSession.getMetadata();
+        console.log("Saving session: ", metadata);
+
+        const studySession: StudySession = {
+            subjectId: metadata.subjectId, // todo
+            startTime: metadata.startedAt,
+            endTime: metadata.endedAt,
+            workBlockMs: metadata.workMs,
+            breakBlockMs: metadata.breakMs,
+            intendedCycles: metadata.intendedCycles,
+            ...(rating !== null && { productivityRating: rating }),
+            reflections: reflection,
+            earnedCurrency: 0
+        }
+
+        saveSession(studySession);
     };
 
     return (
