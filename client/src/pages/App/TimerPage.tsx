@@ -19,7 +19,7 @@ export function TimerPage() {
 
     const checkFinished = () => {
       if (session.isFinished()) {
-        navigate("/", { replace: true });
+        navigate("/endsession", { replace: true });
       }
     };
 

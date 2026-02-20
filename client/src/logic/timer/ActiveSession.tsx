@@ -2,7 +2,10 @@ import { TimerManager } from "./TimerManager";
 import { SessionSettings } from "./SessionSettings";
 import { BlockQueue } from "./TimeBlocks";
 
-
+/**
+ *  Observable - makes an ActiveSession observable
+ *  so outside objects can observe when a block finishes.
+ */
 export class Observable {
   private listeners: (() => void)[] = [];
 
@@ -35,6 +38,7 @@ export class ActiveSession extends Observable {
   private bq: BlockQueue;
   private finished: boolean = false;
   private timer: TimerManager;
+  private metadata: any;
 
   /**
    *  Constructs a new unfinished ActiveSession based on current settings
@@ -45,6 +49,14 @@ export class ActiveSession extends Observable {
   constructor(settings: SessionSettings) {
     super();
     ActiveSession.instance = this;
+
+    this.metadata = {
+      startedAt: null,
+      endedAt: null,
+      workMs: settings.getWorkDuration(),
+      breakMs: settings.getBreakDuration(),
+      intendedCycles: settings.getNumCycles(),
+    };
 
     this.bq = new BlockQueue(settings);
     this.finished = false;
@@ -77,10 +89,6 @@ export class ActiveSession extends Observable {
     return this.bq.getCurrentCycleString();
   }
 
-  /**
-   *  SESSION-WIDE CONTROLLERS --->
-   */
-
   // Starts the current block and notifies listeners.
   startNewBlock() {
     this.notifyListeners();
@@ -90,8 +98,14 @@ export class ActiveSession extends Observable {
   // Ends the current block and notifies listeners.
   endSession(): void {
     this.finished = true;
+    this.metadata.endedAt = Date.now();
     this.notifyListeners();
     TimerManager.getInstance().pause();
+  }
+
+  // Provides metadata object
+  produceMetadata(): any {
+    return this.metadata;
   }
 
   // Automatically advances to the next block when this book finishes.
@@ -109,6 +123,7 @@ export class ActiveSession extends Observable {
   // Finds the block we are currently on and starts the timer from its duration.
   private startCurrentBlockTimer() {
     const block = this.bq.current();
+    this.metadata.startedAt = Date.now();
     this.timer.startTimerMs(block.getDuration());
   }
 }

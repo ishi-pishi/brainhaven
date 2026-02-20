@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react"
 import { Check, Plus } from "lucide-react"
-import { getSubjectNames, deleteSubjectByName } from "@/logic/storage/storage"
+import { getSubjectNames, deleteSubjectByName } from "@/logic/storage/subject"
 import { CreateSubjectPopup } from "./CreateSubjectPopup"
 
 import {
