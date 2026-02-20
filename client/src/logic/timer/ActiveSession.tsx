@@ -79,6 +79,16 @@ export class ActiveSession extends Observable {
     return this.finished;
   }
 
+  // gets current time
+  getTotalDurationCurrBlock(): number {
+    if (this.finished) return 0;
+
+    const block = this.bq.current();
+    const duration = block.getDuration();
+
+    return duration;
+  }
+
   // Returns the either "Focus" or "Work"  
   getCurrentBlockLabel(): string {
     return this.bq.getCurrentLabel();
@@ -111,6 +121,9 @@ export class ActiveSession extends Observable {
   // Automatically advances to the next block when this book finishes.
   // If there are no more blocks end the session.
   private onBlockFinished() {
+    if (this.finished) return;
+    if (this.bq.isEmpty()) return;
+
     this.bq.advance();
 
     if (!this.bq.isEmpty()) {

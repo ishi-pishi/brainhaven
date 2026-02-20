@@ -34,6 +34,10 @@ export class BlockQueue {
 
     // Move to the next block
     advance(): void {
+        if(this.isEmpty()) {
+            throw new Error("Called advance() on an empty queue of TimeBlocks");
+        }
+
         const finishedBlock = this.current();
 
         this.currentIndex++;

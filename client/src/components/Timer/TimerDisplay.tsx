@@ -17,10 +17,9 @@ export default function TimerDisplay() {
     const session = ActiveSession.getInstance();
     if (session) {
       const updateTotalMs = () => {
-        const block = (session as any)?.bq?.current?.();
-        const duration = block?.getDuration?.() ?? 0;
-        setTotalMs(duration);
+        setTotalMs(session.getTotalDurationCurrBlock());
       };
+
       updateTotalMs();
       const listener = () => updateTotalMs();
       (session as any).addListener?.(listener);

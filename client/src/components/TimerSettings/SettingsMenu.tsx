@@ -21,7 +21,8 @@ export function SettingsMenu() {
 
     const handleStartSession = () => {
         navigate("/timer");
-        const settings = new SessionSettings(toMs(workTime), toMs(breakTime), numCycles);
+        let settings = new SessionSettings(toMs(workTime), toMs(breakTime), numCycles);
+        settings = new SessionSettings(1000, 1000, 3); // TODO: remove this makes it 1 second
         const session = new ActiveSession(settings);
         session.startNewBlock();
     };
