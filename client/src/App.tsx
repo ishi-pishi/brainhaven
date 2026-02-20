@@ -16,8 +16,8 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/" element={<LandingPage />} />
         <Route element={<AppLayout />}>
-          <Route path="/" element={<LandingPage />} />
           <Route path="/dashboard" element={<DashBoard />}    />
           <Route path="/timer-menu" element={<SettingsMenuPage />} />
           <Route path="/timer" element={<TimerPage />} />

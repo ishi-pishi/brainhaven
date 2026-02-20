@@ -3,14 +3,12 @@ import { NavLink } from "react-router-dom";
 
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { ClockIcon, SettingsIcon, HomeIcon } from "lucide-react";
+import { ClockIcon, HomeIcon } from "lucide-react";
 
 /**
  *  Navbar component at the top of the screen.
@@ -25,7 +23,7 @@ export function Navbar() {
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
                 <NavLink
-                  to="/"
+                  to="/dashboard"
                   className={({ isActive }) =>
                     navigationMenuTriggerStyle() +
                     " " +
@@ -43,37 +41,23 @@ export function Navbar() {
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md">
-                Timer
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid gap-2 md:w-105 lg:w-130 lg:grid-cols-[.9fr_1fr] p-4">
-                  <li className="row-span-2 rounded-md bg-linear-to-b from-muted/40 to-muted/10 p-4">
-                    <NavigationMenuLink asChild>
-                      <NavLink to="/timer" className="no-underline">
-                        <div className="mb-2 text-lg font-medium">Timer</div>
-                        <p className="text-sm text-muted-foreground">
-                          Configure and run your pomodoro timer — durations,
-                          cycles, and focus mode.
-                        </p>
-                      </NavLink>
-                    </NavigationMenuLink>
-                  </li>
-
-                  <DropdownItem
-                    to="/timer"
-                    Icon={ClockIcon}
-                    title="Timer"
-                    description="Start a pomodoro session."
-                  />
-                  <DropdownItem
-                    to="/timer-menu"
-                    Icon={SettingsIcon}
-                    title="Session Settings"
-                    description="Customize presets, long break rules, and sounds."
-                  />
-                </ul>
-              </NavigationMenuContent>
+              <NavigationMenuLink asChild>
+                <NavLink
+                  to="/timer-menu"
+                  className={({ isActive }) =>
+                    navigationMenuTriggerStyle() +
+                    " " +
+                    (isActive
+                      ? " bg-muted/50 text-primary font-semibold"
+                      : " hover:bg-muted/10")
+                  }
+                >
+                  <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md">
+                    <ClockIcon className="h-4 w-4" />
+                    Timer
+                  </span>
+                </NavLink>
+              </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
@@ -140,3 +124,42 @@ function DropdownItem({
     </li>
   );
 }
+
+/*
+========================================
+FANCY TIMER DROPDOWN (SAVED FOR LATER - I want to use this, but I don't need any dropdowns right now)
+========================================
+
+<NavigationMenuItem>
+  <NavigationMenuTrigger className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md">
+    Timer
+  </NavigationMenuTrigger>
+  <NavigationMenuContent>
+    <ul className="grid gap-2 md:w-105 lg:w-130 lg:grid-cols-[.9fr_1fr] p-4">
+      <li className="row-span-2 rounded-md bg-linear-to-b from-muted/40 to-muted/10 p-4">
+        <NavigationMenuLink asChild>
+          <NavLink to="/timer" className="no-underline">
+            <div className="mb-2 text-lg font-medium">Timer</div>
+            <p className="text-sm text-muted-foreground">
+              Configure and run your pomodoro timer — durations, cycles, and focus mode.
+            </p>
+          </NavLink>
+        </NavigationMenuLink>
+      </li>
+
+      <DropdownItem
+        to="/timer"
+        Icon={ClockIcon}
+        title="Timer"
+        description="Start a pomodoro session."
+      />
+      <DropdownItem
+        to="/timer-menu"
+        Icon={() => null}
+        title="Session Settings"
+        description="Customize presets, long break rules, and sounds."
+      />
+    </ul>
+  </NavigationMenuContent>
+</NavigationMenuItem>
+*/
