@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import { SessionSettings } from '../../logic/timer/SessionSettings';
@@ -17,14 +17,16 @@ export function SettingsMenu() {
 
     const [workTime, setWorkTime] = useState(25);
     const [breakTime, setBreakTime] = useState(5);
-    const [numCycles, setNumCycles] = useState(4); 
+    const [numCycles, setNumCycles] = useState(4);
+    const [isSubSelected, setIsSubSelected] = useState(false);
 
-    const session = new ActiveSession(new SessionSettings(toMs(workTime), toMs(breakTime), numCycles)); // init
+    useEffect(() => ActiveSession.resetInstance(), []);
 
     const handleStartSession = () => {
         navigate("/timer");
         let settings = new SessionSettings(toMs(workTime), toMs(breakTime), numCycles);
-        // settings = new SessionSettings(1000, 1000, 3); // uncomment this to simulate 1 second roudns
+        // settings = new SessionSettings(1000, 1000, 3); // uncomment this to simulate 1 second rounds
+        const session = ActiveSession.getInstance();
         session.setSettings(settings);
         session.startFirstBlock();
     };
@@ -98,7 +100,7 @@ export function SettingsMenu() {
                     {(workTime * numCycles + breakTime * (numCycles - 1)) % 60}m
                 </div>
 
-                <SubjectComboBox />
+                <SubjectComboBox setSubjectSelected={setIsSubSelected} />
 
                 <div className="mt-2 space-y-1">
                     <div className="text-center font-semibold">Difficulty</div>
@@ -112,7 +114,7 @@ export function SettingsMenu() {
             </CardContent>
 
             <CardFooter>
-                <Button onClick={handleStartSession} className="w-full">
+                <Button onClick={handleStartSession} className="w-full" disabled={!isSubSelected}>
                     Start Session
                 </Button>
             </CardFooter>

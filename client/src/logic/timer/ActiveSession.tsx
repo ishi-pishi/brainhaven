@@ -46,9 +46,10 @@ export class ActiveSession extends Observable {
    * 
    *  This adds a timer to the session but does not start it.
    */
-  constructor(settings: SessionSettings) {
+  private constructor(settings: SessionSettings) {
     super();
     ActiveSession.instance = this;
+    console.trace();
 
     this.metadata = {
       subjectId: null,
@@ -67,9 +68,19 @@ export class ActiveSession extends Observable {
   }
 
 
-  // Singleton
-  static getInstance(): ActiveSession | null {
+  // Gets current instance of the singleton ActiveSession.
+  // If there is no instance, it creates a fresh one with default settings.
+  static getInstance(): ActiveSession {
+    if (ActiveSession.instance == null) {
+      return new ActiveSession(new SessionSettings(25, 5, 4));
+    }
+
     return ActiveSession.instance;
+  }
+
+  // Resets instance to scratch settings
+  static resetInstance() {
+    ActiveSession.instance = new ActiveSession(new SessionSettings(25, 5, 4));
   }
 
   /**
@@ -82,7 +93,7 @@ export class ActiveSession extends Observable {
 
   // Returns whether the timer has begun or not
   hasStarted() {
-    return (this.metadata.startedAt == null);
+    return (this.metadata.startedAt != null);
   }
 
   // Gets current time
@@ -135,15 +146,20 @@ export class ActiveSession extends Observable {
   // Set settings
   setSettings(settings: SessionSettings): void {
     this.bq = new BlockQueue(settings);
+
+    this.metadata.workMs = settings.getWorkDuration();
+    this.metadata.breakMs = settings.getBreakDuration();
+    this.metadata.intendedCycles = settings.getNumCycles();
   }
 
   // Start block from beginning
   startFirstBlock(): void {
-    console.log("Starting session!");
+    console.log("Starting session: subject" + this.metadata.subjectId);
 
-    if(this.metadata.subjectId === null) {
+    if (this.metadata.subjectId === null) {
       throw new Error("The subject has not been set! Choose a category for the study session.");
     }
+
     this.startNewBlock();
   }
 

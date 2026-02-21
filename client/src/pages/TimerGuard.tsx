@@ -18,3 +18,21 @@ export function TimerGuard({
 
   return <>{children}</>;
 }
+
+/**
+ *  If the timer has NOT started, the timer element needs to forward to the settings
+ *  menu element.
+ */
+export function NoTimerGuard({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const session = ActiveSession.getInstance();
+
+  if (!session || !session.hasStarted() || session.isFinished()) {
+    return <Navigate to="/timer-menu" replace />;
+  }
+
+  return <>{children}</>;
+}
