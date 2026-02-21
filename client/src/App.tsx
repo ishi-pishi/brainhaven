@@ -11,6 +11,8 @@ import { DashBoard } from "./pages/App/DashBoard";
 import { AppLayout } from "./components/Layout/AppLayout";
 import { EndSessionPage } from "./pages/App/EndSession";
 
+import { TimerGuard } from "./pages/TimerGuard";
+
 export default function App() {
   return (
     <Router>
@@ -19,9 +21,9 @@ export default function App() {
         <Route path="/" element={<LandingPage />} />
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashBoard />}    />
-          <Route path="/timer-menu" element={<SettingsMenuPage />} />
+          <Route path="/timer-menu" element={<TimerGuard><SettingsMenuPage /></TimerGuard>} />
           <Route path="/timer" element={<TimerPage />} />
-          <Route path="/endsession" element={<EndSessionPage />} />
+          <Route path="/endsession" element={<TimerGuard><EndSessionPage /></TimerGuard>} />
         </Route>
       </Routes>
     </Router>

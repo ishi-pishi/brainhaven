@@ -80,7 +80,12 @@ export class ActiveSession extends Observable {
     return this.finished;
   }
 
-  // gets current time
+  // Returns whether the timer has begun or not
+  hasStarted() {
+    return (this.metadata.startedAt == null);
+  }
+
+  // Gets current time
   getTotalDurationCurrBlock(): number {
     if (this.finished) return 0;
 
@@ -113,6 +118,8 @@ export class ActiveSession extends Observable {
     this.notifyListeners();
     TimerManager.getInstance().pause();
   }
+
+  // 
 
   // Provides metadata object
   getMetadata(): any {
