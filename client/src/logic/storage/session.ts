@@ -1,15 +1,16 @@
-import { createStudySession } from "@dataconnect/generated";
+import { createStudySession, myStudySessions } from "@dataconnect/generated";
 
 export type StudySession = {
-  subjectId: string
-  startTime: string
-  endTime: string
-  workBlockMs: number
-  breakBlockMs: number
-  intendedCycles?: number
-  productivityRating?: number
-  reflections?: string
-  earnedCurrency: number
+    id?: string  // null if creating session now
+    subjectId: string
+    startTime: string
+    endTime: string
+    workBlockMs: number
+    breakBlockMs: number
+    intendedCycles?: number
+    productivityRating?: number
+    reflections?: string
+    earnedCurrency: number
 }
 
 // Saves a completed study session to the database.
@@ -25,4 +26,22 @@ export async function saveSession(session: StudySession) {
         productivityRating: session.productivityRating ?? null,
         reflections: session.reflections ?? null,
     });
+}
+
+// Gets all of user's sessions
+export async function getSessions(): Promise<StudySession[]> {
+    const { data } = await myStudySessions();
+
+    return data.studySessions.map(s => ({
+        id: s.id,
+        subjectId: s.subject?.id ?? "NO-ID",
+        startTime: s.startTime,
+        endTime: s.endTime,
+        workBlockMs: s.workBlockMs,
+        breakBlockMs: s.breakBlockMs,
+        intendedCycles: s.intendedCycles || undefined,
+        productivityRating: s.productivityRating || undefined,
+        reflections: s.reflections || undefined,
+        earnedCurrency: s.earnedCurrency,
+    }));
 }
