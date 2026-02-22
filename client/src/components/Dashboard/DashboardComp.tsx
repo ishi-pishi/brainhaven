@@ -1,4 +1,6 @@
-export function DailyBreakdown() {
+
+
+export function DashBoardComp() {
     return (
         <div>Hello</div>
     );
