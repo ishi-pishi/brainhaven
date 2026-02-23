@@ -110,7 +110,7 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
                           aria-label={`Delete ${subject}`}
                           className="ml-2 h-6 w-6 flex items-center justify-centehover:bg-red-200 text-red-600 hover:text-red-800 font-bold text-xs"
                         >
-                          <span className="leading-none">Delete</span>
+                          <span className="leading-none">x</span>
                         </button>
                       </div>
                     </CommandItem>
