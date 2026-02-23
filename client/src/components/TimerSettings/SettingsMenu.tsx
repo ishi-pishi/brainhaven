@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-
 import { SessionSettings } from '../../logic/timer/SessionSettings';
 import { ActiveSession } from '../../logic/timer/ActiveSession';
 
@@ -9,6 +8,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from '@/components/ui/label';
 import { Slider } from "@/components/ui/slider";
 import { SubjectComboBox } from './SubjectComboBox';
+
+import { Clock, Coffee, Repeat, Zap, ArrowRight } from 'lucide-react';
 
 // Represents the settings menu before going into a timer session
 // showing timer settings and customizing diffiuclty
@@ -43,82 +44,139 @@ export function SettingsMenu() {
         return val;
     };
 
-
     const difficultyValue = calculateDifficulty();
 
     return (
-        <Card className="mx-auto max-w-sm w-full border">
-            <CardHeader>
-                <CardTitle>Customize Session</CardTitle>
-                <CardDescription>
-                    Adjust your work/break durations and the number of cycles you would like to work for.
-                </CardDescription>
-            </CardHeader>
-
-            <CardContent className="space-y-6">
-                <div className="space-y-1">
-                    <Label htmlFor="focus-slider" className="block">Focus ({workTime}m)</Label>
-                    <Slider
-                        value={[workTime]}
-                        onValueChange={([v]) => setWorkTime(v)}
-                        min={0}
-                        max={90}
-                        step={5}
-                        id="focus-slider"
-                        className="w-full"
-                    />
-                </div>
-
-                <div className="space-y-1">
-                    <Label htmlFor="break-slider" className="block">Break ({breakTime}m)</Label>
-                    <Slider
-                        value={[breakTime]}
-                        onValueChange={([v]) => setBreakTime(v)}
-                        min={0}
-                        max={30}
-                        step={5}
-                        id="break-slider"
-                        className="w-full"
-                    />
-                </div>
-
-                <div className="space-y-1">
-                    <Label htmlFor="cycles-slider" className="block">Cycles ({numCycles})</Label>
-                    <Slider
-                        value={[numCycles]}
-                        onValueChange={([v]) => setNumCycles(v)}
-                        min={1}
-                        max={10}
-                        step={1}
-                        id="cycles-slider"
-                        className="w-full"
-                    />
-                </div>
-
-                <div className="mt-4 text-center font-semibold text-lg">
-                    Total time: {Math.floor((workTime * numCycles + breakTime * (numCycles - 1)) / 60)}h{" "}
-                    {(workTime * numCycles + breakTime * (numCycles - 1)) % 60}m
-                </div>
-
-                <SubjectComboBox setSubjectSelected={setIsSubSelected} />
-
-                <div className="mt-2 space-y-1">
-                    <div className="text-center font-semibold">Difficulty</div>
-                    <div className="relative h-4 w-full rounded-lg overflow-hidden bg-linear-to-r from-blue-400 via-green-400 to-orange-500">
-                        <div
-                            className="absolute top-0 h-full w-0.5 bg-white"
-                            style={{ left: `${difficultyValue * 100}%` }}
-                        />
+        <div className="flex justify-center p-6">
+            <Card className="w-[720px] max-w-full rounded-2xl shadow-2xl overflow-hidden border-0">
+                <div className="bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 p-5">
+                    <div className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-3">
+                            <div className="rounded-full bg-white/20 p-2">
+                                <ArrowRight className="h-6 w-6 text-white" />
+                            </div>
+                            <div>
+                                <h3 className="text-white text-xl font-semibold">Customize Session</h3>
+                                <p className="text-white/90 text-sm">Adjust durations & cycles to fit your needs.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </CardContent>
 
-            <CardFooter>
-                <Button onClick={handleStartSession} className="w-full" disabled={!isSubSelected}>
-                    Start Session
-                </Button>
-            </CardFooter>
-        </Card>
+                <CardContent className="grid grid-cols-2 gap-6 p-6 bg-white">
+                    {/* Left column: sliders */}
+                    <div className="space-y-5">
+                        <div>
+                            <Label htmlFor="focus-slider" className="flex items-center gap-2 mb-2 text-sm font-medium text-slate-700">
+                                <Clock className="h-4 w-4 text-slate-600" />
+                                Focus <span className="ml-2 text-slate-500">({workTime}m)</span>
+                            </Label>
+                            <div className="flex items-center gap-4">
+                                <Slider
+                                    value={[workTime]}
+                                    onValueChange={([v]) => setWorkTime(v)}
+                                    min={5}
+                                    max={90}
+                                    step={5}
+                                    id="focus-slider"
+                                    className="w-full"
+                                />
+                                <div className="w-12 text-right text-sm font-semibold text-slate-700">{workTime}m</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <Label htmlFor="break-slider" className="flex items-center gap-2 mb-2 text-sm font-medium text-slate-700">
+                                <Coffee className="h-4 w-4 text-slate-600" />
+                                Break <span className="ml-2 text-slate-500">({breakTime}m)</span>
+                            </Label>
+                            <div className="flex items-center gap-4">
+                                <Slider
+                                    value={[breakTime]}
+                                    onValueChange={([v]) => setBreakTime(v)}
+                                    min={5}
+                                    max={30}
+                                    step={5}
+                                    id="break-slider"
+                                    className="w-full"
+                                />
+                                <div className="w-12 text-right text-sm font-semibold text-slate-700">{breakTime}m</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <Label htmlFor="cycles-slider" className="flex items-center gap-2 mb-2 text-sm font-medium text-slate-700">
+                                <Repeat className="h-4 w-4 text-slate-600" />
+                                Cycles <span className="ml-2 text-slate-500">({numCycles})</span>
+                            </Label>
+                            <div className="flex items-center gap-4">
+                                <Slider
+                                    value={[numCycles]}
+                                    onValueChange={([v]) => setNumCycles(v)}
+                                    min={1}
+                                    max={10}
+                                    step={1}
+                                    id="cycles-slider"
+                                    className="w-full"
+                                />
+                                <div className="w-12 text-right text-sm font-semibold text-slate-700">{numCycles}</div>
+                            </div>
+                        </div>
+
+                        <div className="mt-1 text-sm text-slate-600">
+                            <div className="font-semibold">Total time</div>
+                            <div className="text-slate-700">{Math.floor((workTime * numCycles + breakTime * (numCycles - 1)) / 60)}h {(workTime * numCycles + breakTime * (numCycles - 1)) % 60}m</div>
+                        </div>
+                    </div>
+
+                    {/* Right column: subject, difficulty, action */}
+                    <div className="flex flex-col justify-between gap-6">
+                        <div className="space-y-4">
+                            <div>
+                                <Label className="block text-sm font-medium text-slate-700">Subject</Label>
+                                <div className="mt-2">
+                                    <SubjectComboBox setSubjectSelected={setIsSubSelected} />
+                                </div>
+                            </div>
+
+                            <div>
+                                <div className="flex items-center justify-between">
+                                    <div className="text-sm font-semibold text-slate-700">Difficulty</div>
+                                    <div className="text-xs text-slate-500">Auto</div>
+                                </div>
+
+                                <div className="mt-2">
+                                    <div className="flex items-center gap-3">
+                                        <div className="text-xs text-slate-500 flex items-center gap-1"><span className="opacity-80">Easy</span></div>
+                                        <div className="relative flex-1 h-3 rounded-md overflow-hidden bg-slate-100">
+                                            <div
+                                                className="absolute top-0 left-0 h-full"
+                                                style={{ width: `${difficultyValue * 100}%`, background: 'linear-gradient(90deg,#60a5fa,#34d399,#fb923c)' }}
+                                            />
+                                            <div className="absolute top-0 left-[calc(var(--difficulty)*100%)] -translate-x-1/2 h-full w-0.5 bg-white" style={{ left: `${difficultyValue * 100}%` }} />
+                                        </div>
+                                        <div className="text-xs text-slate-500 flex items-center gap-1"><span className="opacity-80">Hard</span></div>
+                                    </div>
+                                    <div className="mt-2 text-xs text-slate-500 flex items-center gap-2">
+                                        <Zap className="h-4 w-4" />
+                                        <div>Calculated from work/break ratio</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <CardFooter className="p-0 bg-transparent">
+                                <Button onClick={handleStartSession} className="w-full py-3 rounded-xl flex items-center justify-center gap-3" disabled={!isSubSelected}>
+                                    <span>Start Session</span>
+                                    <ArrowRight className="h-4 w-4" />
+                                </Button>
+                            </CardFooter>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
     );
 }
 

@@ -39,10 +39,10 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
   useEffect(() => {
     async function fetchSubjects() {
       try {
-        const names = await getSubjects()
-        setSubjects(names)
+        const subjects = await getSubjects();
+        setSubjects(subjects);
       } catch (err) {
-        console.error("Failed to fetch subjects:", err)
+        console.error("Failed to fetch subjects:", err);
       }
     }
 

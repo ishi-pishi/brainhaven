@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "@/lib/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -63,15 +63,26 @@ export function AuthCard({ open, onOpenChange }: AuthCardProps) {
                         </div>
 
                         <div className="grid gap-2">
-                            <div className="flex items-center">
-                                <Label htmlFor="password">Password</Label>
-                                <a
-                                    href="#"
-                                    className="ml-auto text-sm underline-offset-4 hover:underline"
-                                >
-                                    Forgot your password?
-                                </a>
-                            </div>
+                            <a
+                                href="#"
+                                className="ml-auto text-sm underline-offset-4 hover:underline"
+                                onClick={async (e) => {
+                                    e.preventDefault();
+                                    if (!email) {
+                                        alert("Please enter your email above first.");
+                                        return;
+                                    }
+                                    try {
+                                        await sendPasswordResetEmail(auth, email);
+                                        alert("Password reset email sent! Check your inbox.");
+                                    } catch (err: any) {
+                                        console.error(err);
+                                        alert("Error sending reset email: " + err.message);
+                                    }
+                                }}
+                            >
+                                Forgot your password?
+                            </a>
                             <Input
                                 id="password"
                                 type="password"
