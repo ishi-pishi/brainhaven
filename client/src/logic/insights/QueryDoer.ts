@@ -23,7 +23,7 @@ export function queryToString(query: Query) {
     return JSON.stringify(query)
 } 
 
-export async function execute(queryString: string): Promise<StudySession[]> {
+export async function executeQueryString(queryString: string): Promise<StudySession[]> {
     const query = stringToQuery(queryString);
     const allSessions = await getSessions();
     return executeQuery(query, allSessions);

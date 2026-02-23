@@ -1,8 +1,6 @@
+// IInsightFacade.ts
+import { getSessions } from "../storage/session";
 import type { StudySession } from "../storage/session";
-
-/**
- *  This file is AI-GENERATED right now, since it's basically just boilerplate.
- */
 
 /**
  * Result types
@@ -26,9 +24,9 @@ export type DayBucket = {
 };
 
 export type WeekdayAggregate = {
-  weekday: number; 
+  weekday: number;
   totalMs: number;
-  averageMs: number; 
+  averageMs: number;
   daysCounted: number;
 };
 
@@ -40,37 +38,17 @@ export type SubjectDetail = {
 };
 
 export interface IDefaultQueries {
-  timeDoneInRange(
-    sessions: StudySession[],
-    startIso?: string,
-    endIso?: string
-  ): SimpleTotal & { bySubject: TimeBySubject[] };
+  timeDoneInRange(startIso?: string, endIso?: string): Promise<SimpleTotal & { bySubject: TimeBySubject[] }>;
 
-  timeDoneToday(sessions: StudySession[], refDate?: Date): SimpleTotal & { bySubject: TimeBySubject[] };
+  timeDoneToday(refDate?: Date): Promise<SimpleTotal & { bySubject: TimeBySubject[] }>;
 
-  weeklyBreakdown(
-    sessions: StudySession[],
-    weekStartIso?: string
-  ): { weekStart: string; days: DayBucket[]; weekTotal: number; weekSessions: number };
+  weeklyBreakdown(weekStartIso?: string): Promise<{ weekStart: string; days: DayBucket[]; weekTotal: number; weekSessions: number }>;
 
-  averageByWeekday(
-    sessions: StudySession[],
-    startIso?: string,
-    endIso?: string
-  ): WeekdayAggregate[];
+  averageByWeekday(startIso?: string, endIso?: string): Promise<WeekdayAggregate[]>;
 
-  subjectThisWeek(
-    sessions: StudySession[],
-    subjectId: string,
-    weekStartIso?: string
-  ): SubjectDetail;
+  subjectThisWeek(subjectId?: string, weekStartIso?: string): Promise<SubjectDetail>;
 
-  topSubjects(
-    sessions: StudySession[],
-    n?: number,
-    startIso?: string,
-    endIso?: string
-  ): TimeBySubject[];
+  topSubjects(n?: number, startIso?: string, endIso?: string): Promise<TimeBySubject[]>;
 }
 
 /* Implementation */
@@ -99,22 +77,117 @@ export class DefaultQueries implements IDefaultQueries {
     return d;
   }
 
-  private static sessionInRange(s: StudySession, start?: Date, end?: Date) {
-    const st = new Date(s.startTime);
-    const en = new Date(s.endTime);
-    if (start && en < start) return false;
-    if (end && st >= end) return false;
+  /** Resolve a session's start timestamp (supports startTime | startedAt) */
+  private static sessionStartMs(s: StudySession): number {
+    const v = (s as any).startTime ?? (s as any).startedAt ?? (s as any).startedAtIso ?? (s as any).start;
+    if (!v) return NaN;
+    const t = new Date(v).getTime();
+    return Number.isNaN(t) ? NaN : t;
+  }
+
+  /** Resolve a session's end timestamp (supports endTime | endedAt) */
+  private static sessionEndMs(s: StudySession): number {
+    const v = (s as any).endTime ?? (s as any).endedAt ?? (s as any).endedAtIso ?? (s as any).end;
+    if (!v) return NaN;
+    const t = new Date(v).getTime();
+    return Number.isNaN(t) ? NaN : t;
+  }
+
+  /**
+   * Whether session falls (partially) within [start, end).
+   * Uses session start/end fallbacks.
+   */
+  private static sessionInRangeWithWindow(s: StudySession, start?: Date, end?: Date) {
+    const stMs = DefaultQueries.sessionStartMs(s);
+    const enMs = DefaultQueries.sessionEndMs(s);
+
+    if (Number.isNaN(stMs) || Number.isNaN(enMs)) return false;
+    if (start && enMs < start.getTime()) return false;
+    if (end && stMs >= end.getTime()) return false;
     return true;
   }
 
+  // Always fetch sessions here (no param expected)
+  private async ensureSessions() {
+    const all = await getSessions();
+    return all ?? [];
+  }
+
+  /**
+   * Calculate actual work milliseconds for a single session by simulating
+   * alternating work/break blocks starting at the session start time.
+   *
+   * Session fields supported:
+   * - workBlockMs OR workMs
+   * - breakMs OR breakBlockMs
+   * - startTime OR startedAt
+   * - endTime OR endedAt
+   *
+   * Behavior:
+   * - start with a work block, alternate with break blocks
+   * - sum only the portions that fall inside [start, end)
+   * - if break length <= 0: treat session as continuous work (everything between start and end is work)
+   *
+   * Uses timestamps as authoritative window. Partial blocks supported.
+   */
+  private static sessionWorkMs(s: StudySession) {
+    const workLen =
+      typeof (s as any).workBlockMs === "number" ? (s as any).workBlockMs :
+      typeof (s as any).workMs === "number" ? (s as any).workMs :
+      0;
+
+    const breakLen =
+      typeof (s as any).breakMs === "number" ? (s as any).breakMs :
+      typeof (s as any).breakBlockMs === "number" ? (s as any).breakBlockMs :
+      0;
+
+    const start = DefaultQueries.sessionStartMs(s);
+    const end = DefaultQueries.sessionEndMs(s);
+
+    if (Number.isNaN(start) || Number.isNaN(end) || end <= start) return 0;
+    if (workLen <= 0) return 0;
+
+    if (breakLen <= 0) {
+      return Math.max(0, end - start);
+    }
+
+    let totalWork = 0;
+    let cursor = start;
+    let isWork = true;
+
+    const approxBlocks = Math.ceil((end - start) / Math.min(workLen, breakLen));
+    const maxIterations = Math.max(approxBlocks * 2 + 10, 1000);
+
+    let iter = 0;
+    while (cursor < end && iter < maxIterations) {
+      iter++;
+      const blockLen = isWork ? workLen : breakLen;
+      const blockEnd = cursor + blockLen;
+      const overlapStart = cursor;
+      const overlapEnd = Math.min(blockEnd, end);
+
+      if (isWork) {
+        const overlap = Math.max(0, overlapEnd - overlapStart);
+        totalWork += overlap;
+      }
+
+      cursor = blockEnd;
+      isWork = !isWork;
+    }
+
+    return totalWork;
+  }
+
   private static sumWorkMs(list: StudySession[]) {
-    return list.reduce((acc, s) => acc + (typeof s.workBlockMs === "number" ? s.workBlockMs : 0), 0);
+    if (!Array.isArray(list) || list.length === 0) return 0;
+    return list.reduce((acc, s) => acc + DefaultQueries.sessionWorkMs(s), 0);
   }
 
   private static bucketByDate(sessions: StudySession[]): Map<string, StudySession[]> {
     const m = new Map<string, StudySession[]>();
     for (const s of sessions) {
-      const d = DefaultQueries.toLocalYMD(new Date(s.startTime));
+      const stMs = DefaultQueries.sessionStartMs(s);
+      const d = Number.isNaN(stMs) ? DefaultQueries.toLocalYMD(new Date()) : DefaultQueries.toLocalYMD(new Date(stMs));
       const arr = m.get(d) ?? [];
       arr.push(s);
       m.set(d, arr);
@@ -133,10 +206,13 @@ export class DefaultQueries implements IDefaultQueries {
     return m;
   }
 
-  timeDoneInRange(sessions: StudySession[], startIso?: string, endIso?: string) {
+  /* ---------------- public API ---------------- */
+
+  async timeDoneInRange(startIso?: string, endIso?: string) {
+    const sess = await this.ensureSessions();
     const start = DefaultQueries.parseIsoOrUndefined(startIso);
     const end = DefaultQueries.parseIsoOrUndefined(endIso);
-    const filtered = sessions.filter((s) => DefaultQueries.sessionInRange(s, start, end));
+    const filtered = sess.filter((s) => DefaultQueries.sessionInRangeWithWindow(s, start, end));
     const totalMs = DefaultQueries.sumWorkMs(filtered);
     const subjectMap = DefaultQueries.groupBySubject(filtered);
     const bySubject: TimeBySubject[] = Array.from(subjectMap.entries()).map(([subjectId, arr]) => ({
@@ -148,14 +224,16 @@ export class DefaultQueries implements IDefaultQueries {
     return { totalMs, sessions: filtered.length, bySubject };
   }
 
-  timeDoneToday(sessions: StudySession[], refDate?: Date) {
+  async timeDoneToday(refDate?: Date) {
     const now = refDate ?? new Date();
     const start = DefaultQueries.startOfDay(now);
     const end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
-    return this.timeDoneInRange(sessions, start.toISOString(), end.toISOString());
+    return this.timeDoneInRange(start.toISOString(), end.toISOString());
   }
 
-  weeklyBreakdown(sessions: StudySession[], weekStartIso?: string) {
+  async weeklyBreakdown(weekStartIso?: string) {
+    const sess = await this.ensureSessions();
+
     let weekStartDate: Date;
     if (weekStartIso) {
       const parsed = new Date(weekStartIso);
@@ -172,7 +250,7 @@ export class DefaultQueries implements IDefaultQueries {
     for (let i = 0; i < 7; i++) {
       const dayStart = new Date(weekStartDate.getTime() + i * 24 * 60 * 60 * 1000);
       const dayEnd = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000);
-      const daySessions = sessions.filter((s) => DefaultQueries.sessionInRange(s, dayStart, dayEnd));
+      const daySessions = sess.filter((s) => DefaultQueries.sessionInRangeWithWindow(s, dayStart, dayEnd));
       const subjectMap = DefaultQueries.groupBySubject(daySessions);
       const bySubject: TimeBySubject[] = Array.from(subjectMap.entries()).map(([subjectId, arr]) => ({
         subjectId,
@@ -194,18 +272,20 @@ export class DefaultQueries implements IDefaultQueries {
     return { weekStart: DefaultQueries.toLocalYMD(weekStartDate), days, weekTotal, weekSessions };
   }
 
-  averageByWeekday(sessions: StudySession[], startIso?: string, endIso?: string) {
+  async averageByWeekday(startIso?: string, endIso?: string) {
+    const sess = await this.ensureSessions();
     const start = DefaultQueries.parseIsoOrUndefined(startIso);
     const end = DefaultQueries.parseIsoOrUndefined(endIso);
-    const filtered = sessions.filter((s) => DefaultQueries.sessionInRange(s, start, end));
+    const filtered = sess.filter((s) => DefaultQueries.sessionInRangeWithWindow(s, start, end));
     const weekdayToDateTotals = new Map<number, Map<string, number>>();
 
     for (const s of filtered) {
-      const d = new Date(s.startTime);
+      const dMs = DefaultQueries.sessionStartMs(s);
+      const d = Number.isNaN(dMs) ? new Date((s as any).startTime ?? (s as any).startedAt) : new Date(dMs);
       const ymd = DefaultQueries.toLocalYMD(d);
       const wd = d.getDay();
       const dateMap = weekdayToDateTotals.get(wd) ?? new Map<string, number>();
-      dateMap.set(ymd, (dateMap.get(ymd) ?? 0) + (typeof s.workBlockMs === "number" ? s.workBlockMs : 0));
+      dateMap.set(ymd, (dateMap.get(ymd) ?? 0) + DefaultQueries.sessionWorkMs(s));
       weekdayToDateTotals.set(wd, dateMap);
     }
 
@@ -220,8 +300,8 @@ export class DefaultQueries implements IDefaultQueries {
     return aggregates;
   }
 
-  subjectThisWeek(sessions: StudySession[], subjectId: string, weekStartIso?: string) {
-    const week = this.weeklyBreakdown(sessions, weekStartIso);
+  async subjectThisWeek(subjectId?: string, weekStartIso?: string) {
+    const week = await this.weeklyBreakdown(weekStartIso);
     const daily = week.days.map((d) => {
       const subjectSessions = d.bySubject.filter((b) => b.subjectId === subjectId);
       const totalMs = subjectSessions.reduce((acc, b) => acc + b.totalMs, 0);
@@ -240,10 +320,11 @@ export class DefaultQueries implements IDefaultQueries {
     return { subjectId, totalMs, sessions: sessionsCount, daily };
   }
 
-  topSubjects(sessions: StudySession[], n = 5, startIso?: string, endIso?: string) {
+  async topSubjects(n = 5, startIso?: string, endIso?: string) {
+    const sess = await this.ensureSessions();
     const start = DefaultQueries.parseIsoOrUndefined(startIso);
     const end = DefaultQueries.parseIsoOrUndefined(endIso);
-    const filtered = sessions.filter((s) => DefaultQueries.sessionInRange(s, start, end));
+    const filtered = sess.filter((s) => DefaultQueries.sessionInRangeWithWindow(s, start, end));
     const subjectMap = DefaultQueries.groupBySubject(filtered);
     const arr: TimeBySubject[] = Array.from(subjectMap.entries()).map(([subjectId, arr]) => ({
       subjectId,

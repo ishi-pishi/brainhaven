@@ -17,6 +17,8 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 
+import { useNavigate } from "react-router-dom";
+
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -65,6 +67,7 @@ const ratings = [
  *  a little reflection about how they feel like their study session went.
  */
 export function EndSessionCard() {
+    const nav = useNavigate();
 
     const [rating, setRating] = useState<number | null>(null);
     const [reflection, setReflection] = useState("");
@@ -92,6 +95,7 @@ export function EndSessionCard() {
         }
 
         saveSession(studySession);
+        nav('/dashboard');
     };
 
     return (
