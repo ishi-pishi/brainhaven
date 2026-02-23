@@ -8,7 +8,9 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { ClockIcon, HomeIcon } from "lucide-react";
+import { ClockIcon, HomeIcon, DoorOpenIcon } from "lucide-react";
+
+import { getAuth, signOut } from "firebase/auth";
 
 /**
  *  Navbar component at the top of the screen.
@@ -59,6 +61,29 @@ export function Navbar() {
                 </NavLink>
               </NavigationMenuLink>
             </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <NavigationMenuLink asChild>
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    navigationMenuTriggerStyle() +
+                    " " +
+                    (isActive
+                      ? " bg-muted/50 text-primary font-semibold"
+                      : " hover:bg-muted/10")
+                  }
+                  onClick={() => {
+                    signOut(getAuth());
+                  }}
+                >
+                  <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md">
+                    <DoorOpenIcon className="h-4 w-4" />
+                    Sign out
+                  </span>
+                </NavLink>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
 
@@ -66,100 +91,11 @@ export function Navbar() {
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
             <div className="rounded-md px-1.5 py-0.5 ring-1 ring-muted/10">
-              <HomeIcon className="h-4 w-4" />
             </div>
-            <div className="text-lg font-semibold">brainhaven</div>
+            <div className="text-lg font-semibold">🧠brainhaven</div>
           </div>
         </div>
       </div>
     </nav>
   );
 }
-
-/**
- *  Creates an item in the dropdown menu that comes down from the navbar.
- *  I.e., if you press a button in the navbar, one of these menus will appear.
-*/
-function DropdownItem({
-  to,
-  title,
-  description,
-  Icon,
-}: {
-  to: string;
-  title: string;
-  description?: string;
-  Icon?: React.ComponentType<any>;
-}) {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <NavLink
-          to={to}
-          className={({ isActive }) =>
-            [
-              "block rounded-md px-2 py-1 transition-all duration-200",
-              "hover:translate-y-0.5 focus:shadow-lg focus:outline-none",
-              isActive ? "bg-muted/60 font-semibold" : "bg-transparent",
-            ].join(" ")
-          }
-        >
-          <div className="flex items-start gap-2">
-            {Icon ? (
-              <div className="mt-0.5">
-                <Icon className="h-4 w-4" />
-              </div>
-            ) : null}
-            <div>
-              <div className="text-sm font-medium">{title}</div>
-              {description ? (
-                <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
-                  {description}
-                </p>
-              ) : null}
-            </div>
-          </div>
-        </NavLink>
-      </NavigationMenuLink>
-    </li>
-  );
-}
-
-/*
-========================================
-FANCY TIMER DROPDOWN (SAVED FOR LATER - I want to use this, but I don't need any dropdowns right now)
-========================================
-
-<NavigationMenuItem>
-  <NavigationMenuTrigger className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md">
-    Timer
-  </NavigationMenuTrigger>
-  <NavigationMenuContent>
-    <ul className="grid gap-2 md:w-105 lg:w-130 lg:grid-cols-[.9fr_1fr] p-4">
-      <li className="row-span-2 rounded-md bg-linear-to-b from-muted/40 to-muted/10 p-4">
-        <NavigationMenuLink asChild>
-          <NavLink to="/timer" className="no-underline">
-            <div className="mb-2 text-lg font-medium">Timer</div>
-            <p className="text-sm text-muted-foreground">
-              Configure and run your pomodoro timer — durations, cycles, and focus mode.
-            </p>
-          </NavLink>
-        </NavigationMenuLink>
-      </li>
-
-      <DropdownItem
-        to="/timer"
-        Icon={ClockIcon}
-        title="Timer"
-        description="Start a pomodoro session."
-      />
-      <DropdownItem
-        to="/timer-menu"
-        Icon={() => null}
-        title="Session Settings"
-        description="Customize presets, long break rules, and sounds."
-      />
-    </ul>
-  </NavigationMenuContent>
-</NavigationMenuItem>
-*/
