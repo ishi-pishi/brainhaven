@@ -131,51 +131,11 @@ export class DefaultQueries implements IDefaultQueries {
    * Uses timestamps as authoritative window. Partial blocks supported.
    */
   private static sessionWorkMs(s: StudySession) {
-    const workLen =
-      typeof (s as any).workBlockMs === "number" ? (s as any).workBlockMs :
-      typeof (s as any).workMs === "number" ? (s as any).workMs :
-      0;
-
-    const breakLen =
-      typeof (s as any).breakMs === "number" ? (s as any).breakMs :
-      typeof (s as any).breakBlockMs === "number" ? (s as any).breakBlockMs :
-      0;
-
-    const start = DefaultQueries.sessionStartMs(s);
-    const end = DefaultQueries.sessionEndMs(s);
-
-    if (Number.isNaN(start) || Number.isNaN(end) || end <= start) return 0;
-    if (workLen <= 0) return 0;
-
-    if (breakLen <= 0) {
-      return Math.max(0, end - start);
+    if (!s.intendedCycles) {
+      return 0;
     }
 
-    let totalWork = 0;
-    let cursor = start;
-    let isWork = true;
-
-    const approxBlocks = Math.ceil((end - start) / Math.min(workLen, breakLen));
-    const maxIterations = Math.max(approxBlocks * 2 + 10, 1000);
-
-    let iter = 0;
-    while (cursor < end && iter < maxIterations) {
-      iter++;
-      const blockLen = isWork ? workLen : breakLen;
-      const blockEnd = cursor + blockLen;
-      const overlapStart = cursor;
-      const overlapEnd = Math.min(blockEnd, end);
-
-      if (isWork) {
-        const overlap = Math.max(0, overlapEnd - overlapStart);
-        totalWork += overlap;
-      }
-
-      cursor = blockEnd;
-      isWork = !isWork;
-    }
-
-    return totalWork;
+    else return s.workBlockMs * s.intendedCycles;
   }
 
   private static sumWorkMs(list: StudySession[]) {

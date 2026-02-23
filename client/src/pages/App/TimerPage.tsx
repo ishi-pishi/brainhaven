@@ -4,7 +4,7 @@ import { useDisableScroll } from "@/hooks/smallHooks";
 import { ActiveSession } from "@/logic/timer/ActiveSession";
 import { TimerSection } from "@/components/Timer/TimerSection";
 
-
+import beep from "@/assets/beep.mp3";
 
 /**
  *  This component is a page containing all the timer componets.
@@ -36,7 +36,13 @@ export function TimerPage() {
       }
     };
 
+    const playSound = () => {
+      const audio = new Audio(beep);
+      audio.play();
+    }
+
     session.addListener(checkFinished);
+    session.addListener(playSound);
     return () => {
     };
   }, [session, navigate]);
