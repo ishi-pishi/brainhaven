@@ -15,14 +15,15 @@ import {
 } from "@/components/ui/card";
 
 import { Mail, Check, Loader2 } from "lucide-react";
+import { signupWithEmail } from "@/logic/storage/user";
 
 import {
   getAuth,
-  createUserWithEmailAndPassword,
   sendEmailVerification,
   applyActionCode,
   type User,
 } from "firebase/auth";
+
 
 export function SignUpCard() {
   const [email, setEmail] = useState("");
@@ -75,7 +76,7 @@ export function SignUpCard() {
 
     setLoading(true);
     try {
-      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      const cred = await signupWithEmail(email, password);
       if (!cred.user) throw new Error("No user returned from Firebase.");
       await sendVerificationEmail(cred.user);
     } catch (err: any) {
