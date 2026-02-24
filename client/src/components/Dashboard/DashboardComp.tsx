@@ -114,13 +114,6 @@ export function DashBoardComp() {
           <p className="text-sm text-muted-foreground">
             Your reflections and suggestions will appear here.
           </p>
-          <p className="text-sm text-muted-foreground">
-            Example:
-            <br />
-            You've studied for {Math.floor(weekMinutes / 60)} hours this week. Consider taking a 20-minute break.
-            <br />
-            Your productivity is {productivityPercent}% today — keep going.
-          </p>
         </CardContent>
       </Card>
 
