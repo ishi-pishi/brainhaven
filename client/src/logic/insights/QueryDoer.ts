@@ -1,4 +1,4 @@
-import { getSessions, type StudySession } from "../storage/session";
+import { getSessions, type StudySession } from "../../../shared/session";
 
 
 /**

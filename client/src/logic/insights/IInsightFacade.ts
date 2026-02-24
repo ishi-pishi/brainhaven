@@ -1,6 +1,6 @@
 // IInsightFacade.ts
-import { getSessions } from "../storage/session";
-import type { StudySession } from "../storage/session";
+import { getSessions } from "../../../shared/session";
+import type { StudySession } from "../../../shared/session";
 
 /**
  * Result types

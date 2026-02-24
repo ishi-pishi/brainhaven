@@ -1,6 +1,6 @@
 // src/components/insights/Charts.tsx
 import React, { useEffect, useMemo, useState } from "react";
-import type { StudySession } from "@/logic/storage/session";
+import type { StudySession } from "../../../shared/session";
 import DefaultQueries from "@/logic/insights/IInsightFacade";
 import { executeQueryString } from "@/logic/insights/QueryDoer";
 
@@ -31,8 +31,8 @@ import {
   Cell,
 } from "recharts";
 
-import { getSubjects } from "@/logic/storage/subject";
-import type { Subject } from "@/logic/storage/subject";
+import { getSubjects } from "../../../shared/subject";
+import type { Subject } from "../../../shared/subject";
 
 /* ---------------- helpers ---------------- */
 

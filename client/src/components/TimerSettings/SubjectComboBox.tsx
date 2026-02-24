@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, type Dispatch, type SetStateAction } from "react"
 import { Check, Plus } from "lucide-react"
-import { getSubjects, deleteSubjectByName } from "@/logic/storage/subject"
-import type { Subject } from "@/logic/storage/subject"
+import { getSubjects, deleteSubjectByName } from "../../../shared/subject"
+import type { Subject } from "../../../shared/subject"
 import { CreateSubjectPopup } from "./CreateSubjectPopup"
 
 import { ActiveSession } from "@/logic/timer/ActiveSession"

@@ -29,5 +29,5 @@
       ]
     }
   },
-  "include": ["src", "src/logic/storage"]
+  "include": ["src", "functions", "shared", "shared"]
 }
