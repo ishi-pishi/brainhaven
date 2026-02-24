@@ -1,4 +1,4 @@
-import { getSessions, type StudySession } from "../../../shared/session";
+import { getSessions, type StudySession } from "../../storage/session";
 
 /**
  *  Interface for making queries on all of user's subjects.

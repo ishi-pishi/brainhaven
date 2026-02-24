@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/card";
 
 import { Mail, Check, Loader2 } from "lucide-react";
-import { signupWithEmail } from "../../../shared/user";
+import { signupWithEmail } from "../../storage/user";
 
 import {
   getAuth,

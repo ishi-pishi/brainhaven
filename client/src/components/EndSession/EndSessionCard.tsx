@@ -25,8 +25,8 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { ActiveSession } from "@/logic/timer/ActiveSession";
 
-import { saveSession } from "../../../shared/session";
-import type { StudySession } from "../../../shared/session";
+import { saveSession } from "../../storage/session";
+import type { StudySession } from "../../storage/session";
 
 const ratings = [
   {

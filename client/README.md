@@ -1,7 +1,7 @@
 If you want to clone it and run it locally, then:
 
 - Clone the repo
-- Add a `.env` file and set OPEN_API_KEY="your_api_key" <- get from the OpenAI website
+- Add a `.env` file to `/functions` and set OPEN_API_KEY="your_api_key" <- get from the OpenAI website
 - npm run dev
 
 # React + TypeScript + Vite

@@ -23,6 +23,8 @@
     "cmdk": "^1.1.1",
     "dotenv": "^17.3.1",
     "firebase": "^12.7.0",
+    "firebase-admin": "^13.6.1",
+    "firebase-functions": "^7.0.5",
     "firebase-tools": "^15.2.1",
     "lucide-react": "^0.562.0",
     "openai": "^6.23.0",

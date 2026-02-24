@@ -27,5 +27,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "functions", "shared", "shared"]
+  "include": ["src", "functions"]
 }

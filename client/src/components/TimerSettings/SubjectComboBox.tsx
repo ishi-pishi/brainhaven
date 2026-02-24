@@ -6,8 +6,8 @@ import {
   type SetStateAction,
 } from "react";
 import { Check, Plus } from "lucide-react";
-import { getSubjects, deleteSubjectByName } from "../../../shared/subject";
-import type { Subject } from "../../../shared/subject";
+import { getSubjects, deleteSubjectByName } from "../../storage/subject";
+import type { Subject } from "../../storage/subject";
 import { CreateSubjectPopup } from "./CreateSubjectPopup";
 
 import { ActiveSession } from "@/logic/timer/ActiveSession";
