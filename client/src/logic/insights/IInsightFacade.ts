@@ -38,17 +38,39 @@ export type SubjectDetail = {
 };
 
 export interface IDefaultQueries {
-  timeDoneInRange(startIso?: string, endIso?: string): Promise<SimpleTotal & { bySubject: TimeBySubject[] }>;
+  timeDoneInRange(
+    startIso?: string,
+    endIso?: string,
+  ): Promise<SimpleTotal & { bySubject: TimeBySubject[] }>;
 
-  timeDoneToday(refDate?: Date): Promise<SimpleTotal & { bySubject: TimeBySubject[] }>;
+  timeDoneToday(
+    refDate?: Date,
+  ): Promise<SimpleTotal & { bySubject: TimeBySubject[] }>;
 
-  weeklyBreakdown(weekStartIso?: string): Promise<{ weekStart: string; days: DayBucket[]; weekTotal: number; weekSessions: number }>;
+  weeklyBreakdown(
+    weekStartIso?: string,
+  ): Promise<{
+    weekStart: string;
+    days: DayBucket[];
+    weekTotal: number;
+    weekSessions: number;
+  }>;
 
-  averageByWeekday(startIso?: string, endIso?: string): Promise<WeekdayAggregate[]>;
+  averageByWeekday(
+    startIso?: string,
+    endIso?: string,
+  ): Promise<WeekdayAggregate[]>;
 
-  subjectThisWeek(subjectId?: string, weekStartIso?: string): Promise<SubjectDetail>;
+  subjectThisWeek(
+    subjectId?: string,
+    weekStartIso?: string,
+  ): Promise<SubjectDetail>;
 
-  topSubjects(n?: number, startIso?: string, endIso?: string): Promise<TimeBySubject[]>;
+  topSubjects(
+    n?: number,
+    startIso?: string,
+    endIso?: string,
+  ): Promise<TimeBySubject[]>;
 }
 
 /* Implementation */
@@ -63,11 +85,27 @@ export class DefaultQueries implements IDefaultQueries {
   }
 
   private static startOfDay(date: Date) {
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
+    return new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      0,
+      0,
+      0,
+      0,
+    );
   }
 
   private static endOfDay(date: Date) {
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999);
+    return new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      23,
+      59,
+      59,
+      999,
+    );
   }
 
   private static parseIsoOrUndefined(iso?: string) {
@@ -79,7 +117,11 @@ export class DefaultQueries implements IDefaultQueries {
 
   /** Resolve a session's start timestamp (supports startTime | startedAt) */
   private static sessionStartMs(s: StudySession): number {
-    const v = (s as any).startTime ?? (s as any).startedAt ?? (s as any).startedAtIso ?? (s as any).start;
+    const v =
+      (s as any).startTime ??
+      (s as any).startedAt ??
+      (s as any).startedAtIso ??
+      (s as any).start;
     if (!v) return NaN;
     const t = new Date(v).getTime();
     return Number.isNaN(t) ? NaN : t;
@@ -87,7 +129,11 @@ export class DefaultQueries implements IDefaultQueries {
 
   /** Resolve a session's end timestamp (supports endTime | endedAt) */
   private static sessionEndMs(s: StudySession): number {
-    const v = (s as any).endTime ?? (s as any).endedAt ?? (s as any).endedAtIso ?? (s as any).end;
+    const v =
+      (s as any).endTime ??
+      (s as any).endedAt ??
+      (s as any).endedAtIso ??
+      (s as any).end;
     if (!v) return NaN;
     const t = new Date(v).getTime();
     return Number.isNaN(t) ? NaN : t;
@@ -97,7 +143,11 @@ export class DefaultQueries implements IDefaultQueries {
    * Whether session falls (partially) within [start, end).
    * Uses session start/end fallbacks.
    */
-  private static sessionInRangeWithWindow(s: StudySession, start?: Date, end?: Date) {
+  private static sessionInRangeWithWindow(
+    s: StudySession,
+    start?: Date,
+    end?: Date,
+  ) {
     const stMs = DefaultQueries.sessionStartMs(s);
     const enMs = DefaultQueries.sessionEndMs(s);
 
@@ -133,9 +183,7 @@ export class DefaultQueries implements IDefaultQueries {
   private static sessionWorkMs(s: StudySession) {
     if (!s.intendedCycles) {
       return 0;
-    }
-
-    else return s.workBlockMs * s.intendedCycles;
+    } else return s.workBlockMs * s.intendedCycles;
   }
 
   private static sumWorkMs(list: StudySession[]) {
@@ -143,11 +191,15 @@ export class DefaultQueries implements IDefaultQueries {
     return list.reduce((acc, s) => acc + DefaultQueries.sessionWorkMs(s), 0);
   }
 
-  private static bucketByDate(sessions: StudySession[]): Map<string, StudySession[]> {
+  private static bucketByDate(
+    sessions: StudySession[],
+  ): Map<string, StudySession[]> {
     const m = new Map<string, StudySession[]>();
     for (const s of sessions) {
       const stMs = DefaultQueries.sessionStartMs(s);
-      const d = Number.isNaN(stMs) ? DefaultQueries.toLocalYMD(new Date()) : DefaultQueries.toLocalYMD(new Date(stMs));
+      const d = Number.isNaN(stMs)
+        ? DefaultQueries.toLocalYMD(new Date())
+        : DefaultQueries.toLocalYMD(new Date(stMs));
       const arr = m.get(d) ?? [];
       arr.push(s);
       m.set(d, arr);
@@ -172,14 +224,18 @@ export class DefaultQueries implements IDefaultQueries {
     const sess = await this.ensureSessions();
     const start = DefaultQueries.parseIsoOrUndefined(startIso);
     const end = DefaultQueries.parseIsoOrUndefined(endIso);
-    const filtered = sess.filter((s) => DefaultQueries.sessionInRangeWithWindow(s, start, end));
+    const filtered = sess.filter((s) =>
+      DefaultQueries.sessionInRangeWithWindow(s, start, end),
+    );
     const totalMs = DefaultQueries.sumWorkMs(filtered);
     const subjectMap = DefaultQueries.groupBySubject(filtered);
-    const bySubject: TimeBySubject[] = Array.from(subjectMap.entries()).map(([subjectId, arr]) => ({
-      subjectId,
-      totalMs: DefaultQueries.sumWorkMs(arr),
-      sessions: arr.length,
-    }));
+    const bySubject: TimeBySubject[] = Array.from(subjectMap.entries()).map(
+      ([subjectId, arr]) => ({
+        subjectId,
+        totalMs: DefaultQueries.sumWorkMs(arr),
+        sessions: arr.length,
+      }),
+    );
     bySubject.sort((a, b) => b.totalMs - a.totalMs);
     return { totalMs, sessions: filtered.length, bySubject };
   }
@@ -197,7 +253,8 @@ export class DefaultQueries implements IDefaultQueries {
     let weekStartDate: Date;
     if (weekStartIso) {
       const parsed = new Date(weekStartIso);
-      if (Number.isNaN(parsed.getTime())) weekStartDate = DefaultQueries.startOfDay(new Date());
+      if (Number.isNaN(parsed.getTime()))
+        weekStartDate = DefaultQueries.startOfDay(new Date());
       else weekStartDate = DefaultQueries.startOfDay(parsed);
     } else {
       const now = new Date();
@@ -208,15 +265,21 @@ export class DefaultQueries implements IDefaultQueries {
 
     const days: DayBucket[] = [];
     for (let i = 0; i < 7; i++) {
-      const dayStart = new Date(weekStartDate.getTime() + i * 24 * 60 * 60 * 1000);
+      const dayStart = new Date(
+        weekStartDate.getTime() + i * 24 * 60 * 60 * 1000,
+      );
       const dayEnd = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000);
-      const daySessions = sess.filter((s) => DefaultQueries.sessionInRangeWithWindow(s, dayStart, dayEnd));
+      const daySessions = sess.filter((s) =>
+        DefaultQueries.sessionInRangeWithWindow(s, dayStart, dayEnd),
+      );
       const subjectMap = DefaultQueries.groupBySubject(daySessions);
-      const bySubject: TimeBySubject[] = Array.from(subjectMap.entries()).map(([subjectId, arr]) => ({
-        subjectId,
-        totalMs: DefaultQueries.sumWorkMs(arr),
-        sessions: arr.length,
-      }));
+      const bySubject: TimeBySubject[] = Array.from(subjectMap.entries()).map(
+        ([subjectId, arr]) => ({
+          subjectId,
+          totalMs: DefaultQueries.sumWorkMs(arr),
+          sessions: arr.length,
+        }),
+      );
       bySubject.sort((a, b) => b.totalMs - a.totalMs);
       days.push({
         date: DefaultQueries.toLocalYMD(dayStart),
@@ -229,23 +292,35 @@ export class DefaultQueries implements IDefaultQueries {
     const weekTotal = days.reduce((acc, d) => acc + d.totalMs, 0);
     const weekSessions = days.reduce((acc, d) => acc + d.sessions, 0);
 
-    return { weekStart: DefaultQueries.toLocalYMD(weekStartDate), days, weekTotal, weekSessions };
+    return {
+      weekStart: DefaultQueries.toLocalYMD(weekStartDate),
+      days,
+      weekTotal,
+      weekSessions,
+    };
   }
 
   async averageByWeekday(startIso?: string, endIso?: string) {
     const sess = await this.ensureSessions();
     const start = DefaultQueries.parseIsoOrUndefined(startIso);
     const end = DefaultQueries.parseIsoOrUndefined(endIso);
-    const filtered = sess.filter((s) => DefaultQueries.sessionInRangeWithWindow(s, start, end));
+    const filtered = sess.filter((s) =>
+      DefaultQueries.sessionInRangeWithWindow(s, start, end),
+    );
     const weekdayToDateTotals = new Map<number, Map<string, number>>();
 
     for (const s of filtered) {
       const dMs = DefaultQueries.sessionStartMs(s);
-      const d = Number.isNaN(dMs) ? new Date((s as any).startTime ?? (s as any).startedAt) : new Date(dMs);
+      const d = Number.isNaN(dMs)
+        ? new Date((s as any).startTime ?? (s as any).startedAt)
+        : new Date(dMs);
       const ymd = DefaultQueries.toLocalYMD(d);
       const wd = d.getDay();
       const dateMap = weekdayToDateTotals.get(wd) ?? new Map<string, number>();
-      dateMap.set(ymd, (dateMap.get(ymd) ?? 0) + DefaultQueries.sessionWorkMs(s));
+      dateMap.set(
+        ymd,
+        (dateMap.get(ymd) ?? 0) + DefaultQueries.sessionWorkMs(s),
+      );
       weekdayToDateTotals.set(wd, dateMap);
     }
 
@@ -263,9 +338,14 @@ export class DefaultQueries implements IDefaultQueries {
   async subjectThisWeek(subjectId?: string, weekStartIso?: string) {
     const week = await this.weeklyBreakdown(weekStartIso);
     const daily = week.days.map((d) => {
-      const subjectSessions = d.bySubject.filter((b) => b.subjectId === subjectId);
+      const subjectSessions = d.bySubject.filter(
+        (b) => b.subjectId === subjectId,
+      );
       const totalMs = subjectSessions.reduce((acc, b) => acc + b.totalMs, 0);
-      const sessionsCount = subjectSessions.reduce((acc, b) => acc + b.sessions, 0);
+      const sessionsCount = subjectSessions.reduce(
+        (acc, b) => acc + b.sessions,
+        0,
+      );
       return {
         date: d.date,
         totalMs,
@@ -284,13 +364,17 @@ export class DefaultQueries implements IDefaultQueries {
     const sess = await this.ensureSessions();
     const start = DefaultQueries.parseIsoOrUndefined(startIso);
     const end = DefaultQueries.parseIsoOrUndefined(endIso);
-    const filtered = sess.filter((s) => DefaultQueries.sessionInRangeWithWindow(s, start, end));
+    const filtered = sess.filter((s) =>
+      DefaultQueries.sessionInRangeWithWindow(s, start, end),
+    );
     const subjectMap = DefaultQueries.groupBySubject(filtered);
-    const arr: TimeBySubject[] = Array.from(subjectMap.entries()).map(([subjectId, arr]) => ({
-      subjectId,
-      totalMs: DefaultQueries.sumWorkMs(arr),
-      sessions: arr.length,
-    }));
+    const arr: TimeBySubject[] = Array.from(subjectMap.entries()).map(
+      ([subjectId, arr]) => ({
+        subjectId,
+        totalMs: DefaultQueries.sumWorkMs(arr),
+        sessions: arr.length,
+      }),
+    );
     arr.sort((a, b) => b.totalMs - a.totalMs);
     return arr.slice(0, n);
   }

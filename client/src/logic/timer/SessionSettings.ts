@@ -5,36 +5,36 @@
  * - number of cycles (each block containing a work followed by a break)
  */
 export class SessionSettings {
-    private workMs: number;
-    private breakMs: number;
-    private numCycles: number;
+  private workMs: number;
+  private breakMs: number;
+  private numCycles: number;
 
-    // Constructs  settings with work/break amounts with the given number of SECONDS
-    // and numBlocks.
-    // Important: work/break are in seconds NOT time.
-    constructor(workMs: number, breakMs: number, numCycles: number) {
-        this.workMs = workMs;
-        this.breakMs = breakMs;
-        this.numCycles = numCycles;
-    }
+  // Constructs  settings with work/break amounts with the given number of SECONDS
+  // and numBlocks.
+  // Important: work/break are in seconds NOT time.
+  constructor(workMs: number, breakMs: number, numCycles: number) {
+    this.workMs = workMs;
+    this.breakMs = breakMs;
+    this.numCycles = numCycles;
+  }
 
-    // Returns the work duration in milliseconds
-    getWorkDuration(): number {
-        return this.workMs;
-    }
+  // Returns the work duration in milliseconds
+  getWorkDuration(): number {
+    return this.workMs;
+  }
 
-    // Returns the break duration in milliseconds
-    getBreakDuration(): number {
-        return this.breakMs;
-    }
+  // Returns the break duration in milliseconds
+  getBreakDuration(): number {
+    return this.breakMs;
+  }
 
-    // Returns total intended time of session
-    getTotalTime(): number {
-        return this.workMs* this.numCycles + this.breakMs * (this.numCycles - 1 );
-    }
+  // Returns total intended time of session
+  getTotalTime(): number {
+    return this.workMs * this.numCycles + this.breakMs * (this.numCycles - 1);
+  }
 
-    // Returns the number of cycles
-    getNumCycles(): number {
-        return this.numCycles;
-    }
-} 
+  // Returns the number of cycles
+  getNumCycles(): number {
+    return this.numCycles;
+  }
+}

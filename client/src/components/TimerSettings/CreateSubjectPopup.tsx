@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 import {
   Dialog,
@@ -9,9 +9,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { saveSubject } from "../../../shared/subject";
 
 export function CreateSubjectPopup({
@@ -19,11 +19,11 @@ export function CreateSubjectPopup({
   onOpenChange,
   onCreate,
 }: {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  onCreate: (name: string) => void
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onCreate: (name: string) => void;
 }) {
-  const [subjectName, setSubjectName] = useState("")
+  const [subjectName, setSubjectName] = useState("");
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -54,11 +54,14 @@ export function CreateSubjectPopup({
           <Button
             type="button"
             onClick={async () => {
-              const res = await saveSubject(subjectName)
-              console.log("Saved Subject! The new id of the subject is ", res.data.subject_insert.id);
-              onCreate(subjectName)
-              setSubjectName("")
-              onOpenChange(false)
+              const res = await saveSubject(subjectName);
+              console.log(
+                "Saved Subject! The new id of the subject is ",
+                res.data.subject_insert.id,
+              );
+              onCreate(subjectName);
+              setSubjectName("");
+              onOpenChange(false);
             }}
           >
             Create
@@ -66,6 +69,5 @@ export function CreateSubjectPopup({
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
-

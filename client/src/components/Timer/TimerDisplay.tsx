@@ -39,7 +39,9 @@ export default function TimerDisplay() {
   const fullArc = 270;
   const startAngle = 225;
 
-  const radius = containerRef.current ? containerRef.current.offsetWidth / 2 - 8 : 60;
+  const radius = containerRef.current
+    ? containerRef.current.offsetWidth / 2 - 8
+    : 60;
   const strokeWidth = 6;
 
   return (
@@ -50,14 +52,26 @@ export default function TimerDisplay() {
         preserveAspectRatio="xMidYMid meet"
       >
         <path
-          d={describeArc(radius + strokeWidth, radius + strokeWidth, radius, startAngle, startAngle + fullArc)}
+          d={describeArc(
+            radius + strokeWidth,
+            radius + strokeWidth,
+            radius,
+            startAngle,
+            startAngle + fullArc,
+          )}
           fill="none"
           stroke="#e6e6e6"
           strokeWidth={strokeWidth}
           strokeLinecap="round"
         />
         <path
-          d={describeArc(radius + strokeWidth, radius + strokeWidth, radius, startAngle, startAngle + fullArc * fraction)}
+          d={describeArc(
+            radius + strokeWidth,
+            radius + strokeWidth,
+            radius,
+            startAngle,
+            startAngle + fullArc * fraction,
+          )}
           fill="none"
           stroke="currentColor"
           strokeWidth={strokeWidth}
@@ -77,11 +91,17 @@ export default function TimerDisplay() {
 /**
  *  This is a function that descirbes the arc path which represents the timer.
  *  It represents an arc which contains the timer.
- * 
+ *
  *   x and y are the center coordinates of the circle (to place it), the radius
  *   is the radius of the circle, and the angle of each side of the arc.
  */
-function describeArc(x: number, y: number, radius: number, startAngle: number, endAngle: number) {
+function describeArc(
+  x: number,
+  y: number,
+  radius: number,
+  startAngle: number,
+  endAngle: number,
+) {
   const start = polarToCartesian(x, y, radius, endAngle);
   const end = polarToCartesian(x, y, radius, startAngle);
   const diff = Math.abs(endAngle - startAngle);
@@ -89,11 +109,19 @@ function describeArc(x: number, y: number, radius: number, startAngle: number, e
   return `M ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArcFlag} 0 ${end.x} ${end.y}`;
 }
 
-/** 
+/**
  *  This converts the polar coordinates to cartesian coordinates.
  *  This just allows the arc to be displayed on the screen, since SVG uses cartesian coordinates.
-*/
-function polarToCartesian(centerX: number, centerY: number, radius: number, angleInDegrees: number) {
+ */
+function polarToCartesian(
+  centerX: number,
+  centerY: number,
+  radius: number,
+  angleInDegrees: number,
+) {
   const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
-  return { x: centerX + radius * Math.cos(angleInRadians), y: centerY + radius * Math.sin(angleInRadians) };
+  return {
+    x: centerX + radius * Math.cos(angleInRadians),
+    y: centerY + radius * Math.sin(angleInRadians),
+  };
 }

@@ -91,7 +91,11 @@ function SubjectsLegend({
 /* DAILY (stacked single bar representing today's subjects)  */
 /* ========================================================= */
 
-export function DailyBreakdown({ queryString = "{}" }: { queryString?: string }) {
+export function DailyBreakdown({
+  queryString = "{}",
+}: {
+  queryString?: string;
+}) {
   const [sessions, setSessions] = useState<StudySession[]>([]);
   const [subjectMap, setSubjectMap] = useState<Record<string, string>>({});
   const [todayResult, setTodayResult] = useState<any | null>(null);
@@ -144,7 +148,9 @@ export function DailyBreakdown({ queryString = "{}" }: { queryString?: string })
     dataItem[name] = minutes;
   });
 
-  const orderedSubjectNames = subjectIds.map((id: string) => subjectMap[id] ?? id);
+  const orderedSubjectNames = subjectIds.map(
+    (id: string) => subjectMap[id] ?? id,
+  );
 
   return (
     <Card className="bg-transparent shadow-none border">
@@ -153,7 +159,10 @@ export function DailyBreakdown({ queryString = "{}" }: { queryString?: string })
       </CardHeader>
 
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[320px] w-full bg-transparent">
+        <ChartContainer
+          config={chartConfig}
+          className="h-[320px] w-full bg-transparent"
+        >
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={[dataItem]}
@@ -162,9 +171,16 @@ export function DailyBreakdown({ queryString = "{}" }: { queryString?: string })
             >
               <CartesianGrid vertical={false} strokeDasharray="3 3" />
               <XAxis dataKey="label" axisLine={false} tickLine={false} />
-              <YAxis tickLine={false} axisLine={false} tickFormatter={(v) => `${v}m`} />
-              <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="dot" />} />
-              {orderedSubjectNames.map((name:string, id: string) => (
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickFormatter={(v) => `${v}m`}
+              />
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent indicator="dot" />}
+              />
+              {orderedSubjectNames.map((name: string, id: string) => (
                 <Bar
                   key={name}
                   dataKey={name}
@@ -180,7 +196,11 @@ export function DailyBreakdown({ queryString = "{}" }: { queryString?: string })
         </ChartContainer>
 
         {/* Legend */}
-        <SubjectsLegend subjects={subjectIds} map={subjectMap} colorFor={subjectColor} />
+        <SubjectsLegend
+          subjects={subjectIds}
+          map={subjectMap}
+          colorFor={subjectColor}
+        />
       </CardContent>
     </Card>
   );
@@ -190,11 +210,17 @@ export function DailyBreakdown({ queryString = "{}" }: { queryString?: string })
 /* WEEK (stacked bars, each day broken down by subject)      */
 /* ========================================================= */
 
-export function WeeklyBreakdown({ queryString = "{}" }: { queryString?: string }) {
+export function WeeklyBreakdown({
+  queryString = "{}",
+}: {
+  queryString?: string;
+}) {
   const [sessions, setSessions] = useState<StudySession[]>([]);
   const [subjectMap, setSubjectMap] = useState<Record<string, string>>({});
   const [weekResult, setWeekResult] = useState<any | null>(null);
-  const [topSubjectsResult, setTopSubjectsResult] = useState<any[] | null>(null);
+  const [topSubjectsResult, setTopSubjectsResult] = useState<any[] | null>(
+    null,
+  );
   const [subjectWeeks, setSubjectWeeks] = useState<Record<string, any>>({}); // subjectId -> subjectThisWeek result
 
   useEffect(() => {
@@ -259,11 +285,17 @@ export function WeeklyBreakdown({ queryString = "{}" }: { queryString?: string }
     let mounted = true;
     async function loadSubjectWeeks() {
       const subjectIds =
-        (topSubjectsResult && topSubjectsResult.length > 0)
+        topSubjectsResult && topSubjectsResult.length > 0
           ? topSubjectsResult.map((t: any) => t.subjectId ?? "no-subject")
-          : Array.from(new Set((sessions || []).map((s: any) => s.subjectId).filter(Boolean)));
+          : Array.from(
+              new Set(
+                (sessions || []).map((s: any) => s.subjectId).filter(Boolean),
+              ),
+            );
       try {
-        const promises = subjectIds.map((id) => DefaultQueries.subjectThisWeek(id));
+        const promises = subjectIds.map((id) =>
+          DefaultQueries.subjectThisWeek(id),
+        );
         const results = await Promise.all(promises);
         if (!mounted) return;
         const map: Record<string, any> = {};
@@ -278,7 +310,7 @@ export function WeeklyBreakdown({ queryString = "{}" }: { queryString?: string }
       }
     }
     // only load when we at least have sessions or topSubjectsResult determined
-    if ((topSubjectsResult !== null) || sessions.length > 0) {
+    if (topSubjectsResult !== null || sessions.length > 0) {
       loadSubjectWeeks();
     }
     return () => {
@@ -286,18 +318,26 @@ export function WeeklyBreakdown({ queryString = "{}" }: { queryString?: string }
     };
   }, [topSubjectsResult, sessions]);
 
-  const dayDates: string[] = (weekResult?.days ?? []).map((d: any) => d.date as string);
+  const dayDates: string[] = (weekResult?.days ?? []).map(
+    (d: any) => d.date as string,
+  );
   const dayLabels = dayDates.map((d: string) => d.slice(5));
 
   // gather subjects to render (top N or all found)
   const subjectIds =
-    (topSubjectsResult && topSubjectsResult.length > 0)
+    topSubjectsResult && topSubjectsResult.length > 0
       ? topSubjectsResult.map((t: any) => t.subjectId ?? "no-subject")
-      : Array.from(new Set((sessions || []).map((s: any) => s.subjectId).filter(Boolean)));
+      : Array.from(
+          new Set(
+            (sessions || []).map((s: any) => s.subjectId).filter(Boolean),
+          ),
+        );
 
   // Build data array: each day is an object { date: 'MM-DD', [subjectName]: minutes }
   const data = dayDates.map((dateIso: string, idx: number) => {
-    const obj: Record<string, string | number> = { date: dayLabels[idx] ?? dateIso.slice(5) };
+    const obj: Record<string, string | number> = {
+      date: dayLabels[idx] ?? dateIso.slice(5),
+    };
     return obj;
   });
 
@@ -327,7 +367,10 @@ export function WeeklyBreakdown({ queryString = "{}" }: { queryString?: string }
       </CardHeader>
 
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[250px] w-full bg-transparent">
+        <ChartContainer
+          config={chartConfig}
+          className="h-[250px] w-full bg-transparent"
+        >
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={data}
@@ -336,7 +379,11 @@ export function WeeklyBreakdown({ queryString = "{}" }: { queryString?: string }
             >
               <CartesianGrid vertical={false} strokeDasharray="3 3" />
               <XAxis dataKey="date" tickLine={false} axisLine={false} />
-              <YAxis tickLine={false} axisLine={false} tickFormatter={(v) => `${v}m`} />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickFormatter={(v) => `${v}m`}
+              />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Legend />
               {orderedSubjectNames.map((name) => (
@@ -353,10 +400,16 @@ export function WeeklyBreakdown({ queryString = "{}" }: { queryString?: string }
           </ResponsiveContainer>
         </ChartContainer>
 
-        <SubjectsLegend subjects={subjectIds} map={subjectMap} colorFor={(n) => subjectColor(n)} />
+        <SubjectsLegend
+          subjects={subjectIds}
+          map={subjectMap}
+          colorFor={(n) => subjectColor(n)}
+        />
       </CardContent>
 
-      <CardFooter>Total: {msToMinutes(weekResult?.weekTotal ?? 0)} min</CardFooter>
+      <CardFooter>
+        Total: {msToMinutes(weekResult?.weekTotal ?? 0)} min
+      </CardFooter>
     </Card>
   );
 }
@@ -374,13 +427,15 @@ export function SubjectsThisWeekBreakdown({
 }) {
   const [sessions, setSessions] = useState<StudySession[]>([]);
   const [subjectMap, setSubjectMap] = useState<Record<string, string>>({});
-  const [topRange, setTopRange] = useState<"week" | "month" | "year" | "last30" | "custom">(
-    "week"
-  );
+  const [topRange, setTopRange] = useState<
+    "week" | "month" | "year" | "last30" | "custom"
+  >("week");
   const [customFrom, setCustomFrom] = useState<string>("");
   const [customTo, setCustomTo] = useState<string>("");
   const [subjectDetail, setSubjectDetail] = useState<any | null>(null);
-  const [topSubjectsResult, setTopSubjectsResult] = useState<any[] | null>(null);
+  const [topSubjectsResult, setTopSubjectsResult] = useState<any[] | null>(
+    null,
+  );
 
   useEffect(() => {
     executeQueryString(queryString).then(setSessions);
@@ -404,7 +459,12 @@ export function SubjectsThisWeekBreakdown({
     // TODO: If you support a query string that filters sessions by date range,
     // build it here and call executeQueryString(...) to replace sessions.
     // For now we rely on client-side DefaultQueries.
-    console.log("Requested top subjects range:", topRange, customFrom, customTo);
+    console.log(
+      "Requested top subjects range:",
+      topRange,
+      customFrom,
+      customTo,
+    );
   }
 
   /* ---------- SINGLE-SUBJECT VIEW ---------- */
@@ -446,12 +506,22 @@ export function SubjectsThisWeekBreakdown({
         </CardHeader>
 
         <CardContent>
-          <ChartContainer config={chartConfig} className="h-[250px] w-full bg-transparent">
+          <ChartContainer
+            config={chartConfig}
+            className="h-[250px] w-full bg-transparent"
+          >
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={data} margin={{ top: 8, right: 8, left: 8, bottom: 8 }}>
+              <LineChart
+                data={data}
+                margin={{ top: 8, right: 8, left: 8, bottom: 8 }}
+              >
                 <CartesianGrid vertical={false} strokeDasharray="3 3" />
                 <XAxis dataKey="date" tickLine={false} axisLine={false} />
-                <YAxis tickLine={false} axisLine={false} tickFormatter={(v) => `${v}m`} />
+                <YAxis
+                  tickLine={false}
+                  axisLine={false}
+                  tickFormatter={(v) => `${v}m`}
+                />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Line
                   dataKey="minutes"
@@ -505,7 +575,10 @@ export function SubjectsThisWeekBreakdown({
           <CardTitle>Top subjects</CardTitle>
 
           {/* controls */}
-          <form className="flex gap-2 items-center" onSubmit={handleTopRangeSubmit}>
+          <form
+            className="flex gap-2 items-center"
+            onSubmit={handleTopRangeSubmit}
+          >
             <select
               value={topRange}
               onChange={(e) => setTopRange(e.target.value as any)}
@@ -535,7 +608,10 @@ export function SubjectsThisWeekBreakdown({
               </>
             )}
 
-            <button type="submit" className="bg-slate-800 text-white rounded px-3 py-1 text-sm">
+            <button
+              type="submit"
+              className="bg-slate-800 text-white rounded px-3 py-1 text-sm"
+            >
               Apply
             </button>
           </form>
@@ -543,7 +619,10 @@ export function SubjectsThisWeekBreakdown({
       </CardHeader>
 
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[250px] w-full bg-transparent">
+        <ChartContainer
+          config={chartConfig}
+          className="h-[250px] w-full bg-transparent"
+        >
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={data}
@@ -552,7 +631,11 @@ export function SubjectsThisWeekBreakdown({
             >
               <CartesianGrid vertical={false} strokeDasharray="3 3" />
               <XAxis dataKey="name" tickLine={false} axisLine={false} />
-              <YAxis tickLine={false} axisLine={false} tickFormatter={(v) => `${v}m`} />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickFormatter={(v) => `${v}m`}
+              />
               <ChartTooltip content={<ChartTooltipContent />} />
               {/* single Bar; we color each bar via Cell */}
               <Bar dataKey="minutes" radius={8} isAnimationActive={false}>
@@ -574,7 +657,9 @@ export function SubjectsThisWeekBreakdown({
               />
               <div>
                 <div className="font-medium">{d.name}</div>
-                <div className="text-xs text-muted-foreground">{d.minutes} min</div>
+                <div className="text-xs text-muted-foreground">
+                  {d.minutes} min
+                </div>
               </div>
             </div>
           ))}

@@ -24,7 +24,6 @@ import {
   type User,
 } from "firebase/auth";
 
-
 export function SignUpCard() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -96,7 +95,9 @@ export function SignUpCard() {
       if (user.emailVerified) {
         nav("/dashboard");
       } else {
-        setError("Email still not verified. Please click the link in your email and then press the button again.");
+        setError(
+          "Email still not verified. Please click the link in your email and then press the button again.",
+        );
       }
     } catch (err: any) {
       setError(err?.message ?? "Verification check failed");
@@ -130,7 +131,8 @@ export function SignUpCard() {
       } catch (e) {
         oobCode = raw;
       }
-      if (!oobCode) throw new Error("Could not find a verification code in that input.");
+      if (!oobCode)
+        throw new Error("Could not find a verification code in that input.");
       await applyActionCode(auth, oobCode);
       if (auth.currentUser) {
         await auth.currentUser.reload();
@@ -139,7 +141,9 @@ export function SignUpCard() {
           return;
         }
       }
-      setError("Verification code applied. If you're signed-in here, press 'I clicked the link' to continue.");
+      setError(
+        "Verification code applied. If you're signed-in here, press 'I clicked the link' to continue.",
+      );
     } catch (err: any) {
       setError(err?.message ?? "Failed to apply verification code.");
     } finally {
@@ -152,10 +156,14 @@ export function SignUpCard() {
       <Card className="max-w-sm w-full">
         <CardHeader>
           <div className="flex items-center gap-2">
-            <div className="bg-muted px-2 py-1 rounded-md"><Mail className="h-4 w-4" /></div>
+            <div className="bg-muted px-2 py-1 rounded-md">
+              <Mail className="h-4 w-4" />
+            </div>
             <CardTitle>Create an account</CardTitle>
           </div>
-          <CardDescription>Enter your email and a password to sign up.</CardDescription>
+          <CardDescription>
+            Enter your email and a password to sign up.
+          </CardDescription>
         </CardHeader>
 
         <CardContent>
@@ -196,8 +204,19 @@ export function SignUpCard() {
 
             {error && <div className="text-sm text-destructive">{error}</div>}
 
-            <Button type="submit" className="w-full mt-2" onClick={handleSubmit} disabled={loading}>
-              {loading ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> Creating...</> : "Sign Up"}
+            <Button
+              type="submit"
+              className="w-full mt-2"
+              onClick={handleSubmit}
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="animate-spin mr-2 h-4 w-4" /> Creating...
+                </>
+              ) : (
+                "Sign Up"
+              )}
             </Button>
           </form>
         </CardContent>
@@ -209,10 +228,15 @@ export function SignUpCard() {
     <Card className="max-w-md w-full">
       <CardHeader>
         <div className="flex items-center gap-2">
-          <div className="bg-muted px-2 py-1 rounded-md"><Check className="h-4 w-4" /></div>
+          <div className="bg-muted px-2 py-1 rounded-md">
+            <Check className="h-4 w-4" />
+          </div>
           <CardTitle>Verify your email</CardTitle>
         </div>
-        <CardDescription>We've sent a verification link to <strong>{email}</strong>. Click it to continue.</CardDescription>
+        <CardDescription>
+          We've sent a verification link to <strong>{email}</strong>. Click it
+          to continue.
+        </CardDescription>
       </CardHeader>
 
       <CardContent>
@@ -221,14 +245,25 @@ export function SignUpCard() {
 
           <div className="flex gap-2">
             <Button onClick={checkIfVerified} disabled={loading}>
-              {loading ? <Loader2 className="animate-spin h-4 w-4 mr-2" /> : "I clicked the link"}
+              {loading ? (
+                <Loader2 className="animate-spin h-4 w-4 mr-2" />
+              ) : (
+                "I clicked the link"
+              )}
             </Button>
 
-            <Button variant="outline" onClick={handleResend} disabled={sending || resendCooldown > 0}>
-              {resendCooldown > 0 ? `Resend (${resendCooldown}s)` : (sending ? "Resending..." : "Resend email")}
+            <Button
+              variant="outline"
+              onClick={handleResend}
+              disabled={sending || resendCooldown > 0}
+            >
+              {resendCooldown > 0
+                ? `Resend (${resendCooldown}s)`
+                : sending
+                  ? "Resending..."
+                  : "Resend email"}
             </Button>
           </div>
-
         </div>
       </CardContent>
     </Card>

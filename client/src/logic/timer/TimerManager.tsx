@@ -1,4 +1,3 @@
-
 export type TickListener = (timeLeftMs: number) => void;
 export type FinishedListener = () => void;
 
@@ -7,11 +6,11 @@ export class TimerManagerSubject {
   private finishedListeners = new Set<FinishedListener>();
 
   addTickListener(cb: TickListener) {
-  this.tickListeners.add(cb);
-  return () => {
-    this.tickListeners.delete(cb);
-  };
-}
+    this.tickListeners.add(cb);
+    return () => {
+      this.tickListeners.delete(cb);
+    };
+  }
 
   addFinishedListener(cb: FinishedListener) {
     this.finishedListeners.add(cb);
@@ -20,13 +19,21 @@ export class TimerManagerSubject {
 
   emitTick(msLeft: number) {
     for (const cb of this.tickListeners) {
-      try { cb(msLeft); } catch (err) { console.error("tick listener error", err); }
+      try {
+        cb(msLeft);
+      } catch (err) {
+        console.error("tick listener error", err);
+      }
     }
   }
 
   emitFinished() {
     for (const cb of this.finishedListeners) {
-      try { cb(); } catch (err) { console.error("finished listener error", err); }
+      try {
+        cb();
+      } catch (err) {
+        console.error("finished listener error", err);
+      }
     }
   }
 }
@@ -35,7 +42,7 @@ export class TimerManagerSubject {
  *  TimerManager class.
  *  This class is a singleton which controls an instance of the Timer and can
  *  tick it over seconds.
- *  
+ *
  *  It contains:
  *    - An instance for singleton
  *    - The Timer it ticks on
@@ -143,7 +150,6 @@ export class TimerManager {
   }
 }
 
-
 /**
  * Timer logic in MILLISECONDS.
  * Stores timer duration, as well as time started/finished.
@@ -182,7 +188,10 @@ export class Timer {
   getElapsedMs(now: number = Date.now()): number {
     if (this.startedAtMs === null) return 0;
     const effectiveNow = this.pausedAtMs ?? now;
-    return Math.min(effectiveNow - this.startedAtMs - this.accumulatedPausedMs, this.durationMs);
+    return Math.min(
+      effectiveNow - this.startedAtMs - this.accumulatedPausedMs,
+      this.durationMs,
+    );
   }
 
   getTimeLeftMs(now: number = Date.now()): number {

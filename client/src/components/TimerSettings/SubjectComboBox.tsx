@@ -1,10 +1,16 @@
-import { useEffect, useState, useRef, type Dispatch, type SetStateAction } from "react"
-import { Check, Plus } from "lucide-react"
-import { getSubjects, deleteSubjectByName } from "../../../shared/subject"
-import type { Subject } from "../../../shared/subject"
-import { CreateSubjectPopup } from "./CreateSubjectPopup"
+import {
+  useEffect,
+  useState,
+  useRef,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
+import { Check, Plus } from "lucide-react";
+import { getSubjects, deleteSubjectByName } from "../../../shared/subject";
+import type { Subject } from "../../../shared/subject";
+import { CreateSubjectPopup } from "./CreateSubjectPopup";
 
-import { ActiveSession } from "@/logic/timer/ActiveSession"
+import { ActiveSession } from "@/logic/timer/ActiveSession";
 
 import {
   Command,
@@ -13,28 +19,28 @@ import {
   CommandItem,
   CommandList,
   CommandEmpty,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
 type SubjectComboBoxProp = {
   setSubjectSelected?: Dispatch<SetStateAction<boolean>>;
 };
 
 export function SubjectComboBox(prop: SubjectComboBoxProp) {
-  const [subjects, setSubjects] = useState<Subject[]>([])
-  const [open, setOpen] = useState(false)
-  const [search, setSearch] = useState("")
-  const [selected, setSelected] = useState<string | null>(null)
-  const [showCreatePopup, setShowCreatePopup] = useState(false)
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [selected, setSelected] = useState<string | null>(null);
+  const [showCreatePopup, setShowCreatePopup] = useState(false);
 
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     async function fetchSubjects() {
@@ -46,12 +52,12 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
       }
     }
 
-    fetchSubjects()
-  }, [])
+    fetchSubjects();
+  }, []);
 
   const filteredSubjects = subjects.filter((s) =>
-    s.name.toLowerCase().includes(search.toLowerCase())
-  )
+    s.name.toLowerCase().includes(search.toLowerCase()),
+  );
 
   useEffect(() => {
     prop.setSubjectSelected?.(selected !== null);
@@ -94,18 +100,23 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
                       <div className="flex items-center justify-between w-full">
                         <div className="flex items-center">
                           <Check
-                            className={`mr-2 h-4 w-4 ${selected === subject.name ? "opacity-100" : "opacity-0"
-                              }`}
+                            className={`mr-2 h-4 w-4 ${
+                              selected === subject.name
+                                ? "opacity-100"
+                                : "opacity-0"
+                            }`}
                           />
                           {subject.name}
                         </div>
 
                         <button
                           onClick={async (e) => {
-                            e.stopPropagation()
-                            await deleteSubjectByName(subject.name)
-                            setSubjects((prev) => prev.filter((s) => s !== subject))
-                            if (selected === subject.name) setSelected(null)
+                            e.stopPropagation();
+                            await deleteSubjectByName(subject.name);
+                            setSubjects((prev) =>
+                              prev.filter((s) => s !== subject),
+                            );
+                            if (selected === subject.name) setSelected(null);
                           }}
                           aria-label={`Delete ${subject}`}
                           className="ml-2 h-6 w-6 flex items-center justify-centehover:bg-red-200 text-red-600 hover:text-red-800 font-bold text-xs"
@@ -122,10 +133,10 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
 
               <CommandItem
                 onSelect={() => {
-                  setOpen(false)
+                  setOpen(false);
                   setTimeout(() => {
-                    setShowCreatePopup(true)
-                  }, 0)
+                    setShowCreatePopup(true);
+                  }, 0);
                 }}
               >
                 <Plus className="mr-2 h-4 w-4" />
@@ -146,5 +157,5 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
         }}
       />
     </>
-  )
+  );
 }

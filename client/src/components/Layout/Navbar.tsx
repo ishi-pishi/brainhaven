@@ -90,8 +90,7 @@ export function Navbar() {
         {/* RIGHT: logo + login */}
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
-            <div className="rounded-md px-1.5 py-0.5 ring-1 ring-muted/10">
-            </div>
+            <div className="rounded-md px-1.5 py-0.5 ring-1 ring-muted/10"></div>
             <div className="text-lg font-semibold">🧠brainhaven</div>
           </div>
         </div>

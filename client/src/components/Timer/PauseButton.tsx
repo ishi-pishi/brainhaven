@@ -10,8 +10,8 @@ export function PauseButton() {
   const [isPaused, setIsPaused] = useState(false);
 
   const handleClick = () => {
-    setIsPaused(prev => !prev);
-    const timer = TimerManager.getInstance()
+    setIsPaused((prev) => !prev);
+    const timer = TimerManager.getInstance();
     if (!isPaused) {
       timer.pause();
     } else {

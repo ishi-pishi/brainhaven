@@ -26,7 +26,7 @@ export class Observable {
  *  ActiveSession tracks blocks and is responsible of controlling the current timer based on
  *  block progression. This doesn't have many timer controls in it; it's mainly just
  *  responsible for orchestrating the timer through the blocks.
- * 
+ *
  *  Contains:
  *     - Instance of Active Session for singleton access
  *     - Queue of remaining blocks (changes as blocks are used)
@@ -43,7 +43,7 @@ export class ActiveSession extends Observable {
   /**
    *  Constructs a new unfinished ActiveSession based on current settings
    *  by constructing a new BlockQueue.
-   * 
+   *
    *  This adds a timer to the session but does not start it.
    */
   private constructor(settings: SessionSettings) {
@@ -66,7 +66,6 @@ export class ActiveSession extends Observable {
     this.timer = TimerManager.getInstance();
     this.timer.addFinishedListener(() => this.onBlockFinished());
   }
-
 
   // Gets current instance of the singleton ActiveSession.
   // If there is no instance, it creates a fresh one with default settings.
@@ -93,7 +92,7 @@ export class ActiveSession extends Observable {
 
   // Returns whether the timer has begun or not
   hasStarted() {
-    return (this.metadata.startedAt != null);
+    return this.metadata.startedAt != null;
   }
 
   // Gets current time
@@ -106,7 +105,7 @@ export class ActiveSession extends Observable {
     return duration;
   }
 
-  // Returns the either "Focus" or "Work"  
+  // Returns the either "Focus" or "Work"
   getCurrentBlockLabel(): string {
     return this.bq.getCurrentLabel();
   }
@@ -130,7 +129,7 @@ export class ActiveSession extends Observable {
     TimerManager.getInstance().pause();
   }
 
-  // 
+  //
 
   // Provides metadata object
   getMetadata(): any {
@@ -157,7 +156,9 @@ export class ActiveSession extends Observable {
     console.log("Starting session: subject" + this.metadata.subjectId);
 
     if (this.metadata.subjectId === null) {
-      throw new Error("The subject has not been set! Choose a category for the study session.");
+      throw new Error(
+        "The subject has not been set! Choose a category for the study session.",
+      );
     }
 
     this.startNewBlock();

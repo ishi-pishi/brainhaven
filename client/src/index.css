@@ -4,10 +4,10 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --bg: #F5F1E8;
+  --bg: #f5f1e8;
   --text: #3b3b3b;
   --accent: oklch(0.97 0.001 106.424);
-  --accent-2: #8B5E3C;
+  --accent-2: #8b5e3c;
   --border: oklch(0.923 0.003 48.717);
   --radius: 0.625rem;
   --background: oklch(1 0 0);

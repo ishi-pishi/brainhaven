@@ -14,7 +14,6 @@ export function TimerPage() {
   const session = ActiveSession.getInstance();
   useDisableScroll();
 
-
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (session && !session.isFinished()) {
@@ -25,7 +24,7 @@ export function TimerPage() {
 
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [session])
+  }, [session]);
 
   useEffect(() => {
     if (!session) return;
@@ -39,12 +38,11 @@ export function TimerPage() {
     const playSound = () => {
       const audio = new Audio(beep);
       audio.play();
-    }
+    };
 
     session.addListener(checkFinished);
     session.addListener(playSound);
-    return () => {
-    };
+    return () => {};
   }, [session, navigate]);
 
   if (!session) {

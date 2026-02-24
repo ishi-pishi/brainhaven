@@ -1,6 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import DefaultQueries from "@/logic/insights/IInsightFacade";
-import { DailyBreakdown, WeeklyBreakdown, SubjectsThisWeekBreakdown } from "./DailyBreakdown";
+import {
+  DailyBreakdown,
+  WeeklyBreakdown,
+  SubjectsThisWeekBreakdown,
+} from "./DailyBreakdown";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 function AnimatedNumber({ value }: { value: number }) {
@@ -27,7 +31,17 @@ function productivityIcon(p: number) {
   return "🥱";
 }
 
-function StatCard({ label, value, suffix, icon }: { label: string; value: number; suffix?: string; icon: string; }) {
+function StatCard({
+  label,
+  value,
+  suffix,
+  icon,
+}: {
+  label: string;
+  value: number;
+  suffix?: string;
+  icon: string;
+}) {
   return (
     <div className="h-[132px] rounded-3xl p-6 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10 hover:scale-[1.02] transition-transform">
       <div className="text-sm text-muted-foreground flex items-center gap-2">
@@ -35,7 +49,8 @@ function StatCard({ label, value, suffix, icon }: { label: string; value: number
         {label}
       </div>
       <div className="text-3xl font-semibold mt-2">
-        <AnimatedNumber value={value} />{suffix}
+        <AnimatedNumber value={value} />
+        {suffix}
       </div>
     </div>
   );
@@ -44,7 +59,11 @@ function StatCard({ label, value, suffix, icon }: { label: string; value: number
 export function DashBoardComp() {
   const hours = new Date().getHours();
   const greeting =
-    hours < 12 ? "Good morning ☀️" : hours < 18 ? "Good afternoon 🌤️" : "Good evening 🌙";
+    hours < 12
+      ? "Good morning ☀️"
+      : hours < 18
+        ? "Good afternoon 🌤️"
+        : "Good evening 🌙";
 
   const [todayMinutes, setTodayMinutes] = useState<number>(0);
   const [weekMinutes, setWeekMinutes] = useState<number>(0);
@@ -93,8 +112,18 @@ export function DashBoardComp() {
       {/* Stats + Daily Chart */}
       <div className="grid lg:grid-cols-2 gap-8 items-start">
         <div className="grid gap-4">
-          <StatCard label="Time studied today" value={todayMinutes} suffix=" min" icon="⏱️" />
-          <StatCard label="Time studied this week" value={weekMinutes} suffix=" min" icon="📅" />
+          <StatCard
+            label="Time studied today"
+            value={todayMinutes}
+            suffix=" min"
+            icon="⏱️"
+          />
+          <StatCard
+            label="Time studied this week"
+            value={weekMinutes}
+            suffix=" min"
+            icon="📅"
+          />
           <StatCard
             label="Productivity"
             value={productivityPercent}
@@ -102,7 +131,9 @@ export function DashBoardComp() {
             icon={productivityIcon(productivityPercent)}
           />
         </div>
-        <div className="h-[450]"><DailyBreakdown /></div>
+        <div className="h-[450]">
+          <DailyBreakdown />
+        </div>
       </div>
 
       {/* Reflection card moved up */}
@@ -119,8 +150,12 @@ export function DashBoardComp() {
 
       {/* Weekly + Subjects Breakdown */}
       <div className="grid lg:grid-cols-3 gap-8 items-start">
-        <div className="lg:col-span-2 h-[340px]"><WeeklyBreakdown /></div>
-        <div className="h-[220px]"><SubjectsThisWeekBreakdown /></div>
+        <div className="lg:col-span-2 h-[340px]">
+          <WeeklyBreakdown />
+        </div>
+        <div className="h-[220px]">
+          <SubjectsThisWeekBreakdown />
+        </div>
       </div>
     </div>
   );
