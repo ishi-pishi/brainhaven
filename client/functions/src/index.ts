@@ -6,7 +6,26 @@
 //  *
 //  * See a full list of supported triggers at https://firebase.google.com/docs/functions
 //  */
+import * as functions from "firebase-functions";
+import cors from "cors";
+import { getStudyTips } from "./OpenAI";
 
+const corsHandler = cors({ origin: true });
+
+export const getStudyTipsFn = functions.https.onRequest(async (req, res) => {
+  corsHandler(req, res, async () => {
+    try {
+      const tips = await getStudyTips();
+      res.json({ tips });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Error generating study tips");
+    }
+  });
+});
+/*
+ *  Original index below, just in case
+ */
 // import {setGlobalOptions} from "firebase-functions";
 // import {onRequest} from "firebase-functions/https";
 // import * as logger from "firebase-functions/logger";

@@ -12,7 +12,7 @@ import { connectorConfig } from "@dataconnect/generated";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDo0ZbSyQvkAKVTuTXUbW2dYBZzZ5aV_5U",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "brainhaven2.firebaseapp.com",
   projectId: "brainhaven2",
   storageBucket: "brainhaven2.firebasestorage.app",
