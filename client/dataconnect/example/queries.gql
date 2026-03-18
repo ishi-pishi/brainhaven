@@ -3,8 +3,52 @@ query Me @auth(level: USER) {
     id
     displayName
     currencyBalance
+    dailyGoalMinutes
+    currentStreak
+    lastGoalMetDate
     createdAt
   }
+}
+
+mutation UpdateUserProgress(
+  $currencyBalance: Int,
+  $currentStreak: Int,
+  $lastGoalMetDate: Timestamp,
+  $dailyGoalMinutes: Int
+) @auth(level: USER) {
+  user_update(
+    key: { id_expr: "auth.uid" },
+    data: {
+      currencyBalance: $currencyBalance,
+      currentStreak: $currentStreak,
+      lastGoalMetDate: $lastGoalMetDate,
+      dailyGoalMinutes: $dailyGoalMinutes
+    }
+  )
+}
+
+query ListRewards @auth(level: USER) {
+  rewards(where: { userId: { eq_expr: "auth.uid" } }) {
+    id
+    name
+    cost
+    isOneTime
+  }
+}
+
+mutation CreateReward($name: String!, $cost: Int!, $isOneTime: Boolean!) @auth(level: USER) {
+  reward_insert(
+    data: {
+      name: $name,
+      cost: $cost,
+      isOneTime: $isOneTime,
+      userId_expr: "auth.uid"
+    }
+  )
+}
+
+mutation DeleteReward($id: UUID!) @auth(level: USER) {
+  reward_delete(key: { id: $id })
 }
 
 query MySubjects @auth(level: USER) {

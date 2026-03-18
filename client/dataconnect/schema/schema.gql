@@ -4,6 +4,19 @@
     displayName: String! @default (value: "New User")
     createdAt: Timestamp! @default(expr: "request.time")
     currencyBalance: Int! @default(value: 0)
+    dailyGoalMinutes: Int! @default(value: 60)
+    currentStreak: Int! @default(value: 0)
+    lastGoalMetDate: Timestamp
+  }
+
+  """Represents a reward or self-gift that a user can purchase with their earned currency."""
+  type Reward @table(key: "id") {
+    id: UUID! @default(expr: "uuidV4()")
+    userId: String! @default(expr: "auth.uid")
+    user: User! @ref
+    name: String!
+    cost: Int!
+    isOneTime: Boolean! @default(value: false)
   }
 
   """Represents a COMPLETED focused study session done by a user on a particular subject."""

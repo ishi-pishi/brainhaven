@@ -366,7 +366,12 @@ export function WeeklyBreakdown({
   return (
     <Card className="bg-transparent shadow-none border">
       <CardHeader>
-        <CardTitle>This week</CardTitle>
+        <div className="flex items-center justify-between w-full">
+          <CardTitle>This week</CardTitle>
+          <div className="text-sm font-medium text-muted-foreground bg-muted/30 px-3 py-1 rounded-full border border-muted">
+            Total: {msToMinutes(weekResult?.weekTotal ?? 0)} min
+          </div>
+        </div>
       </CardHeader>
 
       <CardContent>
@@ -409,10 +414,6 @@ export function WeeklyBreakdown({
           colorFor={(n) => subjectColor(n)}
         />
       </CardContent>
-
-      <CardFooter>
-        Total: {msToMinutes(weekResult?.weekTotal ?? 0)} min
-      </CardFooter>
     </Card>
   );
 }

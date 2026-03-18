@@ -8,7 +8,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { ClockIcon, HomeIcon, DoorOpenIcon, Sparkles } from "lucide-react";
+import { ClockIcon, HomeIcon, DoorOpenIcon, Sparkles, ShoppingBag, Cloud } from "lucide-react";
 
 import { getAuth, signOut } from "firebase/auth";
 
@@ -85,6 +85,26 @@ export function Navbar() {
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
                 <NavLink
+                  to="/store"
+                  className={({ isActive }) =>
+                    navigationMenuTriggerStyle() +
+                    " " +
+                    (isActive
+                      ? " bg-muted/50 text-primary font-semibold"
+                      : " hover:bg-muted/10")
+                  }
+                >
+                  <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md">
+                    <ShoppingBag className="h-4 w-4" />
+                    Store
+                  </span>
+                </NavLink>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <NavigationMenuLink asChild>
+                <NavLink
                   to="/"
                   className={({ isActive }) =>
                     navigationMenuTriggerStyle() +
@@ -110,7 +130,8 @@ export function Navbar() {
         {/* RIGHT: logo + login */}
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
-            <div className="text-xl font-serif font-bold text-primary">🧠 brainhaven</div>
+            <Cloud className="h-6 w-6 text-primary" />
+            <div className="text-xl font-serif font-bold text-primary">brainhaven</div>
           </div>
         </div>
       </div>

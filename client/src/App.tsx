@@ -8,6 +8,7 @@ import { SettingsMenuPage } from "./pages/App/SettingsMenuPage";
 import { TimerPage } from "./pages/App/TimerPage";
 import { DashBoard } from "./pages/App/DashBoard";
 import { ReflectionsPage } from "./pages/App/ReflectionsPage";
+import { StorePage } from "./pages/App/StorePage";
 
 import { AppLayout } from "./components/Layout/AppLayout";
 import { EndSessionPage } from "./pages/App/EndSession";
@@ -25,6 +26,7 @@ export default function App() {
           <Route element={<AppLayout />}>
             <Route path="/dashboard" element={<DashBoard />} />
             <Route path="/reflections" element={<ReflectionsPage />} />
+            <Route path="/store" element={<StorePage />} />
             <Route
               path="/timer-menu"
               element={

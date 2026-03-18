@@ -6,7 +6,7 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 
-import { Info } from "lucide-react";
+import { Info, Coins } from "lucide-react";
 
 import {
   Card,
@@ -27,6 +27,7 @@ import { ActiveSession } from "@/logic/timer/ActiveSession";
 
 import { saveSession } from "../../storage/session";
 import type { StudySession } from "../../storage/session";
+import { calculateEarnedCurrency, postSessionUpdate, getUserData } from "../../storage/rewards";
 
 const ratings = [
   {
@@ -71,39 +72,65 @@ export function EndSessionCard() {
 
   const [rating, setRating] = useState<number | null>(null);
   const [reflection, setReflection] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const finishedSession = ActiveSession.getInstance();
+  const metadata = finishedSession?.getMetadata();
+  const earnedCoins = metadata ? calculateEarnedCurrency(metadata.workMs) : 0;
+  const minutesWorked = metadata ? Math.round(metadata.workMs / 60000) : 0;
 
   const handleSubmit = async () => {
-    const finishedSession = ActiveSession.getInstance();
-
     if (!finishedSession || !finishedSession.isFinished()) {
-      throw new Error(
-        "Tried to end session, but there is no finished session!",
-      );
+      throw new Error("Tried to end session, but there is no finished session!");
     }
 
-    const metadata = finishedSession.getMetadata();
-    console.log("Saving session: ", metadata);
+    setIsSubmitting(true);
 
-    const studySession: StudySession = {
-      subjectId: metadata.subjectId,
-      startTime: metadata.startedAt,
-      endTime: metadata.endedAt,
-      workBlockMs: metadata.workMs,
-      breakBlockMs: metadata.breakMs,
-      intendedCycles: metadata.intendedCycles,
-      ...(rating !== null && { productivityRating: rating }),
-      reflections: reflection,
-      earnedCurrency: 0,
-    };
+    try {
+      const studySession: StudySession = {
+        subjectId: metadata!.subjectId,
+        startTime: metadata!.startedAt,
+        endTime: metadata!.endedAt,
+        workBlockMs: metadata!.workMs,
+        breakBlockMs: metadata!.breakMs,
+        intendedCycles: metadata!.intendedCycles,
+        ...(rating !== null && { productivityRating: rating }),
+        reflections: reflection,
+        earnedCurrency: earnedCoins,
+      };
 
-    await saveSession(studySession);
-    nav("/dashboard");
+      // Core save — must succeed
+      await saveSession(studySession);
+
+      // Coins + streak update — best-effort, never blocks navigation
+      try {
+        const userData = await getUserData();
+        if (userData) {
+          await postSessionUpdate(
+            earnedCoins,
+            minutesWorked,
+            userData.currencyBalance,
+            userData.currentStreak,
+            userData.dailyGoalMinutes,
+            userData.lastGoalMetDate
+          );
+        }
+      } catch (rewardErr) {
+        console.warn("Could not update coins/streak (non-fatal):", rewardErr);
+      }
+
+      nav("/dashboard");
+    } catch (err) {
+      console.error("Failed to save session:", err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <Card className="mx-auto max-w-sm w-full border">
       <CardHeader>
-        <CardTitle>Session Complete</CardTitle>
+        <CardTitle>Session Complete 🎉</CardTitle>
 
         <CardDescription>
           Reflect on your productivity and how the session went.
@@ -111,6 +138,18 @@ export function EndSessionCard() {
       </CardHeader>
 
       <CardContent className="space-y-6">
+
+        {/* Coins Earned Banner */}
+        <div className="flex items-center gap-3 bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+          <div className="h-9 w-9 rounded-full bg-yellow-400/20 flex items-center justify-center text-yellow-500">
+            <Coins className="h-5 w-5" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-yellow-700">+{earnedCoins} coins earned!</p>
+            <p className="text-xs text-yellow-600">{minutesWorked} minutes of focus</p>
+          </div>
+        </div>
+
         <div className="flex justify-between">
           {ratings.map((r) => {
             const isSelected = rating === r.value;
@@ -170,8 +209,8 @@ export function EndSessionCard() {
       </CardContent>
 
       <CardFooter>
-        <Button onClick={handleSubmit} disabled={!rating} className="w-full">
-          Save Reflection
+        <Button onClick={handleSubmit} disabled={!rating || isSubmitting} className="w-full">
+          {isSubmitting ? "Saving..." : "Save Reflection"}
         </Button>
       </CardFooter>
     </Card>
