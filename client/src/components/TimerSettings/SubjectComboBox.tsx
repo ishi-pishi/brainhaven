@@ -5,7 +5,7 @@ import {
   type Dispatch,
   type SetStateAction,
 } from "react";
-import { Check, Plus } from "lucide-react";
+import { Check, Plus, Trash2 } from "lucide-react";
 import { getSubjects, deleteSubjectByName } from "../../storage/subject";
 import type { Subject } from "../../storage/subject";
 import { CreateSubjectPopup } from "./CreateSubjectPopup";
@@ -118,10 +118,10 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
                             );
                             if (selected === subject.name) setSelected(null);
                           }}
-                          aria-label={`Delete ${subject}`}
-                          className="ml-2 h-6 w-6 flex items-center justify-centehover:bg-red-200 text-red-600 hover:text-red-800 font-bold text-xs"
+                          aria-label={`Delete ${subject.name}`}
+                          className="ml-2 h-7 w-7 flex items-center justify-center rounded-md hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"
                         >
-                          <span className="leading-none">x</span>
+                          <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
                     </CommandItem>

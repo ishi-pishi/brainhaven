@@ -60,18 +60,18 @@ export function SettingsMenu() {
 
   return (
     <div className="flex justify-center p-6">
-      <Card className="w-[720px] max-w-full rounded-2xl shadow-2xl overflow-hidden border-0">
-        <div className="bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 p-5">
+      <Card className="w-[720px] max-w-full rounded-3xl shadow-2xl overflow-hidden border-0 bg-card">
+        <div className="bg-primary/15 p-6 border-b border-primary/10">
           <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="rounded-full bg-white/20 p-2">
-                <ArrowRight className="h-6 w-6 text-white" />
+            <div className="flex items-center gap-4">
+              <div className="rounded-full bg-primary/20 p-2.5">
+                <ArrowRight className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <h3 className="text-white text-xl font-semibold">
+                <h3 className="text-foreground text-2xl font-serif font-semibold">
                   Customize Session
                 </h3>
-                <p className="text-white/90 text-sm">
+                <p className="text-foreground/70 text-sm mt-0.5">
                   Adjust durations & cycles to fit your needs.
                 </p>
               </div>

@@ -78,10 +78,10 @@ export default function TimerDisplay() {
           strokeLinecap="round"
         />
       </svg>
-      <div className="absolute inset-0 flex items-center justify-center text-5xl">
+      <div className="absolute inset-0 flex items-center justify-center text-5xl font-medium text-primary drop-shadow-sm">
         {formatTime(timeLeftMs)}
       </div>
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/8">
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/8 w-full text-center flex justify-center mt-4">
         <CurrentBlockDisplay />
       </div>
     </div>

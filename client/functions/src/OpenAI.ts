@@ -19,8 +19,13 @@ export async function generateStudyTips(recentSessions: any[]): Promise<string> 
   }
 
   const prompt = `
-Here are my recent study sessions in JSON. Analyze and generate personalized study tips:
+Here are my recent study sessions in JSON. Analyze and generate personalized study tips.
+CRITICAL INSTRUCTIONS:
+1. Provide a VERY SHORT, punchy response (max 3-4 sentences total).
+2. Use markdown formatting (bullet points, bold text) to highlight EXACTLY 1-2 key insights or suggestions.
+3. Be encouraging and concise.
 
+Sessions JSON:
 ${JSON.stringify(recentSessions, null, 2)}
 `;
 

@@ -56,7 +56,10 @@ function hashToHue(str: string) {
 }
 function subjectColor(subjectIdOrName: string) {
   const hue = hashToHue(subjectIdOrName);
-  return `hsl(${hue} 78% 52%)`;
+  // Soft pastel: Saturation 45-60%, Lightness 75-85%
+  const saturation = 50 + (hue % 10); 
+  const lightness = 80 + (hue % 5);
+  return `hsl(${hue} ${saturation}% ${lightness}%)`;
 }
 
 /** simple legend component (outside ChartContainer to keep ChartContainer single child) */
@@ -576,13 +579,13 @@ export function SubjectsThisWeekBreakdown({
 
           {/* controls */}
           <form
-            className="flex gap-2 items-center"
+            className="flex gap-3 items-center"
             onSubmit={handleTopRangeSubmit}
           >
             <select
               value={topRange}
               onChange={(e) => setTopRange(e.target.value as any)}
-              className="border rounded px-2 py-1 text-sm"
+              className="bg-muted/30 border border-muted rounded-full px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary/50 text-foreground cursor-pointer transition-shadow"
             >
               <option value="week">This week</option>
               <option value="month">This month</option>
@@ -597,20 +600,20 @@ export function SubjectsThisWeekBreakdown({
                   type="date"
                   value={customFrom}
                   onChange={(e) => setCustomFrom(e.target.value)}
-                  className="border rounded px-2 py-1 text-sm"
+                  className="bg-muted/30 border border-muted rounded-full px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
                 />
                 <input
                   type="date"
                   value={customTo}
                   onChange={(e) => setCustomTo(e.target.value)}
-                  className="border rounded px-2 py-1 text-sm"
+                  className="bg-muted/30 border border-muted rounded-full px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
                 />
               </>
             )}
 
             <button
               type="submit"
-              className="bg-slate-800 text-white rounded px-3 py-1 text-sm"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-full px-4 py-1.5 text-sm shadow-sm transition-all hover:-translate-y-0.5"
             >
               Apply
             </button>

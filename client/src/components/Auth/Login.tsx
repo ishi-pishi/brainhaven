@@ -23,17 +23,21 @@ interface AuthCardProps {
 export function AuthCard({ open, onOpenChange }: AuthCardProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
   const nav = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+    setMessage(null);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      alert("Logged in!");
+      // alert("Logged in!"); // Using redirect instead
       nav("/dashboard");
     } catch (err: any) {
       console.error(err);
-      alert(err.message);
+      setError(err.message);
     }
   };
 
@@ -46,9 +50,9 @@ export function AuthCard({ open, onOpenChange }: AuthCardProps) {
       <DialogContent className="sm:max-w-100 p-6">
         <div className="flex flex-col gap-6">
           <header className="mb-4">
-            <h2 className="text-lg font-semibold">Login to your account</h2>
+            <h2 className="text-lg font-semibold">Log in to your account</h2>
             <p className="text-sm text-muted-foreground">
-              Enter your email below to login.
+              Enter your email below to log in.
             </p>
           </header>
 
@@ -71,16 +75,18 @@ export function AuthCard({ open, onOpenChange }: AuthCardProps) {
                 className="ml-auto text-sm underline-offset-4 hover:underline"
                 onClick={async (e) => {
                   e.preventDefault();
+                  setError(null);
+                  setMessage(null);
                   if (!email) {
-                    alert("Please enter your email above first.");
+                    setError("Please enter your email above first.");
                     return;
                   }
                   try {
                     await sendPasswordResetEmail(auth, email);
-                    alert("Password reset email sent! Check your inbox.");
+                    setMessage("Password reset email sent! Check your inbox.");
                   } catch (err: any) {
                     console.error(err);
-                    alert("Error sending reset email: " + err.message);
+                    setError("Error sending reset email: " + err.message);
                   }
                 }}
               >
@@ -95,8 +101,11 @@ export function AuthCard({ open, onOpenChange }: AuthCardProps) {
               />
             </div>
 
+            {error && <div className="text-sm text-destructive">{error}</div>}
+            {message && <div className="text-sm text-green-600 font-medium">{message}</div>}
+
             <Button type="submit" className="w-full cursor-pointer">
-              Login
+              Log In
             </Button>
 
             <div className="text-center mt-2">

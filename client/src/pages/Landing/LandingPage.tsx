@@ -6,41 +6,22 @@ import { useEffect, useRef, useState } from "react";
  *  This is the landing page before users are signed in.
  */
 export function LandingPage() {
-  const lineRef = useRef<SVGLineElement>(null);
-
-  useEffect(() => {
-    if (lineRef.current) {
-      lineRef.current.style.strokeDasharray = `${lineRef.current.getTotalLength()}`;
-      lineRef.current.style.strokeDashoffset = `${lineRef.current.getTotalLength()}`;
-      lineRef.current.getBoundingClientRect(); // trigger layout
-      lineRef.current.style.transition = "stroke-dashoffset 2s ease-out";
-      lineRef.current.style.strokeDashoffset = "0";
-    }
-  }, []);
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white text-black px-4">
-      <h1 className="text-6xl font-bold mb-4 text-center">Brainhaven</h1>
-      <p className="text-xl text-center mb-8">
-        Organize your thoughts. Focus your mind.
-      </p>
+    <div className="relative flex flex-col items-center justify-center min-h-screen bg-background text-foreground px-4 overflow-hidden">
+      {/* Decorative Pastel Blobs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[100px] pointer-events-none animate-pulse duration-10000" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-secondary/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[20%] right-[10%] w-[300px] h-[300px] bg-accent/20 rounded-full blur-[80px] pointer-events-none" />
 
-      <LoginButton />
+      <div className="relative z-10 flex flex-col items-center">
+        <h1 className="text-7xl md:text-8xl font-serif font-bold mb-6 text-center text-primary drop-shadow-sm flex items-center gap-4">
+          🧠 brainhaven
+        </h1>
+        <p className="text-2xl md:text-3xl text-center mb-12 text-muted-foreground font-medium max-w-2xl">
+          Your cozy little corner for deep productivity.
+        </p>
 
-      <svg width="150" height="150" className="mb-8">
-        <line
-          ref={lineRef}
-          x1="0"
-          y1="75"
-          x2="150"
-          y2="75"
-          stroke="black"
-          strokeWidth="2"
-        />
-      </svg>
-
-      <div className="mt-20 space-y-16">
-        <div className="text-center opacity-50">Features coming soon...</div>
+        <LoginButton />
       </div>
     </div>
   );
@@ -51,8 +32,12 @@ export function LoginButton() {
 
   return (
     <>
-      <Button className="text-sm cursor-pointer" onClick={() => setOpen(true)}>
-        Login
+      <Button 
+        size="lg" 
+        className="text-lg px-8 py-6 rounded-full cursor-pointer shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all" 
+        onClick={() => setOpen(true)}
+      >
+        Step Inside ✨
       </Button>
 
       <AuthCard open={open} onOpenChange={setOpen} />

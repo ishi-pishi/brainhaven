@@ -6,8 +6,6 @@ import {
   SubjectsThisWeekBreakdown,
 } from "./DailyBreakdown";
 
-import { ReflectionTips } from "./ReflectionTips";
-
 function AnimatedNumber({ value }: { value: number }) {
   const [display, setDisplay] = useState(0);
   useEffect(() => {
@@ -47,16 +45,16 @@ function StatCard({
   value,
   suffix,
   icon,
+  bgColor = "bg-card",
 }: {
   label: string;
   value: number | string;
   suffix?: string;
   icon: string;
+  bgColor?: string;
 }) {
-
-  
   return (
-    <div className="h-[132px] rounded-3xl p-6 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10 hover:scale-[1.02] transition-transform">
+    <div className={`h-[132px] rounded-3xl p-6 ${bgColor} hover:scale-[1.02] transition-transform`}>
       <div className="text-sm text-muted-foreground flex items-center gap-2">
         <span className="text-lg">{icon}</span>
         {label}
@@ -114,47 +112,47 @@ export function DashBoardComp() {
   }, []);
 
   return (
-    <div className="p-6 max-w-7xl mx-auto flex flex-col gap-8">
+    <div className="p-6 md:p-10 max-w-7xl mx-auto flex flex-col gap-12">
       {/* Greeting */}
       <div>
-        <h1 className="text-3xl font-semibold">{greeting}</h1>
-        <p className="text-muted-foreground">Review your studying below.</p>
+        <h1 className="text-4xl font-serif font-semibold">{greeting}</h1>
       </div>
 
       {/* Stats + Daily Chart */}
       <div className="grid lg:grid-cols-2 gap-8 items-start">
-        <div className="grid gap-4">
+        <div className="grid gap-6">
           <StatCard
             label="Time studied today"
             value={todayMinutes}
             suffix=" min"
             icon="⏱️"
+            bgColor="bg-primary/20"
           />
           <StatCard
             label="Time studied this week"
             value={weekMinutes}
             suffix=" min"
             icon="📅"
+            bgColor="bg-secondary/30"
           />
           <StatCard
             label="Productivity"
             value={productivityText(productivityRating)}
             icon={productivityIcon(productivityRating)}
+            bgColor="bg-accent/30"
           />
         </div>
-        <div className="h-[450]">
+        <div className="h-[450px]">
           <DailyBreakdown />
         </div>
       </div>
-
-      <ReflectionTips />
 
       {/* Weekly + Subjects Breakdown */}
       <div className="grid lg:grid-cols-3 gap-8 items-start">
         <div className="lg:col-span-2 h-[340px]">
           <WeeklyBreakdown />
         </div>
-        <div className="h-[220px]">
+        <div className="h-[340px]">
           <SubjectsThisWeekBreakdown />
         </div>
       </div>

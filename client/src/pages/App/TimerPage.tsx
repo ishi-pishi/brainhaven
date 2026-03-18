@@ -53,7 +53,10 @@ export function TimerPage() {
 
   return (
     <div className="fixed inset-0 overflow-hidden bg-background">
-      {/* Background patterns/effects can go here if needed */}
+      {/* Decorative Pastel Blobs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px] pointer-events-none animate-pulse duration-10000" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[20%] right-[10%] w-[300px] h-[300px] bg-accent/10 rounded-full blur-[80px] pointer-events-none" />
       
       {/* Absolute positioning for sidebar gadgets */}
       <div className="absolute left-8 bottom-8 z-10">
