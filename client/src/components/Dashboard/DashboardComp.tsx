@@ -1,11 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import DefaultQueries from "@/logic/insights/IInsightFacade";
 import {
   DailyBreakdown,
   WeeklyBreakdown,
   SubjectsThisWeekBreakdown,
 } from "./DailyBreakdown";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+
+import { ReflectionTips } from "./ReflectionTips";
 
 function AnimatedNumber({ value }: { value: number }) {
   const [display, setDisplay] = useState(0);
@@ -23,12 +24,22 @@ function AnimatedNumber({ value }: { value: number }) {
   return <>{display}</>;
 }
 
-function productivityIcon(p: number) {
-  if (p >= 90) return "🚀";
-  if (p >= 80) return "✅";
-  if (p >= 65) return "👍";
-  if (p >= 50) return "😐";
+function productivityIcon(p: number | null) {
+  if (p === null) return "➖";
+  if (p >= 5) return "🚀";
+  if (p >= 4) return "✅";
+  if (p >= 3) return "👍";
+  if (p >= 2) return "😐";
   return "🥱";
+}
+
+function productivityText(p: number | null) {
+  if (p === null) return "N/A";
+  if (p >= 5) return "Excellent";
+  if (p >= 4) return "Looking good";
+  if (p >= 3) return "Okay";
+  if (p >= 2) return "Needs help";
+  return "Terrible";
 }
 
 function StatCard({
@@ -38,10 +49,12 @@ function StatCard({
   icon,
 }: {
   label: string;
-  value: number;
+  value: number | string;
   suffix?: string;
   icon: string;
 }) {
+
+  
   return (
     <div className="h-[132px] rounded-3xl p-6 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10 hover:scale-[1.02] transition-transform">
       <div className="text-sm text-muted-foreground flex items-center gap-2">
@@ -49,7 +62,7 @@ function StatCard({
         {label}
       </div>
       <div className="text-3xl font-semibold mt-2">
-        <AnimatedNumber value={value} />
+        {typeof value === 'number' ? <AnimatedNumber value={value} /> : value}
         {suffix}
       </div>
     </div>
@@ -67,7 +80,7 @@ export function DashBoardComp() {
 
   const [todayMinutes, setTodayMinutes] = useState<number>(0);
   const [weekMinutes, setWeekMinutes] = useState<number>(0);
-  const [productivityPercent, setProductivityPercent] = useState<number>(0);
+  const [productivityRating, setProductivityRating] = useState<number | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -76,22 +89,21 @@ export function DashBoardComp() {
       try {
         const today = await DefaultQueries.timeDoneToday();
         const week = await DefaultQueries.weeklyBreakdown();
-        const goalMinutes = 120;
+        const prodRating = await DefaultQueries.averageProductivityToday();
 
         if (!mounted) return;
         const tMin = Math.floor((today?.totalMs ?? 0) / 60000);
         const wMin = Math.floor((week?.weekTotal ?? 0) / 60000);
-        const p = Math.min(100, Math.round((tMin / goalMinutes) * 100));
 
         setTodayMinutes(tMin);
         setWeekMinutes(wMin);
-        setProductivityPercent(p);
+        setProductivityRating(prodRating);
       } catch (e) {
         console.error("Failed to load dashboard stats", e);
         if (!mounted) return;
         setTodayMinutes(0);
         setWeekMinutes(0);
-        setProductivityPercent(0);
+        setProductivityRating(null);
       }
     }
 
@@ -126,9 +138,8 @@ export function DashBoardComp() {
           />
           <StatCard
             label="Productivity"
-            value={productivityPercent}
-            suffix="%"
-            icon={productivityIcon(productivityPercent)}
+            value={productivityText(productivityRating)}
+            icon={productivityIcon(productivityRating)}
           />
         </div>
         <div className="h-[450]">
@@ -136,17 +147,7 @@ export function DashBoardComp() {
         </div>
       </div>
 
-      {/* Reflection card moved up */}
-      <Card className="rounded-3xl">
-        <CardHeader>
-          <CardTitle>Reflection</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-2">
-          <p className="text-sm text-muted-foreground">
-            Your reflections and suggestions will appear here.
-          </p>
-        </CardContent>
-      </Card>
+      <ReflectionTips />
 
       {/* Weekly + Subjects Breakdown */}
       <div className="grid lg:grid-cols-3 gap-8 items-start">

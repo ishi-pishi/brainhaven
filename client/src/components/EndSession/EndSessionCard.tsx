@@ -72,7 +72,7 @@ export function EndSessionCard() {
   const [rating, setRating] = useState<number | null>(null);
   const [reflection, setReflection] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const finishedSession = ActiveSession.getInstance();
 
     if (!finishedSession || !finishedSession.isFinished()) {
@@ -96,7 +96,7 @@ export function EndSessionCard() {
       earnedCurrency: 0,
     };
 
-    saveSession(studySession);
+    await saveSession(studySession);
     nav("/dashboard");
   };
 

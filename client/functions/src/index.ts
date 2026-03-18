@@ -1,51 +1,26 @@
-// /**
-//  * Import function triggers from their respective submodules:
-//  *
-//  * import {onCall} from "firebase-functions/v2/https";
-//  * import {onDocumentWritten} from "firebase-functions/v2/firestore";
-//  *
-//  * See a full list of supported triggers at https://firebase.google.com/docs/functions
-//  */
-import * as functions from "firebase-functions";
-import cors from "cors";
-import { getStudyTips } from "./OpenAI";
+import { onCall, HttpsError } from "firebase-functions/v2/https";
+import { generateStudyTips } from "./OpenAI";
 
-const corsHandler = cors({ origin: true });
+// index.ts (top)
+console.log("STARTUP: module load BEGIN", { envPORT: process.env.PORT, nodeEnv: process.env.NODE_ENV });
 
-export const getStudyTipsFn = functions.https.onRequest(async (req, res) => {
-  corsHandler(req, res, async () => {
-    try {
-      const tips = await getStudyTips();
-      res.json({ tips });
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("Error generating study tips");
-    }
-  });
+process.on("uncaughtException", (err) => {
+  console.error("UNCAUGHT_EXCEPTION:", err && err.stack ? err.stack : err);
 });
-/*
- *  Original index below, just in case
+process.on("unhandledRejection", (err) => {
+  console.error("UNHANDLED_REJECTION:", err);
+});
+
+/**
+ * Callable endpoint for retrieving generated study tips.
  */
-// import {setGlobalOptions} from "firebase-functions";
-// import {onRequest} from "firebase-functions/https";
-// import * as logger from "firebase-functions/logger";
-
-// // Start writing functions
-// // https://firebase.google.com/docs/functions/typescript
-
-// // For cost control, you can set the maximum number of containers that can be
-// // running at the same time. This helps mitigate the impact of unexpected
-// // traffic spikes by instead downgrading performance. This limit is a
-// // per-function limit. You can override the limit for each function using the
-// // `maxInstances` option in the function's options, e.g.
-// // `onRequest({ maxInstances: 5 }, (req, res) => { ... })`.
-// // NOTE: setGlobalOptions does not apply to functions using the v1 API. V1
-// // functions should each use functions.runWith({ maxInstances: 10 }) instead.
-// // In the v1 API, each function can only serve one request per container, so
-// // this will be the maximum concurrent request count.
-// setGlobalOptions({ maxInstances: 10 });
-
-// // export const helloWorld = onRequest((request, response) => {
-// //   logger.info("Hello logs!", {structuredData: true});
-// //   response.send("Hello from Firebase!");
-// // });
+export const getStudyTipsFn = onCall({ cors: true, invoker: "public" }, async (request) => {
+  try {
+    const sessions = request.data.sessions || [];
+    const tips = await generateStudyTips(sessions);
+    return { tips };
+  } catch (error) {
+    console.error(error);
+    throw new HttpsError("internal", "Failed to generate study tips");
+  }
+});

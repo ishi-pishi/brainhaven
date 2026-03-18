@@ -47,6 +47,10 @@ export interface IDefaultQueries {
     refDate?: Date,
   ): Promise<SimpleTotal & { bySubject: TimeBySubject[] }>;
 
+  averageProductivityToday(
+    refDate?: Date,
+  ): Promise<number | null>;
+
   weeklyBreakdown(
     weekStartIso?: string,
   ): Promise<{
@@ -245,6 +249,32 @@ export class DefaultQueries implements IDefaultQueries {
     const start = DefaultQueries.startOfDay(now);
     const end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
     return this.timeDoneInRange(start.toISOString(), end.toISOString());
+  }
+
+  async averageProductivityToday(refDate?: Date): Promise<number | null> {
+    const now = refDate ?? new Date();
+    const start = DefaultQueries.startOfDay(now);
+    const end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
+    const startIso = start.toISOString();
+    const endIso = end.toISOString();
+
+    const sess = await this.ensureSessions();
+    const startD = DefaultQueries.parseIsoOrUndefined(startIso);
+    const endD = DefaultQueries.parseIsoOrUndefined(endIso);
+    const filtered = sess.filter((s) =>
+      DefaultQueries.sessionInRangeWithWindow(s, startD, endD),
+    );
+    
+    let total = 0;
+    let count = 0;
+    for (const s of filtered) {
+        if (s.productivityRating) {
+            total += s.productivityRating;
+            count++;
+        }
+    }
+    if (count === 0) return null;
+    return Math.round(total / count);
   }
 
   async weeklyBreakdown(weekStartIso?: string) {

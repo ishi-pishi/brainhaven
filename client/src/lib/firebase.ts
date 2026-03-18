@@ -1,10 +1,10 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { getAuth, browserLocalPersistence, setPersistence } from "firebase/auth";
 import {
-  connectDataConnectEmulator,
   getDataConnect,
 } from "firebase/data-connect";
+import { getFunctions, httpsCallable } from "firebase/functions";
 import { connectorConfig } from "@dataconnect/generated";
 
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -24,6 +24,24 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+setPersistence(auth, browserLocalPersistence).catch((error) => {
+  console.error("Auth persistence error:", error);
+});
+const functions = getFunctions(app);
 getDataConnect(connectorConfig);
 
-export { auth };
+const getStudyTipsCallable = httpsCallable(functions, 'getStudyTipsFn');
+
+async function callMyStudyTipsFunction(sessions: any[] = []) {
+    try {
+        const result = await getStudyTipsCallable({ sessions });
+        const tips = result;
+        console.log("Success! Here are your tips:", tips);
+        return tips;
+    } catch (error) {
+        console.error("OH NO! Error calling the function:", error);
+        return null;
+    }
+}
+
+export { auth, functions, callMyStudyTipsFunction };

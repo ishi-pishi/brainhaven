@@ -12,6 +12,7 @@ import { AppLayout } from "./components/Layout/AppLayout";
 import { EndSessionPage } from "./pages/App/EndSession";
 
 import { NoTimerGuard, TimerGuard } from "./pages/TimerGuard";
+import { AuthGuard } from "./components/AuthGuard";
 
 export default function App() {
   return (
@@ -19,32 +20,34 @@ export default function App() {
       <Routes>
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/" element={<LandingPage />} />
-        <Route element={<AppLayout />}>
-          <Route path="/dashboard" element={<DashBoard />} />
-          <Route
-            path="/timer-menu"
-            element={
-              <TimerGuard>
-                <SettingsMenuPage />
-              </TimerGuard>
-            }
-          />
-          <Route
-            path="/timer"
-            element={
-              <NoTimerGuard>
-                <TimerPage />
-              </NoTimerGuard>
-            }
-          />
-          <Route
-            path="/endsession"
-            element={
-              <TimerGuard>
-                <EndSessionPage />
-              </TimerGuard>
-            }
-          />
+        <Route element={<AuthGuard />}>
+          <Route element={<AppLayout />}>
+            <Route path="/dashboard" element={<DashBoard />} />
+            <Route
+              path="/timer-menu"
+              element={
+                <TimerGuard>
+                  <SettingsMenuPage />
+                </TimerGuard>
+              }
+            />
+            <Route
+              path="/timer"
+              element={
+                <NoTimerGuard>
+                  <TimerPage />
+                </NoTimerGuard>
+              }
+            />
+            <Route
+              path="/endsession"
+              element={
+                <TimerGuard>
+                  <EndSessionPage />
+                </TimerGuard>
+              }
+            />
+          </Route>
         </Route>
       </Routes>
     </Router>
