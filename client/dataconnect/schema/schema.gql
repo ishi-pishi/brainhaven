@@ -32,7 +32,7 @@
     reflections: String
     earnedCurrency: Int!
     subjectId: UUID
-    subject: Subject @ref
+    subject: Subject @ref(onDelete: CASCADE)
     userId: String!
     user: User! @ref
   }
