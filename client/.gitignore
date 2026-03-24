@@ -26,3 +26,4 @@ dist-ssr
 
 # firebase
 src/dataconnect-generated
+.vercel

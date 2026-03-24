@@ -1,0 +1,72 @@
+[debug] [2026-02-24T01:53:30.395Z] ----------------------------------------------------------------------
+[debug] [2026-02-24T01:53:30.400Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ishi\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init functions
+[debug] [2026-02-24T01:53:30.400Z] CLI Version:   15.3.1
+[debug] [2026-02-24T01:53:30.400Z] Platform:      win32
+[debug] [2026-02-24T01:53:30.400Z] Node Version:  v24.11.1
+[debug] [2026-02-24T01:53:30.401Z] Time:          Mon Feb 23 2026 17:53:30 GMT-0800 (hora estándar del Pacífico)
+[debug] [2026-02-24T01:53:30.401Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Code\brainhaven
+
+Before we get started, keep in mind:
+
+  * You are currently outside your home directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] 
+[debug] [2026-02-24T01:53:34.819Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-02-24T01:53:34.820Z] > authorizing via signed-in user (di9970457@gmail.com)
+[debug] [2026-02-24T01:53:34.821Z] Checked if tokens are valid: false, expires at: 1771817296566
+[debug] [2026-02-24T01:53:34.821Z] Checked if tokens are valid: false, expires at: 1771817296566
+[debug] [2026-02-24T01:53:34.821Z] > refreshing access token with scopes: []
+[debug] [2026-02-24T01:53:34.823Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-02-24T01:53:34.823Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-02-24T01:53:35.134Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-02-24T01:53:35.135Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-02-24T01:53:35.140Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/brainhaven2 [none]
+[debug] [2026-02-24T01:53:35.513Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/brainhaven2 200
+[debug] [2026-02-24T01:53:35.514Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/brainhaven2 {"projectId":"brainhaven2","projectNumber":"603797853502","displayName":"brainhaven2","name":"projects/brainhaven2","resources":{"hostingSite":"brainhaven2"},"state":"ACTIVE","etag":"1_e0795cde-35c4-48e8-8b8f-610559d6396f"}
+[info] i  Using project brainhaven2 (brainhaven2) . 
+[info] 
+=== Functions Setup
+[debug] [2026-02-24T01:53:35.523Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-02-24T01:53:35.523Z] > authorizing via signed-in user (di9970457@gmail.com)
+[debug] [2026-02-24T01:53:35.524Z] [iam] checking project brainhaven2 for permissions ["firebase.projects.get"]
+[debug] [2026-02-24T01:53:35.524Z] Checked if tokens are valid: true, expires at: 1771901614135
+[debug] [2026-02-24T01:53:35.524Z] Checked if tokens are valid: true, expires at: 1771901614135
+[debug] [2026-02-24T01:53:35.524Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/brainhaven2:testIamPermissions [none]
+[debug] [2026-02-24T01:53:35.524Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/brainhaven2:testIamPermissions x-goog-quota-user=projects/brainhaven2
+[debug] [2026-02-24T01:53:35.524Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/brainhaven2:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2026-02-24T01:53:35.799Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/brainhaven2:testIamPermissions 200
+[debug] [2026-02-24T01:53:35.799Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/brainhaven2:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2026-02-24T01:53:35.799Z] Checked if tokens are valid: true, expires at: 1771901614135
+[debug] [2026-02-24T01:53:35.799Z] Checked if tokens are valid: true, expires at: 1771901614135
+[debug] [2026-02-24T01:53:35.800Z] Checked if tokens are valid: true, expires at: 1771901614135
+[debug] [2026-02-24T01:53:35.800Z] Checked if tokens are valid: true, expires at: 1771901614135
+[debug] [2026-02-24T01:53:35.800Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/brainhaven2/services/cloudfunctions.googleapis.com [none]
+[debug] [2026-02-24T01:53:35.800Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/brainhaven2/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/brainhaven2
+[debug] [2026-02-24T01:53:35.801Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/brainhaven2/services/runtimeconfig.googleapis.com [none]
+[debug] [2026-02-24T01:53:35.801Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/brainhaven2/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/brainhaven2
+[debug] [2026-02-24T01:53:36.352Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/brainhaven2/services/runtimeconfig.googleapis.com 200
+[debug] [2026-02-24T01:53:36.352Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/brainhaven2/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2026-02-24T01:53:36.528Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/brainhaven2/services/cloudfunctions.googleapis.com 200
+[debug] [2026-02-24T01:53:36.528Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/brainhaven2/services/cloudfunctions.googleapis.com [omitted]
+[debug] [2026-02-24T01:53:36.529Z] Checked if tokens are valid: true, expires at: 1771901614135
+[debug] [2026-02-24T01:53:36.529Z] Checked if tokens are valid: true, expires at: 1771901614135
+[debug] [2026-02-24T01:53:36.529Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/brainhaven2/services/cloudfunctions.googleapis.com:enable [none]
+[debug] [2026-02-24T01:53:36.529Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/brainhaven2/services/cloudfunctions.googleapis.com:enable x-goog-quota-user=projects/brainhaven2
+[debug] [2026-02-24T01:53:36.915Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/brainhaven2/services/cloudfunctions.googleapis.com:enable 200
+[debug] [2026-02-24T01:53:36.915Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/brainhaven2/services/cloudfunctions.googleapis.com:enable [omitted]
