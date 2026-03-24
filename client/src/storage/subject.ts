@@ -3,7 +3,6 @@ import {
   createSubject,
   deleteSubject,
 } from "@dataconnect/generated";
-import { auth } from "@/lib/firebase";
 
 export type Subject = {
   name: string;

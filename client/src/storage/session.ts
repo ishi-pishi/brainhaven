@@ -3,6 +3,8 @@ import { createStudySession, myStudySessions } from "@dataconnect/generated";
 export type StudySession = {
   id?: string; // null if creating session now
   subjectId: string;
+  subject?: string;
+  status?: string;
   startTime: string;
   endTime: string;
   workBlockMs: number;
@@ -35,6 +37,8 @@ export async function getSessions(): Promise<StudySession[]> {
   return data.studySessions.map((s) => ({
     id: s.id,
     subjectId: s.subject?.id ?? "NO-ID",
+    subject: s.subject?.name ?? "Unknown",
+    status: "finished",
     startTime: s.startTime,
     endTime: s.endTime,
     workBlockMs: s.workBlockMs,

@@ -150,7 +150,7 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
       <CreateSubjectPopup
         open={showCreatePopup}
         onOpenChange={setShowCreatePopup}
-        onCreate={async (name) => {
+        onCreate={async (_name) => {
           const newSubjects = await getSubjects();
           setSubjects(newSubjects);
           setShowCreatePopup(false);

@@ -1,5 +1,5 @@
 // src/components/insights/Charts.tsx
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { StudySession } from "../../storage/session";
 import DefaultQueries from "@/logic/insights/IInsightFacade";
 import { executeQueryString } from "@/logic/insights/QueryDoer";
@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
   CardContent,
-  CardFooter,
 } from "@/components/ui/card";
 
 import {
@@ -183,7 +182,7 @@ export function DailyBreakdown({
                 cursor={false}
                 content={<ChartTooltipContent indicator="dot" />}
               />
-              {orderedSubjectNames.map((name: string, id: string) => (
+              {orderedSubjectNames.map((name: string) => (
                 <Bar
                   key={name}
                   dataKey={name}
@@ -569,8 +568,6 @@ export function SubjectsThisWeekBreakdown({
     minutes: msToMinutes(t.totalMs),
     subjectId: t.subjectId,
   }));
-
-  const subjectIds = top.map((t: any) => t.subjectId);
 
   return (
     <Card className="bg-transparent shadow-none border">

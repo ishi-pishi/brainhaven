@@ -20,7 +20,6 @@ import { signupWithEmail } from "../../storage/user";
 import {
   getAuth,
   sendEmailVerification,
-  applyActionCode,
   type User,
 } from "firebase/auth";
 
@@ -32,7 +31,6 @@ export function SignUpCard() {
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(0);
-  const [pasteValue, setPasteValue] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
@@ -118,38 +116,6 @@ export function SignUpCard() {
     await sendVerificationEmail(user);
   };
 
-  const handlePasteVerify = async () => {
-    setError(null);
-    setLoading(true);
-    try {
-      const raw = pasteValue.trim();
-      if (!raw) throw new Error("Paste the verification link or code here.");
-      let oobCode = "";
-      try {
-        const url = new URL(raw);
-        oobCode = url.searchParams.get("oobCode") ?? "";
-      } catch (e) {
-        oobCode = raw;
-      }
-      if (!oobCode)
-        throw new Error("Could not find a verification code in that input.");
-      await applyActionCode(auth, oobCode);
-      if (auth.currentUser) {
-        await auth.currentUser.reload();
-        if (auth.currentUser.emailVerified) {
-          nav("/dashboard");
-          return;
-        }
-      }
-      setError(
-        "Verification code applied. If you're signed-in here, press 'I clicked the link' to continue.",
-      );
-    } catch (err: any) {
-      setError(err?.message ?? "Failed to apply verification code.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (step === "form") {
     return (

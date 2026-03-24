@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sparkles, History, Clock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
-import { getSessions, type Session } from "@/storage/session";
+import { getSessions, type StudySession as Session } from "@/storage/session";
 import { callMyStudyTipsFunction } from "@/lib/firebase";
 
 export function ReflectionsPage() {

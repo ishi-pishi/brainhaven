@@ -100,17 +100,6 @@ export class DefaultQueries implements IDefaultQueries {
     );
   }
 
-  private static endOfDay(date: Date) {
-    return new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      23,
-      59,
-      59,
-      999,
-    );
-  }
 
   private static parseIsoOrUndefined(iso?: string) {
     if (!iso) return undefined;
@@ -195,21 +184,6 @@ export class DefaultQueries implements IDefaultQueries {
     return list.reduce((acc, s) => acc + DefaultQueries.sessionWorkMs(s), 0);
   }
 
-  private static bucketByDate(
-    sessions: StudySession[],
-  ): Map<string, StudySession[]> {
-    const m = new Map<string, StudySession[]>();
-    for (const s of sessions) {
-      const stMs = DefaultQueries.sessionStartMs(s);
-      const d = Number.isNaN(stMs)
-        ? DefaultQueries.toLocalYMD(new Date())
-        : DefaultQueries.toLocalYMD(new Date(stMs));
-      const arr = m.get(d) ?? [];
-      arr.push(s);
-      m.set(d, arr);
-    }
-    return m;
-  }
 
   private static groupBySubject(sessions: StudySession[]) {
     const m = new Map<string | undefined, StudySession[]>();
