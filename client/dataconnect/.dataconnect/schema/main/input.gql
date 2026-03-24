@@ -1,4 +1,10 @@
 """
+✨ `Reward_KeyOutput` returns the primary key fields of table type `Reward`.
+
+It has the same format as `Reward_Key`, but is only used as mutation return value.
+"""
+scalar Reward_KeyOutput
+"""
 ✨ `StudySession_KeyOutput` returns the primary key fields of table type `StudySession`.
 
 It has the same format as `StudySession_Key`, but is only used as mutation return value.
@@ -16,6 +22,269 @@ scalar Subject_KeyOutput
 It has the same format as `User_Key`, but is only used as mutation return value.
 """
 scalar User_KeyOutput
+"""
+✨ Generated data input type for table 'Reward'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input Reward_Data {
+  """
+  ✨ Generated from Field `Reward`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Reward`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr
+  """
+  ✨ Generated from Field `Reward`.`userId` of type `String!`
+  """
+  userId: String
+  """
+  ✨ `_expr` server value variant of `userId` (✨ Generated from Field `Reward`.`userId` of type `String!`)
+  """
+  userId_expr: String_Expr
+  """
+  ✨ Generated from Field `Reward`.`user` of type `User!`
+  """
+  user: User_Key
+  """
+  ✨ Generated from Field `Reward`.`cost` of type `Int!`
+  """
+  cost: Int
+  """
+  ✨ `_expr` server value variant of `cost` (✨ Generated from Field `Reward`.`cost` of type `Int!`)
+  """
+  cost_expr: Int_Expr
+  """
+  ✨ `_update` server value variant of `cost` (✨ Generated from Field `Reward`.`cost` of type `Int!`)
+  """
+  cost_update: [Int_Update!]
+  """
+  ✨ Generated from Field `Reward`.`isOneTime` of type `Boolean!`
+  """
+  isOneTime: Boolean
+  """
+  ✨ `_expr` server value variant of `isOneTime` (✨ Generated from Field `Reward`.`isOneTime` of type `Boolean!`)
+  """
+  isOneTime_expr: Boolean_Expr
+  """
+  ✨ Generated from Field `Reward`.`name` of type `String!`
+  """
+  name: String
+  """
+  ✨ `_expr` server value variant of `name` (✨ Generated from Field `Reward`.`name` of type `String!`)
+  """
+  name_expr: String_Expr
+}
+"""
+✨ Generated filter input type for table 'Reward'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Reward_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [Reward_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: Reward_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [Reward_Filter!]
+  """
+  ✨ Generated from Field `Reward`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `Reward`.`userId` of type `String!`
+  """
+  userId: String_Filter
+  """
+  ✨ Generated from Field `Reward`.`user` of type `User!`
+  """
+  user: User_Filter
+  """
+  ✨ Generated from Field `Reward`.`cost` of type `Int!`
+  """
+  cost: Int_Filter
+  """
+  ✨ Generated from Field `Reward`.`isOneTime` of type `Boolean!`
+  """
+  isOneTime: Boolean_Filter
+  """
+  ✨ Generated from Field `Reward`.`name` of type `String!`
+  """
+  name: String_Filter
+}
+"""
+✨ Generated first-row input type for table 'Reward'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input Reward_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [Reward_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: Reward_Filter
+}
+"""
+✨ Generated having input type for table 'Reward'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Reward_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [Reward_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: Reward_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [Reward_Having!]
+  """
+  ✨ Generated from Field `Reward`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `Reward`.`cost_count` of type `Int!`
+  """
+  cost_count: Int_Filter
+  """
+  ✨ Generated from Field `Reward`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `Reward`.`isOneTime_count` of type `Int!`
+  """
+  isOneTime_count: Int_Filter
+  """
+  ✨ Generated from Field `Reward`.`name_count` of type `Int!`
+  """
+  name_count: Int_Filter
+  """
+  ✨ Generated from Field `Reward`.`userId_count` of type `Int!`
+  """
+  userId_count: Int_Filter
+  """
+  ✨ Generated from Field `Reward`.`cost_sum` of type `Int`
+  """
+  cost_sum: Int_Filter
+  """
+  ✨ Generated from Field `Reward`.`cost_avg` of type `Float`
+  """
+  cost_avg: Float_Filter
+  """
+  ✨ Generated from Field `Reward`.`cost_min` of type `Int`
+  """
+  cost_min: Int_Filter
+  """
+  ✨ Generated from Field `Reward`.`cost_max` of type `Int`
+  """
+  cost_max: Int_Filter
+}
+"""
+✨ Generated key input type for table 'Reward'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input Reward_Key {
+  """
+  ✨ Generated from Field `Reward`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Reward`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr
+}
+"""
+✨ Generated list filter input type for table 'Reward'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input Reward_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: Reward_Filter
+}
+"""
+✨ Generated order input type for table 'Reward'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input Reward_Order {
+  """
+  ✨ Generated from Field `Reward`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `Reward`.`userId` of type `String!`
+  """
+  userId: OrderDirection
+  """
+  ✨ Generated from Field `Reward`.`user` of type `User!`
+  """
+  user: User_Order
+  """
+  ✨ Generated from Field `Reward`.`cost` of type `Int!`
+  """
+  cost: OrderDirection
+  """
+  ✨ Generated from Field `Reward`.`isOneTime` of type `Boolean!`
+  """
+  isOneTime: OrderDirection
+  """
+  ✨ Generated from Field `Reward`.`name` of type `String!`
+  """
+  name: OrderDirection
+  """
+  ✨ Generated from Field `Reward`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `Reward`.`cost_count` of type `Int!`
+  """
+  cost_count: OrderDirection
+  """
+  ✨ Generated from Field `Reward`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `Reward`.`isOneTime_count` of type `Int!`
+  """
+  isOneTime_count: OrderDirection
+  """
+  ✨ Generated from Field `Reward`.`name_count` of type `Int!`
+  """
+  name_count: OrderDirection
+  """
+  ✨ Generated from Field `Reward`.`userId_count` of type `Int!`
+  """
+  userId_count: OrderDirection
+  """
+  ✨ Generated from Field `Reward`.`cost_sum` of type `Int`
+  """
+  cost_sum: OrderDirection
+  """
+  ✨ Generated from Field `Reward`.`cost_avg` of type `Float`
+  """
+  cost_avg: OrderDirection
+  """
+  ✨ Generated from Field `Reward`.`cost_min` of type `Int`
+  """
+  cost_min: OrderDirection
+  """
+  ✨ Generated from Field `Reward`.`cost_max` of type `Int`
+  """
+  cost_max: OrderDirection
+}
 """
 ✨ Generated data input type for table 'StudySession'. It includes all necessary fields for creating or upserting rows into table.
 """
@@ -947,6 +1216,30 @@ input User_Data {
   """
   currencyBalance_update: [Int_Update!]
   """
+  ✨ Generated from Field `User`.`currentStreak` of type `Int!`
+  """
+  currentStreak: Int
+  """
+  ✨ `_expr` server value variant of `currentStreak` (✨ Generated from Field `User`.`currentStreak` of type `Int!`)
+  """
+  currentStreak_expr: Int_Expr
+  """
+  ✨ `_update` server value variant of `currentStreak` (✨ Generated from Field `User`.`currentStreak` of type `Int!`)
+  """
+  currentStreak_update: [Int_Update!]
+  """
+  ✨ Generated from Field `User`.`dailyGoalMinutes` of type `Int!`
+  """
+  dailyGoalMinutes: Int
+  """
+  ✨ `_expr` server value variant of `dailyGoalMinutes` (✨ Generated from Field `User`.`dailyGoalMinutes` of type `Int!`)
+  """
+  dailyGoalMinutes_expr: Int_Expr
+  """
+  ✨ `_update` server value variant of `dailyGoalMinutes` (✨ Generated from Field `User`.`dailyGoalMinutes` of type `Int!`)
+  """
+  dailyGoalMinutes_update: [Int_Update!]
+  """
   ✨ Generated from Field `User`.`displayName` of type `String!`
   """
   displayName: String
@@ -954,6 +1247,22 @@ input User_Data {
   ✨ `_expr` server value variant of `displayName` (✨ Generated from Field `User`.`displayName` of type `String!`)
   """
   displayName_expr: String_Expr
+  """
+  ✨ Generated from Field `User`.`lastGoalMetDate` of type `Timestamp`
+  """
+  lastGoalMetDate: Timestamp
+  """
+  ✨ `_expr` server value variant of `lastGoalMetDate` (✨ Generated from Field `User`.`lastGoalMetDate` of type `Timestamp`)
+  """
+  lastGoalMetDate_expr: Timestamp_Expr
+  """
+  ✨ `_time` server value variant of `lastGoalMetDate` (✨ Generated from Field `User`.`lastGoalMetDate` of type `Timestamp`)
+  """
+  lastGoalMetDate_time: Timestamp_Relative
+  """
+  ✨ `_update` server value variant of `lastGoalMetDate` (✨ Generated from Field `User`.`lastGoalMetDate` of type `Timestamp`)
+  """
+  lastGoalMetDate_update: [Timestamp_Update!]
 }
 """
 ✨ Generated filter input type for table 'User'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
@@ -984,9 +1293,25 @@ input User_Filter {
   """
   currencyBalance: Int_Filter
   """
+  ✨ Generated from Field `User`.`currentStreak` of type `Int!`
+  """
+  currentStreak: Int_Filter
+  """
+  ✨ Generated from Field `User`.`dailyGoalMinutes` of type `Int!`
+  """
+  dailyGoalMinutes: Int_Filter
+  """
   ✨ Generated from Field `User`.`displayName` of type `String!`
   """
   displayName: String_Filter
+  """
+  ✨ Generated from Field `User`.`lastGoalMetDate` of type `Timestamp`
+  """
+  lastGoalMetDate: Timestamp_Filter
+  """
+  ✨ Generated from Field `User`.`rewards_on_user` of type `[Reward!]!`
+  """
+  rewards_on_user: Reward_ListFilter
   """
   ✨ Generated from Field `User`.`studySessions_on_user` of type `[StudySession!]!`
   """
@@ -1042,6 +1367,14 @@ input User_Having {
   """
   currencyBalance_count: Int_Filter
   """
+  ✨ Generated from Field `User`.`currentStreak_count` of type `Int!`
+  """
+  currentStreak_count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`dailyGoalMinutes_count` of type `Int!`
+  """
+  dailyGoalMinutes_count: Int_Filter
+  """
   ✨ Generated from Field `User`.`displayName_count` of type `Int!`
   """
   displayName_count: Int_Filter
@@ -1050,13 +1383,33 @@ input User_Having {
   """
   id_count: Int_Filter
   """
+  ✨ Generated from Field `User`.`lastGoalMetDate_count` of type `Int!`
+  """
+  lastGoalMetDate_count: Int_Filter
+  """
   ✨ Generated from Field `User`.`currencyBalance_sum` of type `Int`
   """
   currencyBalance_sum: Int_Filter
   """
+  ✨ Generated from Field `User`.`currentStreak_sum` of type `Int`
+  """
+  currentStreak_sum: Int_Filter
+  """
+  ✨ Generated from Field `User`.`dailyGoalMinutes_sum` of type `Int`
+  """
+  dailyGoalMinutes_sum: Int_Filter
+  """
   ✨ Generated from Field `User`.`currencyBalance_avg` of type `Float`
   """
   currencyBalance_avg: Float_Filter
+  """
+  ✨ Generated from Field `User`.`currentStreak_avg` of type `Float`
+  """
+  currentStreak_avg: Float_Filter
+  """
+  ✨ Generated from Field `User`.`dailyGoalMinutes_avg` of type `Float`
+  """
+  dailyGoalMinutes_avg: Float_Filter
   """
   ✨ Generated from Field `User`.`createdAt_min` of type `Timestamp`
   """
@@ -1066,6 +1419,18 @@ input User_Having {
   """
   currencyBalance_min: Int_Filter
   """
+  ✨ Generated from Field `User`.`currentStreak_min` of type `Int`
+  """
+  currentStreak_min: Int_Filter
+  """
+  ✨ Generated from Field `User`.`dailyGoalMinutes_min` of type `Int`
+  """
+  dailyGoalMinutes_min: Int_Filter
+  """
+  ✨ Generated from Field `User`.`lastGoalMetDate_min` of type `Timestamp`
+  """
+  lastGoalMetDate_min: Timestamp_Filter
+  """
   ✨ Generated from Field `User`.`createdAt_max` of type `Timestamp`
   """
   createdAt_max: Timestamp_Filter
@@ -1073,6 +1438,18 @@ input User_Having {
   ✨ Generated from Field `User`.`currencyBalance_max` of type `Int`
   """
   currencyBalance_max: Int_Filter
+  """
+  ✨ Generated from Field `User`.`currentStreak_max` of type `Int`
+  """
+  currentStreak_max: Int_Filter
+  """
+  ✨ Generated from Field `User`.`dailyGoalMinutes_max` of type `Int`
+  """
+  dailyGoalMinutes_max: Int_Filter
+  """
+  ✨ Generated from Field `User`.`lastGoalMetDate_max` of type `Timestamp`
+  """
+  lastGoalMetDate_max: Timestamp_Filter
 }
 """
 ✨ Generated key input type for table 'User'. It represents the primary key fields used to uniquely identify a row in the table.
@@ -1117,9 +1494,21 @@ input User_Order {
   """
   currencyBalance: OrderDirection
   """
+  ✨ Generated from Field `User`.`currentStreak` of type `Int!`
+  """
+  currentStreak: OrderDirection
+  """
+  ✨ Generated from Field `User`.`dailyGoalMinutes` of type `Int!`
+  """
+  dailyGoalMinutes: OrderDirection
+  """
   ✨ Generated from Field `User`.`displayName` of type `String!`
   """
   displayName: OrderDirection
+  """
+  ✨ Generated from Field `User`.`lastGoalMetDate` of type `Timestamp`
+  """
+  lastGoalMetDate: OrderDirection
   """
   ✨ Generated from Field `User`.`_count` of type `Int!`
   """
@@ -1133,6 +1522,14 @@ input User_Order {
   """
   currencyBalance_count: OrderDirection
   """
+  ✨ Generated from Field `User`.`currentStreak_count` of type `Int!`
+  """
+  currentStreak_count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`dailyGoalMinutes_count` of type `Int!`
+  """
+  dailyGoalMinutes_count: OrderDirection
+  """
   ✨ Generated from Field `User`.`displayName_count` of type `Int!`
   """
   displayName_count: OrderDirection
@@ -1141,13 +1538,33 @@ input User_Order {
   """
   id_count: OrderDirection
   """
+  ✨ Generated from Field `User`.`lastGoalMetDate_count` of type `Int!`
+  """
+  lastGoalMetDate_count: OrderDirection
+  """
   ✨ Generated from Field `User`.`currencyBalance_sum` of type `Int`
   """
   currencyBalance_sum: OrderDirection
   """
+  ✨ Generated from Field `User`.`currentStreak_sum` of type `Int`
+  """
+  currentStreak_sum: OrderDirection
+  """
+  ✨ Generated from Field `User`.`dailyGoalMinutes_sum` of type `Int`
+  """
+  dailyGoalMinutes_sum: OrderDirection
+  """
   ✨ Generated from Field `User`.`currencyBalance_avg` of type `Float`
   """
   currencyBalance_avg: OrderDirection
+  """
+  ✨ Generated from Field `User`.`currentStreak_avg` of type `Float`
+  """
+  currentStreak_avg: OrderDirection
+  """
+  ✨ Generated from Field `User`.`dailyGoalMinutes_avg` of type `Float`
+  """
+  dailyGoalMinutes_avg: OrderDirection
   """
   ✨ Generated from Field `User`.`createdAt_min` of type `Timestamp`
   """
@@ -1157,6 +1574,18 @@ input User_Order {
   """
   currencyBalance_min: OrderDirection
   """
+  ✨ Generated from Field `User`.`currentStreak_min` of type `Int`
+  """
+  currentStreak_min: OrderDirection
+  """
+  ✨ Generated from Field `User`.`dailyGoalMinutes_min` of type `Int`
+  """
+  dailyGoalMinutes_min: OrderDirection
+  """
+  ✨ Generated from Field `User`.`lastGoalMetDate_min` of type `Timestamp`
+  """
+  lastGoalMetDate_min: OrderDirection
+  """
   ✨ Generated from Field `User`.`createdAt_max` of type `Timestamp`
   """
   createdAt_max: OrderDirection
@@ -1164,4 +1593,16 @@ input User_Order {
   ✨ Generated from Field `User`.`currencyBalance_max` of type `Int`
   """
   currencyBalance_max: OrderDirection
+  """
+  ✨ Generated from Field `User`.`currentStreak_max` of type `Int`
+  """
+  currentStreak_max: OrderDirection
+  """
+  ✨ Generated from Field `User`.`dailyGoalMinutes_max` of type `Int`
+  """
+  dailyGoalMinutes_max: OrderDirection
+  """
+  ✨ Generated from Field `User`.`lastGoalMetDate_max` of type `Timestamp`
+  """
+  lastGoalMetDate_max: OrderDirection
 }

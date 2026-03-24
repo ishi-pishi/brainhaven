@@ -1,5 +1,24 @@
 extend type Query {
   """
+  ✨ Look up a single `Reward` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  reward(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Reward_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Reward_FirstRow
+  ): Reward @fdc_generated(from: "Reward", purpose: QUERY_SINGLE)
+  """
   ✨ Look up a single `StudySession` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
   """
   studySession(
@@ -61,6 +80,40 @@ extend type Query {
     """
     first: User_FirstRow
   ): User @fdc_generated(from: "User", purpose: QUERY_SINGLE)
+  """
+  ✨ List `Reward` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  rewards(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Reward_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Reward_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Reward_Having
+  ): [Reward!]! @fdc_generated(from: "Reward", purpose: QUERY_MULTIPLE)
   """
   ✨ List `StudySession` objects in the table and return selected fields, optionally filtered by `where` conditions
   """

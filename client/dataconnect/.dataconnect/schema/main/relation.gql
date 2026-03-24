@@ -1,3 +1,88 @@
+extend type Reward {
+  """
+  Implicit metadata field that cannot be written. It provides extra information about query results.
+  """
+  _metadata: _Metadata @fdc_generated(from: "Reward", purpose: METADATA_FIELD)
+  """
+  ✨ Count the number of rows in the `Reward` table.
+  """
+  _count: Int! @fdc_generated(from: "Reward.", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Reward` table where the `cost` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  cost_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Reward.cost", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Reward` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  id_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Reward.id", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Reward` table where the `isOneTime` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  isOneTime_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Reward.isOneTime", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Reward` table where the `name` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  name_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Reward.name", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Reward` table where the `userId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  userId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Reward.userId", purpose: QUERY_COUNT)
+  """
+  ✨ Sum the `cost` field in the `Reward` table.
+  """
+  cost_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int @fdc_generated(from: "Reward.cost", purpose: QUERY_SUM)
+  """
+  ✨ Average the `cost` field in the `Reward` table.
+  """
+  cost_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "Reward.cost", purpose: QUERY_AVG)
+  """
+  ✨ Minimum of the `cost` field in the `Reward` table.
+  """
+  cost_min: Int @fdc_generated(from: "Reward.cost", purpose: QUERY_MIN)
+  """
+  ✨ Maximum of the `cost` field in the `Reward` table.
+  """
+  cost_max: Int @fdc_generated(from: "Reward.cost", purpose: QUERY_MAX)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "Reward.id", purpose: GLOBAL_ID)
+}
 extend type StudySession {
   """
   Implicit metadata field that cannot be written. It provides extra information about query results.
@@ -368,6 +453,40 @@ extend type Subject {
 }
 extend type User {
   """
+  ✨ List `Reward` objects in a one-to-many relationship (where `Reward`.`user` is this object).
+  """
+  rewards_on_user(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Reward_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Reward_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Reward_Having
+  ): [Reward!]! @fdc_generated(from: "Reward.user", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
+  """
   ✨ List `StudySession` objects in a one-to-many relationship (where `StudySession`.`user` is this object).
   """
   studySessions_on_user(
@@ -462,6 +581,24 @@ extend type User {
     distinct: Boolean = false
   ): Int! @fdc_generated(from: "User.currencyBalance", purpose: QUERY_COUNT)
   """
+  ✨ Count the number of rows in the `User` table where the `currentStreak` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  currentStreak_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "User.currentStreak", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `User` table where the `dailyGoalMinutes` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  dailyGoalMinutes_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "User.dailyGoalMinutes", purpose: QUERY_COUNT)
+  """
   ✨ Count the number of rows in the `User` table where the `displayName` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
   displayName_count(
@@ -480,6 +617,15 @@ extend type User {
     distinct: Boolean = false
   ): Int! @fdc_generated(from: "User.id", purpose: QUERY_COUNT)
   """
+  ✨ Count the number of rows in the `User` table where the `lastGoalMetDate` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  lastGoalMetDate_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "User.lastGoalMetDate", purpose: QUERY_COUNT)
+  """
   ✨ Sum the `currencyBalance` field in the `User` table.
   """
   currencyBalance_sum(
@@ -488,6 +634,24 @@ extend type User {
     """
     distinct: Boolean = false
   ): Int @fdc_generated(from: "User.currencyBalance", purpose: QUERY_SUM)
+  """
+  ✨ Sum the `currentStreak` field in the `User` table.
+  """
+  currentStreak_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int @fdc_generated(from: "User.currentStreak", purpose: QUERY_SUM)
+  """
+  ✨ Sum the `dailyGoalMinutes` field in the `User` table.
+  """
+  dailyGoalMinutes_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int @fdc_generated(from: "User.dailyGoalMinutes", purpose: QUERY_SUM)
   """
   ✨ Average the `currencyBalance` field in the `User` table.
   """
@@ -498,6 +662,24 @@ extend type User {
     distinct: Boolean = false
   ): Float @fdc_generated(from: "User.currencyBalance", purpose: QUERY_AVG)
   """
+  ✨ Average the `currentStreak` field in the `User` table.
+  """
+  currentStreak_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "User.currentStreak", purpose: QUERY_AVG)
+  """
+  ✨ Average the `dailyGoalMinutes` field in the `User` table.
+  """
+  dailyGoalMinutes_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "User.dailyGoalMinutes", purpose: QUERY_AVG)
+  """
   ✨ Minimum of the `createdAt` field in the `User` table.
   """
   createdAt_min: Timestamp @fdc_generated(from: "User.createdAt", purpose: QUERY_MIN)
@@ -506,6 +688,18 @@ extend type User {
   """
   currencyBalance_min: Int @fdc_generated(from: "User.currencyBalance", purpose: QUERY_MIN)
   """
+  ✨ Minimum of the `currentStreak` field in the `User` table.
+  """
+  currentStreak_min: Int @fdc_generated(from: "User.currentStreak", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `dailyGoalMinutes` field in the `User` table.
+  """
+  dailyGoalMinutes_min: Int @fdc_generated(from: "User.dailyGoalMinutes", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `lastGoalMetDate` field in the `User` table.
+  """
+  lastGoalMetDate_min: Timestamp @fdc_generated(from: "User.lastGoalMetDate", purpose: QUERY_MIN)
+  """
   ✨ Maximum of the `createdAt` field in the `User` table.
   """
   createdAt_max: Timestamp @fdc_generated(from: "User.createdAt", purpose: QUERY_MAX)
@@ -513,6 +707,18 @@ extend type User {
   ✨ Maximum of the `currencyBalance` field in the `User` table.
   """
   currencyBalance_max: Int @fdc_generated(from: "User.currencyBalance", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `currentStreak` field in the `User` table.
+  """
+  currentStreak_max: Int @fdc_generated(from: "User.currentStreak", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `dailyGoalMinutes` field in the `User` table.
+  """
+  dailyGoalMinutes_max: Int @fdc_generated(from: "User.dailyGoalMinutes", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `lastGoalMetDate` field in the `User` table.
+  """
+  lastGoalMetDate_max: Timestamp @fdc_generated(from: "User.lastGoalMetDate", purpose: QUERY_MAX)
   """
   A generated field that is used for caching results in SDKs.
   """

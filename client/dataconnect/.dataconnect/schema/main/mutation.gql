@@ -1,5 +1,14 @@
 extend type Mutation {
   """
+  ✨ Insert a single `Reward` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  reward_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: Reward_Data!
+  ): Reward_KeyOutput! @fdc_generated(from: "Reward", purpose: INSERT_SINGLE)
+  """
   ✨ Insert a single `StudySession` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
   """
   studySession_insert(
@@ -26,6 +35,15 @@ extend type Mutation {
     """
     data: User_Data!
   ): User_KeyOutput! @fdc_generated(from: "User", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert `Reward` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  reward_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [Reward_Data!]!
+  ): [Reward_KeyOutput!]! @fdc_generated(from: "Reward", purpose: INSERT_MULTIPLE)
   """
   ✨ Insert `StudySession` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
   """
@@ -54,6 +72,15 @@ extend type Mutation {
     data: [User_Data!]!
   ): [User_KeyOutput!]! @fdc_generated(from: "User", purpose: INSERT_MULTIPLE)
   """
+  ✨ Insert or update a single `Reward` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Reward`.
+  """
+  reward_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: Reward_Data!
+  ): Reward_KeyOutput! @fdc_generated(from: "Reward", purpose: UPSERT_SINGLE)
+  """
   ✨ Insert or update a single `StudySession` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `StudySession`.
   """
   studySession_upsert(
@@ -81,6 +108,15 @@ extend type Mutation {
     data: User_Data!
   ): User_KeyOutput! @fdc_generated(from: "User", purpose: UPSERT_SINGLE)
   """
+  ✨ Insert or update `Reward` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Reward`.
+  """
+  reward_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [Reward_Data!]!
+  ): [Reward_KeyOutput!]! @fdc_generated(from: "Reward", purpose: UPSERT_MULTIPLE)
+  """
   ✨ Insert or update `StudySession` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `StudySession`.
   """
   studySession_upsertMany(
@@ -107,6 +143,30 @@ extend type Mutation {
     """
     data: [User_Data!]!
   ): [User_KeyOutput!]! @fdc_generated(from: "User", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Update a single `Reward` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `Reward` or `null` if not found.
+  """
+  reward_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Reward_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Reward_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: Reward_Data!
+  ): Reward_KeyOutput @fdc_generated(from: "Reward", purpose: UPDATE_SINGLE)
   """
   ✨ Update a single `StudySession` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `StudySession` or `null` if not found.
   """
@@ -185,6 +245,25 @@ extend type Mutation {
     data: User_Data!
   ): User_KeyOutput @fdc_generated(from: "User", purpose: UPDATE_SINGLE)
   """
+  ✨ Update `Reward` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  reward_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: Reward_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: Reward_Data!
+  ): Int! @fdc_generated(from: "Reward", purpose: UPDATE_MULTIPLE)
+  """
   ✨ Update `StudySession` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
   """
   studySession_updateMany(
@@ -241,6 +320,25 @@ extend type Mutation {
     """
     data: User_Data!
   ): Int! @fdc_generated(from: "User", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Delete a single `Reward` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  reward_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Reward_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Reward_FirstRow
+  ): Reward_KeyOutput @fdc_generated(from: "Reward", purpose: DELETE_SINGLE)
   """
   ✨ Delete a single `StudySession` based on `id`, `key` or `first` and return its key (or `null` if not found).
   """
@@ -303,6 +401,20 @@ extend type Mutation {
     """
     first: User_FirstRow
   ): User_KeyOutput @fdc_generated(from: "User", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete `Reward` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  reward_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: Reward_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "Reward", purpose: DELETE_MULTIPLE)
   """
   ✨ Delete `StudySession` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
   """
