@@ -222,7 +222,24 @@ export class DefaultQueries implements IDefaultQueries {
     const now = refDate ?? new Date();
     const start = DefaultQueries.startOfDay(now);
     const end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
-    return this.timeDoneInRange(start.toISOString(), end.toISOString());
+    
+    // Strict filtering: Only sessions that start AFTER local midnight today
+    const sess = await this.ensureSessions();
+    const filtered = sess.filter((s) => {
+      const stMs = DefaultQueries.sessionStartMs(s);
+      if (Number.isNaN(stMs)) return false;
+      return stMs >= start.getTime() && stMs < end.getTime();
+    });
+
+    const totalMs = DefaultQueries.sumWorkMs(filtered);
+    const subjectMap = DefaultQueries.groupBySubject(filtered);
+    const bySubject = Array.from(subjectMap.entries()).map(([id, arr]) => ({
+      subjectId: id,
+      totalMs: DefaultQueries.sumWorkMs(arr),
+      sessions: arr.length
+    }));
+
+    return { totalMs, sessions: filtered.length, bySubject };
   }
 
   async averageProductivityToday(refDate?: Date): Promise<number | null> {
