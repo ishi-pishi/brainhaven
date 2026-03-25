@@ -150,6 +150,7 @@ mutation UpdateSubject(
   )
 }
 
-mutation DeleteSubject($key: Subject_Key!) @auth(level: USER) {
-  subject_delete(key: $key)
+mutation DeleteSubject($id: UUID!) @auth(level: USER) @transaction {
+  studySession_deleteMany(where: { subjectId: { eq: $id }, userId: { eq_expr: "auth.uid" } })
+  subject_delete(key: { id: $id })
 }
