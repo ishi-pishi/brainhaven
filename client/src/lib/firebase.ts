@@ -27,12 +27,13 @@ const auth = getAuth(app);
 setPersistence(auth, browserLocalPersistence).catch((error) => {
   console.error("Auth persistence error:", error);
 });
-const functions = getFunctions(app);
-if (import.meta.env.DEV) {
-  import('firebase/functions').then(({ connectFunctionsEmulator }) => {
-    connectFunctionsEmulator(functions, "127.0.0.1", 5001);
-  });
-}
+// const functions = getFunctions(app);
+// if (import.meta.env.DEV) {
+//   import('firebase/functions').then(({ connectFunctionsEmulator }) => {
+//     connectFunctionsEmulator(functions, "127.0.0.1", 5001);
+//   });
+// }
+const functions = getFunctions(app, "us-central1");
 getDataConnect(connectorConfig);
 
 const getStudyTipsCallable = httpsCallable(functions, 'getStudyTipsFn');
