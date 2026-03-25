@@ -41,8 +41,11 @@ ${JSON.stringify(recentSessions, null, 2)}
     });
 
     return response.choices[0].message.content || "No tips generated.";
-  } catch (error) {
-    console.error("Error generating tips from OpenAI:", error);
+  } catch (error: any) {
+    console.error("Error generating tips from OpenAI:", JSON.stringify(error, null, 2));
+    if (error.status === 401) {
+      throw new Error(`OpenAI Authentication failed (401): ${error.message}. Please verify your API key and billing status.`);
+    }
     throw new Error("Failed to get response from OpenAI due to an internal error.");
   }
 }
