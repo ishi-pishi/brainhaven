@@ -36,7 +36,7 @@ setPersistence(auth, browserLocalPersistence).catch((error) => {
 const functions = getFunctions(app, "us-central1");
 getDataConnect(connectorConfig);
 
-const getStudyTipsCallable = httpsCallable(functions, 'getStudyTipsFn');
+const getStudyTipsCallable = httpsCallable(functions, 'getAIInsights');
 
 async function callMyStudyTipsFunction(sessions: any[] = []) {
     try {

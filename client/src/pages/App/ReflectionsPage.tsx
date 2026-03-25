@@ -42,9 +42,9 @@ export function ReflectionsPage() {
           tipsText = (result.data as any).tips;
         }
         setTips(tipsText);
-      } catch (error) {
+      } catch (error: any) {
         console.error("Failed to fetch tips:", error);
-        setTips(null);
+        setTips("AI Service Error: " + (error.message || "Unknown error"));
       } finally {
         setLoadingTips(false);
       }
