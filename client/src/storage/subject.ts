@@ -55,6 +55,6 @@ export async function deleteSubjectByName(name: string) {
   }
 
   await deleteSubject({
-    key: { id: id },
+    id: id,
   });
 }
