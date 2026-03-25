@@ -14,12 +14,12 @@ export type Reward = {
 };
 
 export const DEFAULT_REWARDS: Omit<Reward, "id">[] = [
-  { name: "Take a hot bath 🛁", cost: 100, isOneTime: false },
-  { name: "Play video games 🎮", cost: 150, isOneTime: false },
-  { name: "Watch a movie 🎬", cost: 200, isOneTime: false },
-  { name: "Order your favourite food 🍕", cost: 300, isOneTime: true },
-  { name: "Buy yourself a treat ☕", cost: 250, isOneTime: true },
-  { name: "Take a day off 🌿", cost: 500, isOneTime: true },
+  { name: "Take a hot bath 🛁", cost: 300, isOneTime: false },
+  { name: "Play video games 🎮", cost: 500, isOneTime: false },
+  { name: "Watch a movie 🎬", cost: 500, isOneTime: false },
+  { name: "Order your favourite food 🍕", cost: 400, isOneTime: true },
+  { name: "Buy yourself a small treat ☕", cost: 350, isOneTime: true },
+  { name: "Take a day off 🌿", cost: 1500, isOneTime: true },
 ];
 
 // Exchange rate: coins per minute studied (rounded)
