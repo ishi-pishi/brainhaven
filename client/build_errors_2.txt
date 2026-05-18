@@ -1,1 +1,0 @@
-﻿src/components/Auth/Signup.tsx(23,3): error TS6133: 'applyActionCode' is declared but its value is never read.
