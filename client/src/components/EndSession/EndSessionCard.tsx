@@ -17,7 +17,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -68,7 +67,6 @@ const ratings = [
  *  a little reflection about how they feel like their study session went.
  */
 export function EndSessionCard() {
-  const nav = useNavigate();
 
   const [rating, setRating] = useState<number | null>(null);
   const [reflection, setReflection] = useState("");
@@ -119,7 +117,7 @@ export function EndSessionCard() {
         console.warn("Could not update coins/streak (non-fatal):", rewardErr);
       }
 
-      nav("/dashboard");
+      window.location.href = "/dashboard";
     } catch (err) {
       console.error("Failed to save session:", err);
     } finally {
