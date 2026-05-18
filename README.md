@@ -9,5 +9,7 @@ Brainhaven is a full-stack study tracker app. As users run a pomodoro timer, the
 <iframe width="560" height="315" src="https://www.youtube.com/watch?v=NlMYNNfv_4I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 To run:
-- Download/clone the repo
-- `npm start` and follow instructions for entering the OpenAI API key setup (skip if not interested in AI insights)
+- Clone the repo
+- Add a `.env` file to `\client` and set `OPENAI_API_KEY` and `VITE_FIREBASE_API_KEY`
+- Add a `.env` file to `\client\functions` and set `OPENAI_API_KEY`
+- `npm start`

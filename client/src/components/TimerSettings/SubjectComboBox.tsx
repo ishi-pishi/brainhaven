@@ -100,11 +100,10 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
                       <div className="flex items-center justify-between w-full">
                         <div className="flex items-center">
                           <Check
-                            className={`mr-2 h-4 w-4 ${
-                              selected === subject.name
-                                ? "opacity-100"
-                                : "opacity-0"
-                            }`}
+                            className={`mr-2 h-4 w-4 ${selected === subject.name
+                              ? "opacity-100"
+                              : "opacity-0"
+                              }`}
                           />
                           {subject.name}
                         </div>
@@ -113,9 +112,8 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
                           onClick={async (e) => {
                             e.stopPropagation();
                             await deleteSubjectByName(subject.name);
-                            setSubjects((prev) =>
-                              prev.filter((s) => s !== subject),
-                            );
+                            const fresh = await getSubjects();
+                            setSubjects(fresh);
                             if (selected === subject.name) setSelected(null);
                           }}
                           aria-label={`Delete ${subject.name}`}

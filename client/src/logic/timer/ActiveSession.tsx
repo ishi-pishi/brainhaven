@@ -49,7 +49,6 @@ export class ActiveSession extends Observable {
   private constructor(settings: SessionSettings) {
     super();
     ActiveSession.instance = this;
-    console.trace();
 
     this.metadata = {
       subjectId: null,
