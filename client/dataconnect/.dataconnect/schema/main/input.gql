@@ -33,7 +33,7 @@ input Reward_Data {
   """
   ✨ `_expr` server value variant of `id` (✨ Generated from Field `Reward`.`id` of type `UUID!`)
   """
-  id_expr: UUID_Expr
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `Reward`.`userId` of type `String!`
   """
@@ -41,11 +41,11 @@ input Reward_Data {
   """
   ✨ `_expr` server value variant of `userId` (✨ Generated from Field `Reward`.`userId` of type `String!`)
   """
-  userId_expr: String_Expr
+  userId_expr: String_Expr @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `Reward`.`user` of type `User!`
   """
-  user: User_Key
+  user: User_Key @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `Reward`.`cost` of type `Int!`
   """
@@ -53,11 +53,11 @@ input Reward_Data {
   """
   ✨ `_expr` server value variant of `cost` (✨ Generated from Field `Reward`.`cost` of type `Int!`)
   """
-  cost_expr: Int_Expr
+  cost_expr: Int_Expr @fdc_forbiddenInVariables
   """
   ✨ `_update` server value variant of `cost` (✨ Generated from Field `Reward`.`cost` of type `Int!`)
   """
-  cost_update: [Int_Update!]
+  cost_update: [Int_Update!] @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `Reward`.`isOneTime` of type `Boolean!`
   """
@@ -65,7 +65,7 @@ input Reward_Data {
   """
   ✨ `_expr` server value variant of `isOneTime` (✨ Generated from Field `Reward`.`isOneTime` of type `Boolean!`)
   """
-  isOneTime_expr: Boolean_Expr
+  isOneTime_expr: Boolean_Expr @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `Reward`.`name` of type `String!`
   """
@@ -73,7 +73,7 @@ input Reward_Data {
   """
   ✨ `_expr` server value variant of `name` (✨ Generated from Field `Reward`.`name` of type `String!`)
   """
-  name_expr: String_Expr
+  name_expr: String_Expr @fdc_forbiddenInVariables
 }
 """
 ✨ Generated filter input type for table 'Reward'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
@@ -201,7 +201,7 @@ input Reward_Key {
   """
   ✨ `_expr` server value variant of `id` (✨ Generated from Field `Reward`.`id` of type `UUID!`)
   """
-  id_expr: UUID_Expr
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
 }
 """
 ✨ Generated list filter input type for table 'Reward'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
@@ -296,7 +296,7 @@ input StudySession_Data {
   """
   ✨ `_expr` server value variant of `id` (✨ Generated from Field `StudySession`.`id` of type `UUID!`)
   """
-  id_expr: UUID_Expr
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `StudySession`.`subjectId` of type `UUID`
   """
@@ -304,7 +304,7 @@ input StudySession_Data {
   """
   ✨ `_expr` server value variant of `subjectId` (✨ Generated from Field `StudySession`.`subjectId` of type `UUID`)
   """
-  subjectId_expr: UUID_Expr
+  subjectId_expr: UUID_Expr @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `StudySession`.`userId` of type `String!`
   """
@@ -312,15 +312,15 @@ input StudySession_Data {
   """
   ✨ `_expr` server value variant of `userId` (✨ Generated from Field `StudySession`.`userId` of type `String!`)
   """
-  userId_expr: String_Expr
+  userId_expr: String_Expr @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `StudySession`.`subject` of type `Subject`
   """
-  subject: Subject_Key
+  subject: Subject_Key @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `StudySession`.`user` of type `User!`
   """
-  user: User_Key
+  user: User_Key @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `StudySession`.`breakBlockMs` of type `Int!`
   """
@@ -328,11 +328,11 @@ input StudySession_Data {
   """
   ✨ `_expr` server value variant of `breakBlockMs` (✨ Generated from Field `StudySession`.`breakBlockMs` of type `Int!`)
   """
-  breakBlockMs_expr: Int_Expr
+  breakBlockMs_expr: Int_Expr @fdc_forbiddenInVariables
   """
   ✨ `_update` server value variant of `breakBlockMs` (✨ Generated from Field `StudySession`.`breakBlockMs` of type `Int!`)
   """
-  breakBlockMs_update: [Int_Update!]
+  breakBlockMs_update: [Int_Update!] @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `StudySession`.`createdAt` of type `Timestamp!`
   """
@@ -340,15 +340,15 @@ input StudySession_Data {
   """
   ✨ `_expr` server value variant of `createdAt` (✨ Generated from Field `StudySession`.`createdAt` of type `Timestamp!`)
   """
-  createdAt_expr: Timestamp_Expr
+  createdAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
   """
   ✨ `_time` server value variant of `createdAt` (✨ Generated from Field `StudySession`.`createdAt` of type `Timestamp!`)
   """
-  createdAt_time: Timestamp_Relative
+  createdAt_time: Timestamp_Relative @fdc_forbiddenInVariables
   """
   ✨ `_update` server value variant of `createdAt` (✨ Generated from Field `StudySession`.`createdAt` of type `Timestamp!`)
   """
-  createdAt_update: [Timestamp_Update!]
+  createdAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `StudySession`.`earnedCurrency` of type `Int!`
   """
@@ -356,11 +356,11 @@ input StudySession_Data {
   """
   ✨ `_expr` server value variant of `earnedCurrency` (✨ Generated from Field `StudySession`.`earnedCurrency` of type `Int!`)
   """
-  earnedCurrency_expr: Int_Expr
+  earnedCurrency_expr: Int_Expr @fdc_forbiddenInVariables
   """
   ✨ `_update` server value variant of `earnedCurrency` (✨ Generated from Field `StudySession`.`earnedCurrency` of type `Int!`)
   """
-  earnedCurrency_update: [Int_Update!]
+  earnedCurrency_update: [Int_Update!] @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `StudySession`.`endTime` of type `Timestamp!`
   """
@@ -368,15 +368,15 @@ input StudySession_Data {
   """
   ✨ `_expr` server value variant of `endTime` (✨ Generated from Field `StudySession`.`endTime` of type `Timestamp!`)
   """
-  endTime_expr: Timestamp_Expr
+  endTime_expr: Timestamp_Expr @fdc_forbiddenInVariables
   """
   ✨ `_time` server value variant of `endTime` (✨ Generated from Field `StudySession`.`endTime` of type `Timestamp!`)
   """
-  endTime_time: Timestamp_Relative
+  endTime_time: Timestamp_Relative @fdc_forbiddenInVariables
   """
   ✨ `_update` server value variant of `endTime` (✨ Generated from Field `StudySession`.`endTime` of type `Timestamp!`)
   """
-  endTime_update: [Timestamp_Update!]
+  endTime_update: [Timestamp_Update!] @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `StudySession`.`intendedCycles` of type `Int`
   """
@@ -384,11 +384,11 @@ input StudySession_Data {
   """
   ✨ `_expr` server value variant of `intendedCycles` (✨ Generated from Field `StudySession`.`intendedCycles` of type `Int`)
   """
-  intendedCycles_expr: Int_Expr
+  intendedCycles_expr: Int_Expr @fdc_forbiddenInVariables
   """
   ✨ `_update` server value variant of `intendedCycles` (✨ Generated from Field `StudySession`.`intendedCycles` of type `Int`)
   """
-  intendedCycles_update: [Int_Update!]
+  intendedCycles_update: [Int_Update!] @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `StudySession`.`productivityRating` of type `Int`
   """
@@ -396,11 +396,11 @@ input StudySession_Data {
   """
   ✨ `_expr` server value variant of `productivityRating` (✨ Generated from Field `StudySession`.`productivityRating` of type `Int`)
   """
-  productivityRating_expr: Int_Expr
+  productivityRating_expr: Int_Expr @fdc_forbiddenInVariables
   """
   ✨ `_update` server value variant of `productivityRating` (✨ Generated from Field `StudySession`.`productivityRating` of type `Int`)
   """
-  productivityRating_update: [Int_Update!]
+  productivityRating_update: [Int_Update!] @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `StudySession`.`reflections` of type `String`
   """
@@ -408,7 +408,7 @@ input StudySession_Data {
   """
   ✨ `_expr` server value variant of `reflections` (✨ Generated from Field `StudySession`.`reflections` of type `String`)
   """
-  reflections_expr: String_Expr
+  reflections_expr: String_Expr @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `StudySession`.`startTime` of type `Timestamp!`
   """
@@ -416,15 +416,15 @@ input StudySession_Data {
   """
   ✨ `_expr` server value variant of `startTime` (✨ Generated from Field `StudySession`.`startTime` of type `Timestamp!`)
   """
-  startTime_expr: Timestamp_Expr
+  startTime_expr: Timestamp_Expr @fdc_forbiddenInVariables
   """
   ✨ `_time` server value variant of `startTime` (✨ Generated from Field `StudySession`.`startTime` of type `Timestamp!`)
   """
-  startTime_time: Timestamp_Relative
+  startTime_time: Timestamp_Relative @fdc_forbiddenInVariables
   """
   ✨ `_update` server value variant of `startTime` (✨ Generated from Field `StudySession`.`startTime` of type `Timestamp!`)
   """
-  startTime_update: [Timestamp_Update!]
+  startTime_update: [Timestamp_Update!] @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `StudySession`.`workBlockMs` of type `Int!`
   """
@@ -432,11 +432,11 @@ input StudySession_Data {
   """
   ✨ `_expr` server value variant of `workBlockMs` (✨ Generated from Field `StudySession`.`workBlockMs` of type `Int!`)
   """
-  workBlockMs_expr: Int_Expr
+  workBlockMs_expr: Int_Expr @fdc_forbiddenInVariables
   """
   ✨ `_update` server value variant of `workBlockMs` (✨ Generated from Field `StudySession`.`workBlockMs` of type `Int!`)
   """
-  workBlockMs_update: [Int_Update!]
+  workBlockMs_update: [Int_Update!] @fdc_forbiddenInVariables
 }
 """
 ✨ Generated filter input type for table 'StudySession'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
@@ -712,7 +712,7 @@ input StudySession_Key {
   """
   ✨ `_expr` server value variant of `id` (✨ Generated from Field `StudySession`.`id` of type `UUID!`)
   """
-  id_expr: UUID_Expr
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
 }
 """
 ✨ Generated list filter input type for table 'StudySession'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
@@ -955,7 +955,7 @@ input Subject_Data {
   """
   ✨ `_expr` server value variant of `id` (✨ Generated from Field `Subject`.`id` of type `UUID!`)
   """
-  id_expr: UUID_Expr
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `Subject`.`userId` of type `String!`
   """
@@ -963,11 +963,11 @@ input Subject_Data {
   """
   ✨ `_expr` server value variant of `userId` (✨ Generated from Field `Subject`.`userId` of type `String!`)
   """
-  userId_expr: String_Expr
+  userId_expr: String_Expr @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `Subject`.`user` of type `User!`
   """
-  user: User_Key
+  user: User_Key @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `Subject`.`createdAt` of type `Timestamp!`
   """
@@ -975,15 +975,15 @@ input Subject_Data {
   """
   ✨ `_expr` server value variant of `createdAt` (✨ Generated from Field `Subject`.`createdAt` of type `Timestamp!`)
   """
-  createdAt_expr: Timestamp_Expr
+  createdAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
   """
   ✨ `_time` server value variant of `createdAt` (✨ Generated from Field `Subject`.`createdAt` of type `Timestamp!`)
   """
-  createdAt_time: Timestamp_Relative
+  createdAt_time: Timestamp_Relative @fdc_forbiddenInVariables
   """
   ✨ `_update` server value variant of `createdAt` (✨ Generated from Field `Subject`.`createdAt` of type `Timestamp!`)
   """
-  createdAt_update: [Timestamp_Update!]
+  createdAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `Subject`.`name` of type `String!`
   """
@@ -991,7 +991,7 @@ input Subject_Data {
   """
   ✨ `_expr` server value variant of `name` (✨ Generated from Field `Subject`.`name` of type `String!`)
   """
-  name_expr: String_Expr
+  name_expr: String_Expr @fdc_forbiddenInVariables
 }
 """
 ✨ Generated filter input type for table 'Subject'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
@@ -1107,7 +1107,7 @@ input Subject_Key {
   """
   ✨ `_expr` server value variant of `id` (✨ Generated from Field `Subject`.`id` of type `UUID!`)
   """
-  id_expr: UUID_Expr
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
 }
 """
 ✨ Generated list filter input type for table 'Subject'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
@@ -1186,7 +1186,7 @@ input User_Data {
   """
   ✨ `_expr` server value variant of `id` (✨ Generated from Field `User`.`id` of type `String!`)
   """
-  id_expr: String_Expr
+  id_expr: String_Expr @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `User`.`createdAt` of type `Timestamp!`
   """
@@ -1194,15 +1194,15 @@ input User_Data {
   """
   ✨ `_expr` server value variant of `createdAt` (✨ Generated from Field `User`.`createdAt` of type `Timestamp!`)
   """
-  createdAt_expr: Timestamp_Expr
+  createdAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
   """
   ✨ `_time` server value variant of `createdAt` (✨ Generated from Field `User`.`createdAt` of type `Timestamp!`)
   """
-  createdAt_time: Timestamp_Relative
+  createdAt_time: Timestamp_Relative @fdc_forbiddenInVariables
   """
   ✨ `_update` server value variant of `createdAt` (✨ Generated from Field `User`.`createdAt` of type `Timestamp!`)
   """
-  createdAt_update: [Timestamp_Update!]
+  createdAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `User`.`currencyBalance` of type `Int!`
   """
@@ -1210,11 +1210,11 @@ input User_Data {
   """
   ✨ `_expr` server value variant of `currencyBalance` (✨ Generated from Field `User`.`currencyBalance` of type `Int!`)
   """
-  currencyBalance_expr: Int_Expr
+  currencyBalance_expr: Int_Expr @fdc_forbiddenInVariables
   """
   ✨ `_update` server value variant of `currencyBalance` (✨ Generated from Field `User`.`currencyBalance` of type `Int!`)
   """
-  currencyBalance_update: [Int_Update!]
+  currencyBalance_update: [Int_Update!] @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `User`.`currentStreak` of type `Int!`
   """
@@ -1222,11 +1222,11 @@ input User_Data {
   """
   ✨ `_expr` server value variant of `currentStreak` (✨ Generated from Field `User`.`currentStreak` of type `Int!`)
   """
-  currentStreak_expr: Int_Expr
+  currentStreak_expr: Int_Expr @fdc_forbiddenInVariables
   """
   ✨ `_update` server value variant of `currentStreak` (✨ Generated from Field `User`.`currentStreak` of type `Int!`)
   """
-  currentStreak_update: [Int_Update!]
+  currentStreak_update: [Int_Update!] @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `User`.`dailyGoalMinutes` of type `Int!`
   """
@@ -1234,11 +1234,11 @@ input User_Data {
   """
   ✨ `_expr` server value variant of `dailyGoalMinutes` (✨ Generated from Field `User`.`dailyGoalMinutes` of type `Int!`)
   """
-  dailyGoalMinutes_expr: Int_Expr
+  dailyGoalMinutes_expr: Int_Expr @fdc_forbiddenInVariables
   """
   ✨ `_update` server value variant of `dailyGoalMinutes` (✨ Generated from Field `User`.`dailyGoalMinutes` of type `Int!`)
   """
-  dailyGoalMinutes_update: [Int_Update!]
+  dailyGoalMinutes_update: [Int_Update!] @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `User`.`displayName` of type `String!`
   """
@@ -1246,7 +1246,7 @@ input User_Data {
   """
   ✨ `_expr` server value variant of `displayName` (✨ Generated from Field `User`.`displayName` of type `String!`)
   """
-  displayName_expr: String_Expr
+  displayName_expr: String_Expr @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `User`.`lastGoalMetDate` of type `Timestamp`
   """
@@ -1254,15 +1254,15 @@ input User_Data {
   """
   ✨ `_expr` server value variant of `lastGoalMetDate` (✨ Generated from Field `User`.`lastGoalMetDate` of type `Timestamp`)
   """
-  lastGoalMetDate_expr: Timestamp_Expr
+  lastGoalMetDate_expr: Timestamp_Expr @fdc_forbiddenInVariables
   """
   ✨ `_time` server value variant of `lastGoalMetDate` (✨ Generated from Field `User`.`lastGoalMetDate` of type `Timestamp`)
   """
-  lastGoalMetDate_time: Timestamp_Relative
+  lastGoalMetDate_time: Timestamp_Relative @fdc_forbiddenInVariables
   """
   ✨ `_update` server value variant of `lastGoalMetDate` (✨ Generated from Field `User`.`lastGoalMetDate` of type `Timestamp`)
   """
-  lastGoalMetDate_update: [Timestamp_Update!]
+  lastGoalMetDate_update: [Timestamp_Update!] @fdc_forbiddenInVariables
 }
 """
 ✨ Generated filter input type for table 'User'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
@@ -1462,7 +1462,7 @@ input User_Key {
   """
   ✨ `_expr` server value variant of `id` (✨ Generated from Field `User`.`id` of type `String!`)
   """
-  id_expr: String_Expr
+  id_expr: String_Expr @fdc_forbiddenInVariables
 }
 """
 ✨ Generated list filter input type for table 'User'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.

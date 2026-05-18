@@ -1,11 +1,10 @@
-import { queryRef, executeQuery, mutationRef, executeMutation, validateArgs } from 'firebase/data-connect';
+import { queryRef, executeQuery, validateArgsWithOptions, mutationRef, executeMutation, validateArgs } from 'firebase/data-connect';
 
 export const connectorConfig = {
   connector: 'example',
   service: 'client',
   location: 'us-east4'
 };
-
 export const meRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();
@@ -13,8 +12,10 @@ export const meRef = (dc) => {
 }
 meRef.operationName = 'Me';
 
-export function me(dc) {
-  return executeQuery(meRef(dc));
+export function me(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(meRef(dcInstance, inputVars), inputOpts && inputOpts.fetchPolicy);
 }
 
 export const updateUserProgressRef = (dcOrVars, vars) => {
@@ -25,7 +26,8 @@ export const updateUserProgressRef = (dcOrVars, vars) => {
 updateUserProgressRef.operationName = 'UpdateUserProgress';
 
 export function updateUserProgress(dcOrVars, vars) {
-  return executeMutation(updateUserProgressRef(dcOrVars, vars));
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars);
+  return executeMutation(updateUserProgressRef(dcInstance, inputVars));
 }
 
 export const listRewardsRef = (dc) => {
@@ -35,8 +37,10 @@ export const listRewardsRef = (dc) => {
 }
 listRewardsRef.operationName = 'ListRewards';
 
-export function listRewards(dc) {
-  return executeQuery(listRewardsRef(dc));
+export function listRewards(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(listRewardsRef(dcInstance, inputVars), inputOpts && inputOpts.fetchPolicy);
 }
 
 export const createRewardRef = (dcOrVars, vars) => {
@@ -47,7 +51,8 @@ export const createRewardRef = (dcOrVars, vars) => {
 createRewardRef.operationName = 'CreateReward';
 
 export function createReward(dcOrVars, vars) {
-  return executeMutation(createRewardRef(dcOrVars, vars));
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(createRewardRef(dcInstance, inputVars));
 }
 
 export const deleteRewardRef = (dcOrVars, vars) => {
@@ -58,7 +63,8 @@ export const deleteRewardRef = (dcOrVars, vars) => {
 deleteRewardRef.operationName = 'DeleteReward';
 
 export function deleteReward(dcOrVars, vars) {
-  return executeMutation(deleteRewardRef(dcOrVars, vars));
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(deleteRewardRef(dcInstance, inputVars));
 }
 
 export const mySubjectsRef = (dc) => {
@@ -68,8 +74,10 @@ export const mySubjectsRef = (dc) => {
 }
 mySubjectsRef.operationName = 'MySubjects';
 
-export function mySubjects(dc) {
-  return executeQuery(mySubjectsRef(dc));
+export function mySubjects(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(mySubjectsRef(dcInstance, inputVars), inputOpts && inputOpts.fetchPolicy);
 }
 
 export const myStudySessionsRef = (dcOrVars, vars) => {
@@ -79,8 +87,10 @@ export const myStudySessionsRef = (dcOrVars, vars) => {
 }
 myStudySessionsRef.operationName = 'MyStudySessions';
 
-export function myStudySessions(dcOrVars, vars) {
-  return executeQuery(myStudySessionsRef(dcOrVars, vars));
+export function myStudySessions(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, false);
+  return executeQuery(myStudySessionsRef(dcInstance, inputVars), inputOpts && inputOpts.fetchPolicy);
 }
 
 export const createUserRef = (dcOrVars, vars) => {
@@ -91,7 +101,8 @@ export const createUserRef = (dcOrVars, vars) => {
 createUserRef.operationName = 'CreateUser';
 
 export function createUser(dcOrVars, vars) {
-  return executeMutation(createUserRef(dcOrVars, vars));
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(createUserRef(dcInstance, inputVars));
 }
 
 export const createSubjectRef = (dcOrVars, vars) => {
@@ -102,7 +113,8 @@ export const createSubjectRef = (dcOrVars, vars) => {
 createSubjectRef.operationName = 'CreateSubject';
 
 export function createSubject(dcOrVars, vars) {
-  return executeMutation(createSubjectRef(dcOrVars, vars));
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(createSubjectRef(dcInstance, inputVars));
 }
 
 export const createStudySessionRef = (dcOrVars, vars) => {
@@ -113,7 +125,8 @@ export const createStudySessionRef = (dcOrVars, vars) => {
 createStudySessionRef.operationName = 'CreateStudySession';
 
 export function createStudySession(dcOrVars, vars) {
-  return executeMutation(createStudySessionRef(dcOrVars, vars));
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(createStudySessionRef(dcInstance, inputVars));
 }
 
 export const deleteStudySessionRef = (dcOrVars, vars) => {
@@ -124,7 +137,8 @@ export const deleteStudySessionRef = (dcOrVars, vars) => {
 deleteStudySessionRef.operationName = 'DeleteStudySession';
 
 export function deleteStudySession(dcOrVars, vars) {
-  return executeMutation(deleteStudySessionRef(dcOrVars, vars));
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(deleteStudySessionRef(dcInstance, inputVars));
 }
 
 export const updateSubjectRef = (dcOrVars, vars) => {
@@ -135,7 +149,8 @@ export const updateSubjectRef = (dcOrVars, vars) => {
 updateSubjectRef.operationName = 'UpdateSubject';
 
 export function updateSubject(dcOrVars, vars) {
-  return executeMutation(updateSubjectRef(dcOrVars, vars));
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(updateSubjectRef(dcInstance, inputVars));
 }
 
 export const deleteSubjectRef = (dcOrVars, vars) => {
@@ -146,6 +161,7 @@ export const deleteSubjectRef = (dcOrVars, vars) => {
 deleteSubjectRef.operationName = 'DeleteSubject';
 
 export function deleteSubject(dcOrVars, vars) {
-  return executeMutation(deleteSubjectRef(dcOrVars, vars));
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(deleteSubjectRef(dcInstance, inputVars));
 }
 

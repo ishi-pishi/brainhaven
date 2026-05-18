@@ -1,4 +1,4 @@
-import { ConnectorConfig, DataConnect, QueryRef, QueryPromise, MutationRef, MutationPromise } from 'firebase/data-connect';
+import { ConnectorConfig, DataConnect, QueryRef, QueryPromise, ExecuteQueryOptions, MutationRef, MutationPromise } from 'firebase/data-connect';
 
 export const connectorConfig: ConnectorConfig;
 
@@ -180,8 +180,8 @@ interface MeRef {
 }
 export const meRef: MeRef;
 
-export function me(): QueryPromise<MeData, undefined>;
-export function me(dc: DataConnect): QueryPromise<MeData, undefined>;
+export function me(options?: ExecuteQueryOptions): QueryPromise<MeData, undefined>;
+export function me(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<MeData, undefined>;
 
 interface UpdateUserProgressRef {
   /* Allow users to create refs without passing in DataConnect */
@@ -204,8 +204,8 @@ interface ListRewardsRef {
 }
 export const listRewardsRef: ListRewardsRef;
 
-export function listRewards(): QueryPromise<ListRewardsData, undefined>;
-export function listRewards(dc: DataConnect): QueryPromise<ListRewardsData, undefined>;
+export function listRewards(options?: ExecuteQueryOptions): QueryPromise<ListRewardsData, undefined>;
+export function listRewards(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListRewardsData, undefined>;
 
 interface CreateRewardRef {
   /* Allow users to create refs without passing in DataConnect */
@@ -240,8 +240,8 @@ interface MySubjectsRef {
 }
 export const mySubjectsRef: MySubjectsRef;
 
-export function mySubjects(): QueryPromise<MySubjectsData, undefined>;
-export function mySubjects(dc: DataConnect): QueryPromise<MySubjectsData, undefined>;
+export function mySubjects(options?: ExecuteQueryOptions): QueryPromise<MySubjectsData, undefined>;
+export function mySubjects(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<MySubjectsData, undefined>;
 
 interface MyStudySessionsRef {
   /* Allow users to create refs without passing in DataConnect */
@@ -252,8 +252,8 @@ interface MyStudySessionsRef {
 }
 export const myStudySessionsRef: MyStudySessionsRef;
 
-export function myStudySessions(vars?: MyStudySessionsVariables): QueryPromise<MyStudySessionsData, MyStudySessionsVariables>;
-export function myStudySessions(dc: DataConnect, vars?: MyStudySessionsVariables): QueryPromise<MyStudySessionsData, MyStudySessionsVariables>;
+export function myStudySessions(vars?: MyStudySessionsVariables, options?: ExecuteQueryOptions): QueryPromise<MyStudySessionsData, MyStudySessionsVariables>;
+export function myStudySessions(dc: DataConnect, vars?: MyStudySessionsVariables, options?: ExecuteQueryOptions): QueryPromise<MyStudySessionsData, MyStudySessionsVariables>;
 
 interface CreateUserRef {
   /* Allow users to create refs without passing in DataConnect */
