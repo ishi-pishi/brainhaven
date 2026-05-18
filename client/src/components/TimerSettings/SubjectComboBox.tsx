@@ -6,7 +6,7 @@ import {
   type SetStateAction,
 } from "react";
 import { Check, Plus, Trash2 } from "lucide-react";
-import { getSubjects, deleteSubjectByName } from "../../storage/subject";
+import { getSubjects, deleteSubjectById } from "../../storage/subject";
 import type { Subject } from "../../storage/subject";
 import { CreateSubjectPopup } from "./CreateSubjectPopup";
 
@@ -111,7 +111,7 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
                         <button
                           onClick={async (e) => {
                             e.stopPropagation();
-                            await deleteSubjectByName(subject.name);
+                            await deleteSubjectById(subject.id);
                             setSubjects((prev) => prev.filter((s) => s.name !== subject.name));
                             if (selected === subject.name) setSelected(null);
                           }}

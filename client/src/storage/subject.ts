@@ -28,11 +28,8 @@ export async function getSubjectNames() {
 // Returns all subjects in a user's database.
 // Pass { networkOnly: true } after a mutation to bypass the Firebase query cache.
 export async function getSubjects({ networkOnly = false }: { networkOnly?: boolean } = {}) {
-  console.log('[getSubjects] called, networkOnly=', networkOnly);
   const res = await mySubjects(networkOnly ? { fetchPolicy: 'network-only' } : undefined);
-  console.log('[getSubjects] raw response:', res);
   const subjects = res.data.subjects;
-  console.log('[getSubjects] mapped subjects:', subjects);
   return subjects.map((subject) => ({ name: subject.name, id: subject.id }));
 }
 
@@ -52,12 +49,18 @@ export async function deleteSubjectByName(name: string) {
 
   const subject = subjects.find((subject) => subject.name === name);
   const id = subject?.id;
-  console.log("Deleting subject" + subject?.name);
 
   if (id == null) {
     throw new Error("Subject not found");
   }
 
+  await deleteSubject({
+    id: id,
+  });
+}
+
+// Deletes a subject from the database with given ID.
+export async function deleteSubjectById(id: string) {
   await deleteSubject({
     id: id,
   });

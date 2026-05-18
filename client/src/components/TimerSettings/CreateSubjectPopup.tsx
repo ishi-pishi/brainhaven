@@ -56,7 +56,6 @@ export function CreateSubjectPopup({
             onClick={async () => {
               const res = await saveSubject(subjectName);
               const newId = res.data.subject_insert.id;
-              console.log("Saved Subject! The new id of the subject is ", newId);
               await onCreate(subjectName, newId);
               setSubjectName("");
               onOpenChange(false);
