@@ -172,16 +172,16 @@ export function DashBoardComp() {
               <div className="sm:col-span-7 grid grid-cols-2 gap-4">
                 {/* Coins */}
                 <NavLink to="/store" className="block h-full">
-                  <div className="rounded-3xl border bg-yellow-500/5 hover:bg-yellow-500/10 border-yellow-500/10 dark:bg-yellow-500/5 dark:border-yellow-500/10 p-4 hover:shadow-sm hover:-translate-y-0.5 transition-all cursor-pointer h-full flex flex-col justify-between min-h-[96px]">
-                    <div className="flex items-center gap-2 text-yellow-600 dark:text-yellow-500 text-[10px] font-bold uppercase tracking-wider">
-                      <Coins className="h-4 w-4" />
+                  <div className="rounded-3xl border bg-yellow-500/5 hover:bg-yellow-500/10 border-yellow-500/10 dark:bg-yellow-500/5 dark:border-yellow-500/10 p-5 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer h-full flex flex-col justify-between min-h-[110px]">
+                    <div className="flex items-center gap-2 text-yellow-600 dark:text-yellow-500 text-xs font-bold uppercase tracking-wider">
+                      <Coins className="h-5 w-5" />
                       Coins
                     </div>
                     <div className="mt-2">
-                      <div className="text-2xl font-bold text-yellow-700 dark:text-yellow-400">
+                      <div className="text-3xl font-extrabold tracking-tight text-yellow-700 dark:text-yellow-400">
                         <AnimatedNumber value={coins} />
                       </div>
-                      <div className="text-[10px] text-yellow-600/70 dark:text-yellow-500/60 mt-0.5">
+                      <div className="text-xs text-yellow-600/70 dark:text-yellow-500/60 mt-1 font-medium">
                         Shop store →
                       </div>
                     </div>
@@ -189,92 +189,92 @@ export function DashBoardComp() {
                 </NavLink>
 
                 {/* Streak */}
-                <div className="rounded-3xl border bg-orange-500/5 border-orange-500/10 p-4 h-full flex flex-col justify-between min-h-[96px]">
-                  <div className="flex items-center gap-2 text-orange-600 dark:text-orange-500 text-[10px] font-bold uppercase tracking-wider">
-                    <Flame className="h-4 w-4" />
+                <div className="rounded-3xl border bg-orange-500/5 border-orange-500/10 p-5 h-full flex flex-col justify-between min-h-[110px] hover:shadow-md hover:-translate-y-0.5 transition-all">
+                  <div className="flex items-center gap-2 text-orange-600 dark:text-orange-500 text-xs font-bold uppercase tracking-wider">
+                    <Flame className="h-5 w-5" />
                     Streak
                   </div>
                   <div className="mt-2">
-                    <div className="text-2xl font-bold text-orange-700 dark:text-orange-400 flex items-baseline gap-0.5">
+                    <div className="text-3xl font-extrabold tracking-tight text-orange-700 dark:text-orange-400 flex items-baseline gap-1">
                       <AnimatedNumber value={streak} />
-                      <span className="text-xs font-semibold text-orange-600 dark:text-orange-500">
+                      <span className="text-sm font-semibold text-orange-600 dark:text-orange-500">
                         {streak === 1 ? "day" : "days"}
                       </span>
                     </div>
-                    <div className="text-[10px] text-orange-500/70 dark:text-orange-500/60 mt-0.5">
+                    <div className="text-xs text-orange-500/70 dark:text-orange-500/60 mt-1 font-medium">
                       {streak === 0 ? "Start today!" : "Keep going!"}
                     </div>
                   </div>
                 </div>
 
                 {/* Week Minutes */}
-                <div className="rounded-3xl border bg-purple-500/5 border-purple-500/10 p-4 h-full flex flex-col justify-between min-h-[96px]">
-                  <div className="flex items-center gap-2 text-purple-600 dark:text-purple-500 text-[10px] font-bold uppercase tracking-wider">
-                    <Clock className="h-4 w-4" />
+                <div className="rounded-3xl border bg-purple-500/5 border-purple-500/10 p-5 h-full flex flex-col justify-between min-h-[110px] hover:shadow-md hover:-translate-y-0.5 transition-all">
+                  <div className="flex items-center gap-2 text-purple-600 dark:text-purple-500 text-xs font-bold uppercase tracking-wider">
+                    <Clock className="h-5 w-5" />
                     This Week
                   </div>
                   <div className="mt-2">
-                    <div className="text-2xl font-bold text-purple-700 dark:text-purple-400 flex items-baseline gap-0.5">
+                    <div className="text-3xl font-extrabold tracking-tight text-purple-700 dark:text-purple-400 flex items-baseline gap-1">
                       <AnimatedNumber value={weekMinutes} />
-                      <span className="text-xs font-semibold text-purple-600 dark:text-purple-500">min</span>
+                      <span className="text-sm font-semibold text-purple-600 dark:text-purple-500">min</span>
                     </div>
-                    <div className="text-[10px] text-purple-500/70 dark:text-purple-500/60 mt-0.5">
+                    <div className="text-xs text-purple-500/70 dark:text-purple-500/60 mt-1 font-medium">
                       Study time
                     </div>
                   </div>
                 </div>
 
                 {/* Daily Goal */}
-                <div className="rounded-3xl border bg-blue-500/5 border-blue-500/10 p-4 h-full flex flex-col justify-between min-h-[96px]">
-                  <div className="flex items-center justify-between text-blue-600 dark:text-blue-500 text-[10px] font-bold uppercase tracking-wider">
+                <div className="rounded-3xl border bg-blue-500/5 border-blue-500/10 p-5 h-full flex flex-col justify-between min-h-[110px] hover:shadow-md hover:-translate-y-0.5 transition-all">
+                  <div className="flex items-center justify-between text-blue-600 dark:text-blue-500 text-xs font-bold uppercase tracking-wider">
                     <div className="flex items-center gap-2">
-                      <Target className="h-4 w-4" />
+                      <Target className="h-5 w-5" />
                       Daily Goal
                     </div>
                     {!editingGoal ? (
                       <button
                         onClick={() => setEditingGoal(true)}
-                        className="text-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                        className="text-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
                       >
-                        <Edit3 className="h-3.5 w-3.5" />
+                        <Edit3 className="h-4 w-4" />
                       </button>
                     ) : (
-                      <div className="flex gap-1">
+                      <div className="flex gap-1.5">
                         <button
                           onClick={handleSaveGoal}
-                          className="text-green-500 hover:text-green-700 transition-colors"
+                          className="text-green-500 hover:text-green-700 transition-colors cursor-pointer"
                         >
-                          <Check className="h-3.5 w-3.5" />
+                          <Check className="h-4 w-4" />
                         </button>
                         <button
                           onClick={() => { setEditingGoal(false); setGoalInput(String(dailyGoal)); }}
-                          className="text-red-400 hover:text-red-600 transition-colors"
+                          className="text-red-400 hover:text-red-600 transition-colors cursor-pointer"
                         >
-                          <X className="h-3.5 w-3.5" />
+                          <X className="h-4 w-4" />
                         </button>
                       </div>
                     )}
                   </div>
                   <div className="mt-2">
                     {editingGoal ? (
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1.5">
                         <Input
                           type="number"
                           value={goalInput}
                           onChange={(e) => setGoalInput(e.target.value)}
-                          className="h-7 text-xs w-16 border-blue-200 dark:border-blue-900 bg-background px-1 py-0"
+                          className="h-8 text-sm w-20 border-blue-200 dark:border-blue-900 bg-background px-2 py-0 font-semibold text-blue-700 dark:text-blue-400"
                           min={1}
                           autoFocus
                         />
-                        <span className="text-[10px] text-blue-600 dark:text-blue-500">min</span>
+                        <span className="text-xs font-semibold text-blue-600 dark:text-blue-500">min</span>
                       </div>
                     ) : (
                       <>
-                        <div className="text-2xl font-bold text-blue-700 dark:text-blue-400 flex items-baseline gap-0.5">
+                        <div className="text-3xl font-extrabold tracking-tight text-blue-700 dark:text-blue-400 flex items-baseline gap-1">
                           <AnimatedNumber value={dailyGoal} />
-                          <span className="text-xs font-semibold text-blue-600 dark:text-blue-500">min</span>
+                          <span className="text-sm font-semibold text-blue-600 dark:text-blue-500">min</span>
                         </div>
-                        <div className="text-[10px] text-blue-500/70 dark:text-blue-500/60 mt-0.5">
+                        <div className="text-xs text-blue-500/70 dark:text-blue-500/60 mt-1 font-medium">
                           Click edit to adjust
                         </div>
                       </>
