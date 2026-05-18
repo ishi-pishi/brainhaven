@@ -4,19 +4,13 @@ import { SessionSettings } from "../../logic/timer/SessionSettings";
 import { ActiveSession } from "../../logic/timer/ActiveSession";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import { SubjectComboBox } from "./SubjectComboBox";
 
-import { Clock, Coffee, Repeat, Zap, ArrowRight } from "lucide-react";
+import { Clock, Coffee, Repeat, Zap, ArrowRight, Brain, Minus, Plus } from "lucide-react";
 
 // Represents the settings menu before going into a timer session
-// showing timer settings and customizing diffiuclty
+// showing timer settings and customizing difficulty
 export function SettingsMenu() {
   const navigate = useNavigate();
 
@@ -40,196 +34,230 @@ export function SettingsMenu() {
     session.startFirstBlock();
   };
 
-  const calculateDifficulty = () => {
-    let val =
-      breakTime === 0
-        ? 1
-        : workTime / breakTime <= 5
-          ? (0.5 * (workTime / breakTime - 1)) / 4
-          : 0.5 + (0.5 * (workTime / breakTime - 5)) / 5;
-
-    if (val < 0) val = 0;
-    if (val > 0.99) val = 0.99;
-    return val;
-  };
-
-  const difficultyValue = calculateDifficulty();
-
   return (
-    <div className="flex justify-center p-6">
-      <Card className="w-[720px] max-w-full rounded-3xl shadow-2xl overflow-hidden border-0 bg-card">
-        <div className="bg-primary/15 p-6 border-b border-primary/10">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="rounded-full bg-primary/20 p-2.5">
-                <ArrowRight className="h-6 w-6 text-primary" />
+    <div className="space-y-8 max-w-4xl mx-auto py-2">
+      {/* Title Header */}
+      <div className="text-center md:text-left">
+        <h1 className="text-3xl font-serif font-semibold tracking-tight text-foreground flex items-center justify-center md:justify-start gap-2.5">
+          <Brain className="h-8 w-8 text-primary animate-pulse" />
+          Customize Your Session
+        </h1>
+      </div>
+
+      {/* Session Preview Timeline Bar (at the top, constant size) */}
+      <div className="bg-card/50 backdrop-blur-md border border-primary/10 p-5 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.02)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.15)] flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="w-full md:flex-1 flex flex-col gap-3">
+          <div className="flex items-center justify-between text-xs font-bold text-muted-foreground uppercase tracking-wider">
+            <span className="flex items-center gap-1.5">
+              <Zap className="h-3.5 w-3.5 text-primary" />
+              Session Timeline
+            </span>
+            <div className="flex items-center gap-4 normal-case font-medium">
+              <span className="flex items-center gap-1.5">
+                <span className="w-3 h-3 rounded-full bg-primary shadow-sm" /> Focus
+              </span>
+              {numCycles > 1 && (
+                <span className="flex items-center gap-1.5">
+                  <span className="w-3 h-3 rounded-full bg-secondary shadow-sm" /> Break
+                </span>
+              )}
+            </div>
+          </div>
+          
+          {/* Glass track timeline */}
+          <div className="w-full h-3.5 bg-muted/60 dark:bg-muted/30 border border-primary/5 rounded-full overflow-hidden flex shadow-inner">
+            {Array.from({ length: 2 * numCycles - 1 }).map((_, index) => {
+              const isWork = index % 2 === 0;
+              const blockDuration = isWork ? workTime : breakTime;
+              const totalDuration = workTime * numCycles + breakTime * (numCycles - 1);
+              const percentWidth = totalDuration > 0 ? (blockDuration / totalDuration) * 100 : 0;
+              
+              return (
+                <div
+                  key={index}
+                  className={`h-full transition-all duration-500 ${
+                    isWork
+                      ? "bg-primary"
+                      : "bg-secondary"
+                  }`}
+                  style={{ width: `${percentWidth}%` }}
+                />
+              );
+            })}
+          </div>
+        </div>
+        
+        <div className="flex-shrink-0 text-center md:text-right pl-0 md:pl-6 border-t md:border-t-0 md:border-l border-primary/10 pt-4 md:pt-0 w-full md:w-auto">
+          <div className="text-xs text-muted-foreground uppercase tracking-wider font-bold">Total Duration</div>
+          <div className="text-3xl font-bold text-foreground font-serif mt-1">
+            {Math.floor(
+              (workTime * numCycles + breakTime * (numCycles - 1)) / 60,
+            )}
+            <span className="text-lg font-sans font-medium text-muted-foreground ml-0.5">h</span>{" "}
+            {(workTime * numCycles + breakTime * (numCycles - 1)) % 60}
+            <span className="text-lg font-sans font-medium text-muted-foreground ml-0.5">m</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Inputs Configuration Row */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
+        {/* Left Column: Number Inputs */}
+        <div className="md:col-span-7 bg-card/50 backdrop-blur-md border border-primary/10 p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.02)] flex flex-col justify-between gap-5">
+          <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+            <Clock className="h-4 w-4 text-primary" />
+            Interval Settings
+          </div>
+          
+          <div className="grid grid-cols-3 gap-4">
+            {/* Focus */}
+            <div className="space-y-2 text-center">
+              <Label htmlFor="focus-input" className="text-xs font-bold text-muted-foreground flex items-center justify-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                Focus (m)
+              </Label>
+              <div className="flex items-center justify-between bg-muted/50 border border-primary/5 hover:border-primary/20 focus-within:border-primary/30 rounded-2xl p-1.5 shadow-inner transition-all">
+                <button
+                  type="button"
+                  onClick={() => setWorkTime((prev) => Math.max(5, prev - (prev % 5 === 0 ? 5 : prev % 5)))}
+                  className="w-8 h-8 rounded-xl bg-card border border-primary/5 hover:border-primary/20 hover:bg-muted active:scale-90 flex items-center justify-center text-muted-foreground hover:text-foreground transition-all cursor-pointer shadow-sm"
+                >
+                  <Minus className="h-3 w-3" />
+                </button>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  id="focus-input"
+                  value={workTime || ""}
+                  onChange={(e) => {
+                    const cleanVal = e.target.value.replace(/\D/g, "");
+                    const val = cleanVal ? Math.max(1, Math.min(180, parseInt(cleanVal))) : 0;
+                    setWorkTime(val);
+                  }}
+                  onBlur={() => {
+                    if (workTime < 5) setWorkTime(5);
+                  }}
+                  className="w-10 text-center bg-transparent border-none outline-none focus:outline-none focus:ring-0 h-8 font-serif font-bold text-lg p-0 text-foreground"
+                />
+                <button
+                  type="button"
+                  onClick={() => setWorkTime((prev) => Math.min(180, prev + (prev % 5 === 0 ? 5 : 5 - (prev % 5))))}
+                  className="w-8 h-8 rounded-xl bg-card border border-primary/5 hover:border-primary/20 hover:bg-muted active:scale-90 flex items-center justify-center text-muted-foreground hover:text-foreground transition-all cursor-pointer shadow-sm"
+                >
+                  <Plus className="h-3 w-3" />
+                </button>
               </div>
-              <div>
-                <h3 className="text-foreground text-2xl font-serif font-semibold">
-                  Customize Session
-                </h3>
-                <p className="text-foreground/70 text-sm mt-0.5">
-                  Adjust durations & cycles to fit your needs.
-                </p>
+            </div>
+
+            {/* Break */}
+            <div className="space-y-2 text-center">
+              <Label htmlFor="break-input" className="text-xs font-bold text-muted-foreground flex items-center justify-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
+                Break (m)
+              </Label>
+              <div className="flex items-center justify-between bg-muted/50 border border-primary/5 hover:border-secondary/20 focus-within:border-secondary/30 rounded-2xl p-1.5 shadow-inner transition-all">
+                <button
+                  type="button"
+                  onClick={() => setBreakTime((prev) => Math.max(0, prev - (prev % 5 === 0 ? 5 : prev % 5)))}
+                  className="w-8 h-8 rounded-xl bg-card border border-primary/5 hover:border-secondary/20 hover:bg-muted active:scale-90 flex items-center justify-center text-muted-foreground hover:text-foreground transition-all cursor-pointer shadow-sm"
+                >
+                  <Minus className="h-3 w-3" />
+                </button>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  id="break-input"
+                  value={breakTime}
+                  onChange={(e) => {
+                    const cleanVal = e.target.value.replace(/\D/g, "");
+                    const val = cleanVal ? Math.max(0, Math.min(60, parseInt(cleanVal))) : 0;
+                    setBreakTime(val);
+                  }}
+                  className="w-10 text-center bg-transparent border-none outline-none focus:outline-none focus:ring-0 h-8 font-serif font-bold text-lg p-0 text-foreground"
+                />
+                <button
+                  type="button"
+                  onClick={() => setBreakTime((prev) => Math.min(60, prev + (prev % 5 === 0 ? 5 : 5 - (prev % 5))))}
+                  className="w-8 h-8 rounded-xl bg-card border border-primary/5 hover:border-secondary/20 hover:bg-muted active:scale-90 flex items-center justify-center text-muted-foreground hover:text-foreground transition-all cursor-pointer shadow-sm"
+                >
+                  <Plus className="h-3 w-3" />
+                </button>
+              </div>
+            </div>
+
+            {/* Cycles */}
+            <div className="space-y-2 text-center">
+              <Label htmlFor="cycles-input" className="text-xs font-bold text-muted-foreground flex items-center justify-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent-foreground/30" />
+                Cycles
+              </Label>
+              <div className="flex items-center justify-between bg-muted/50 border border-primary/5 hover:border-primary/20 focus-within:border-primary/30 rounded-2xl p-1.5 shadow-inner transition-all">
+                <button
+                  type="button"
+                  onClick={() => setNumCycles((prev) => Math.max(1, prev - 1))}
+                  className="w-8 h-8 rounded-xl bg-card border border-primary/5 hover:border-primary/20 hover:bg-muted active:scale-90 flex items-center justify-center text-muted-foreground hover:text-foreground transition-all cursor-pointer shadow-sm"
+                >
+                  <Minus className="h-3 w-3" />
+                </button>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  id="cycles-input"
+                  value={numCycles || ""}
+                  onChange={(e) => {
+                    const cleanVal = e.target.value.replace(/\D/g, "");
+                    const val = cleanVal ? Math.max(1, Math.min(20, parseInt(cleanVal))) : 0;
+                    setNumCycles(val);
+                  }}
+                  onBlur={() => {
+                    if (numCycles < 1) setNumCycles(1);
+                  }}
+                  className="w-10 text-center bg-transparent border-none outline-none focus:outline-none focus:ring-0 h-8 font-serif font-bold text-lg p-0 text-foreground"
+                />
+                <button
+                  type="button"
+                  onClick={() => setNumCycles((prev) => Math.min(20, prev + 1))}
+                  className="w-8 h-8 rounded-xl bg-card border border-primary/5 hover:border-primary/20 hover:bg-muted active:scale-90 flex items-center justify-center text-muted-foreground hover:text-foreground transition-all cursor-pointer shadow-sm"
+                >
+                  <Plus className="h-3 w-3" />
+                </button>
               </div>
             </div>
           </div>
         </div>
 
-        <CardContent className="grid grid-cols-2 gap-6 p-6 bg-white">
-          {/* Left column: sliders */}
-          <div className="space-y-5">
-            <div>
-              <Label
-                htmlFor="focus-slider"
-                className="flex items-center gap-2 mb-2 text-sm font-medium text-slate-700"
-              >
-                <Clock className="h-4 w-4 text-slate-600" />
-                Focus <span className="ml-2 text-slate-500">({workTime}m)</span>
-              </Label>
-              <div className="flex items-center gap-4">
-                <Slider
-                  value={[workTime]}
-                  onValueChange={([v]) => setWorkTime(v)}
-                  min={5}
-                  max={90}
-                  step={5}
-                  id="focus-slider"
-                  className="w-full"
-                />
-                <div className="w-12 text-right text-sm font-semibold text-slate-700">
-                  {workTime}m
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <Label
-                htmlFor="break-slider"
-                className="flex items-center gap-2 mb-2 text-sm font-medium text-slate-700"
-              >
-                <Coffee className="h-4 w-4 text-slate-600" />
-                Break{" "}
-                <span className="ml-2 text-slate-500">({breakTime}m)</span>
-              </Label>
-              <div className="flex items-center gap-4">
-                <Slider
-                  value={[breakTime]}
-                  onValueChange={([v]) => setBreakTime(v)}
-                  min={5}
-                  max={30}
-                  step={5}
-                  id="break-slider"
-                  className="w-full"
-                />
-                <div className="w-12 text-right text-sm font-semibold text-slate-700">
-                  {breakTime}m
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <Label
-                htmlFor="cycles-slider"
-                className="flex items-center gap-2 mb-2 text-sm font-medium text-slate-700"
-              >
-                <Repeat className="h-4 w-4 text-slate-600" />
-                Cycles{" "}
-                <span className="ml-2 text-slate-500">({numCycles})</span>
-              </Label>
-              <div className="flex items-center gap-4">
-                <Slider
-                  value={[numCycles]}
-                  onValueChange={([v]) => setNumCycles(v)}
-                  min={1}
-                  max={10}
-                  step={1}
-                  id="cycles-slider"
-                  className="w-full"
-                />
-                <div className="w-12 text-right text-sm font-semibold text-slate-700">
-                  {numCycles}
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-1 text-sm text-slate-600">
-              <div className="font-semibold">Total time</div>
-              <div className="text-slate-700">
-                {Math.floor(
-                  (workTime * numCycles + breakTime * (numCycles - 1)) / 60,
-                )}
-                h {(workTime * numCycles + breakTime * (numCycles - 1)) % 60}m
-              </div>
+        {/* Right Column: Subject & Start CTA */}
+        <div className="md:col-span-5 bg-card/50 backdrop-blur-md border border-primary/10 p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.02)] flex flex-col justify-between gap-5">
+          <div className="space-y-2">
+            <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+              <Brain className="h-4 w-4 text-primary" />
+              Study Subject
+            </Label>
+            <div className="flex justify-start">
+              <SubjectComboBox setSubjectSelected={setIsSubSelected} />
             </div>
           </div>
 
-          {/* Right column: subject, difficulty, action */}
-          <div className="flex flex-col justify-between gap-6">
-            <div className="space-y-4">
-              <div>
-                <Label className="block text-sm font-medium text-slate-700">
-                  Subject
-                </Label>
-                <div className="mt-2">
-                  <SubjectComboBox setSubjectSelected={setIsSubSelected} />
-                </div>
-              </div>
-
-              <div>
-                <div className="flex items-center justify-between">
-                  <div className="text-sm font-semibold text-slate-700">
-                    Difficulty
-                  </div>
-                  <div className="text-xs text-slate-500">Auto</div>
-                </div>
-
-                <div className="mt-2">
-                  <div className="flex items-center gap-3">
-                    <div className="text-xs text-slate-500 flex items-center gap-1">
-                      <span className="opacity-80">Easy</span>
-                    </div>
-                    <div className="relative flex-1 h-3 rounded-md overflow-hidden bg-slate-100">
-                      <div
-                        className="absolute top-0 left-0 h-full"
-                        style={{
-                          width: `${difficultyValue * 100}%`,
-                          background:
-                            "linear-gradient(90deg,#60a5fa,#34d399,#fb923c)",
-                        }}
-                      />
-                      <div
-                        className="absolute top-0 left-[calc(var(--difficulty)*100%)] -translate-x-1/2 h-full w-0.5 bg-white"
-                        style={{ left: `${difficultyValue * 100}%` }}
-                      />
-                    </div>
-                    <div className="text-xs text-slate-500 flex items-center gap-1">
-                      <span className="opacity-80">Hard</span>
-                    </div>
-                  </div>
-                  <div className="mt-2 text-xs text-slate-500 flex items-center gap-2">
-                    <Zap className="h-4 w-4" />
-                    <div>Calculated from work/break ratio</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <CardFooter className="p-0 bg-transparent">
-                <Button
-                  onClick={handleStartSession}
-                  className="w-full py-3 rounded-xl flex items-center justify-center gap-3"
-                  disabled={!isSubSelected}
-                >
-                  <span>Start Session</span>
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </CardFooter>
-            </div>
+          <div className="space-y-2.5">
+            <Button
+              onClick={handleStartSession}
+              className="w-full py-5 rounded-2xl flex items-center justify-center gap-2 text-sm font-semibold shadow-md shadow-primary/10 bg-primary text-primary-foreground hover:brightness-95 active:scale-95 transition-all cursor-pointer animate-pulse-slow"
+              disabled={!isSubSelected}
+            >
+              <span>Begin Study Session</span>
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+            {!isSubSelected && (
+              <p className="text-center text-[10px] text-destructive font-bold flex items-center justify-center gap-1 animate-pulse">
+                <Zap className="h-3 w-3" /> Select a study subject to begin
+              </p>
+            )}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }
