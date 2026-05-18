@@ -112,8 +112,7 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
                           onClick={async (e) => {
                             e.stopPropagation();
                             await deleteSubjectByName(subject.name);
-                            const fresh = await getSubjects();
-                            setSubjects(fresh);
+                            setSubjects((prev) => prev.filter((s) => s.name !== subject.name));
                             if (selected === subject.name) setSelected(null);
                           }}
                           aria-label={`Delete ${subject.name}`}
@@ -148,9 +147,8 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
       <CreateSubjectPopup
         open={showCreatePopup}
         onOpenChange={setShowCreatePopup}
-        onCreate={async (_name) => {
-          const newSubjects = await getSubjects();
-          setSubjects(newSubjects);
+        onCreate={async (name, id) => {
+          setSubjects((prev) => [...prev, { name, id }]);
           setShowCreatePopup(false);
         }}
       />

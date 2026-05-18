@@ -21,7 +21,7 @@ export function CreateSubjectPopup({
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onCreate: (name: string) => void;
+  onCreate: (name: string, id: string) => Promise<void> | void;
 }) {
   const [subjectName, setSubjectName] = useState("");
 
@@ -55,11 +55,9 @@ export function CreateSubjectPopup({
             type="button"
             onClick={async () => {
               const res = await saveSubject(subjectName);
-              console.log(
-                "Saved Subject! The new id of the subject is ",
-                res.data.subject_insert.id,
-              );
-              onCreate(subjectName);
+              const newId = res.data.subject_insert.id;
+              console.log("Saved Subject! The new id of the subject is ", newId);
+              await onCreate(subjectName, newId);
               setSubjectName("");
               onOpenChange(false);
             }}
