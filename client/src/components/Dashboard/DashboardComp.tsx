@@ -27,12 +27,7 @@ function AnimatedNumber({ value }: { value: number }) {
 }
 
 function productivityIcon(p: number | null) {
-  if (p === null) return "➖";
-  if (p >= 5) return "🚀";
-  if (p >= 4) return "✅";
-  if (p >= 3) return "👍";
-  if (p >= 2) return "😐";
-  return "🥱";
+  return "";
 }
 
 function productivityText(p: number | null) {
@@ -54,13 +49,13 @@ function StatCard({
   label: string;
   value: number | string;
   suffix?: string;
-  icon: string;
+  icon?: string;
   bgColor?: string;
 }) {
   return (
     <div className={`h-[132px] rounded-3xl p-6 ${bgColor} hover:scale-[1.02] transition-transform`}>
       <div className="text-sm text-muted-foreground flex items-center gap-2">
-        <span className="text-lg">{icon}</span>
+        {icon && <span className="text-lg">{icon}</span>}
         {label}
       </div>
       <div className="text-3xl font-semibold mt-2">
@@ -75,12 +70,12 @@ export function DashBoardComp() {
   const hours = new Date().getHours();
   const greeting =
     hours >= 5 && hours < 12
-      ? "Good morning ☀️"
+      ? "Good morning"
       : hours >= 12 && hours < 17
-        ? "Good afternoon 🌤️"
+        ? "Good afternoon"
         : hours >= 17 && hours < 22
-          ? "Good evening 🌙"
-          : "Burning the midnight oil? 🦉";
+          ? "Good evening"
+          : "Burning the midnight oil?";
 
   const [todayMinutes, setTodayMinutes] = useState<number>(0);
   const [weekMinutes, setWeekMinutes] = useState<number>(0);
@@ -195,8 +190,8 @@ export function DashBoardComp() {
               {streak === 0
                 ? "Start a session to begin your streak!"
                 : streak === 1
-                  ? "Keep it up tomorrow! 💪"
-                  : `${streak} days and counting! 🔥`}
+                  ? "Keep it up tomorrow!"
+                  : `${streak} days and counting!`}
             </div>
           </div>
 
@@ -260,7 +255,7 @@ export function DashBoardComp() {
                 </div>
                 {goalMet && (
                   <div className="text-xs text-green-600 font-medium mt-1.5">
-                    ✅ Daily goal crushed! Streak extended 🎉
+                    Daily goal crushed! Streak extended
                   </div>
                 )}
               </>
@@ -276,20 +271,20 @@ export function DashBoardComp() {
             label="Time studied today"
             value={todayMinutes}
             suffix=" min"
-            icon="⏱️"
+            icon=""
             bgColor="bg-primary/20"
           />
           <StatCard
             label="Time studied this week"
             value={weekMinutes}
             suffix=" min"
-            icon="📅"
+            icon=""
             bgColor="bg-secondary/30"
           />
           <StatCard
             label="Productivity"
             value={productivityText(productivityRating)}
-            icon={productivityIcon(productivityRating)}
+            icon=""
             bgColor="bg-accent/30"
           />
         </div>

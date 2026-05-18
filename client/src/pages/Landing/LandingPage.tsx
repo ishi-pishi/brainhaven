@@ -24,7 +24,7 @@ export function LandingPage() {
           A cozy corner for balanced focus!
         </p>
 
-        <LoginButton label="Step Inside ✨" />
+        <LoginButton label="Step Inside" />
 
         {/* Scroll Arrow (Pointy & Jumpy) */}
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce cursor-pointer opacity-40 hover:opacity-100 transition-opacity flex flex-col items-center gap-2">

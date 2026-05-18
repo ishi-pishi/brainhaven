@@ -109,7 +109,7 @@ export function ReflectionsPage() {
                 <ReactMarkdown>{tips}</ReactMarkdown>
               ) : (
                 <p className="text-muted-foreground">
-                  No tips today! Go take a cozy break 🍵
+                  No tips today! Go take a cozy break
                 </p>
               )}
             </div>
@@ -176,12 +176,12 @@ export function ReflectionsPage() {
                             <div className="px-3 py-1.5 rounded-2xl bg-accent/20 text-accent-foreground text-sm flex items-center gap-2">
                               <span>Rating:</span>
                               <span className="font-bold">
-                                {session.productivityRating ? `⭐ ${session.productivityRating}/5` : "N/A"}
+                                {session.productivityRating ? `${session.productivityRating}/5` : "N/A"}
                               </span>
                             </div>
                             <div className="px-3 py-1.5 rounded-2xl bg-primary/10 text-primary-foreground text-sm flex items-center gap-2">
                               <span>Earned:</span>
-                              <span className="font-bold">✨ {session.earnedCurrency || 0}</span>
+                              <span className="font-bold">{session.earnedCurrency || 0}</span>
                             </div>
                           </div>
                         </div>

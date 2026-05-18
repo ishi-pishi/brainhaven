@@ -32,32 +32,32 @@ import { calculateEarnedCurrency, postSessionUpdate, getUserData } from "../../s
 const ratings = [
   {
     value: 1,
-    emoji: "😭",
-    color: "bg-red-100 hover:bg-red-200",
+    label: "1",
+    color: "bg-red-100 hover:bg-red-200 text-red-700",
     selected: "bg-red-500 text-white ring-red-300",
   },
   {
     value: 2,
-    emoji: "😕",
-    color: "bg-orange-100 hover:bg-orange-200",
+    label: "2",
+    color: "bg-orange-100 hover:bg-orange-200 text-orange-700",
     selected: "bg-orange-500 text-white ring-orange-300",
   },
   {
     value: 3,
-    emoji: "🙂",
-    color: "bg-yellow-100 hover:bg-yellow-200",
+    label: "3",
+    color: "bg-yellow-100 hover:bg-yellow-200 text-yellow-700",
     selected: "bg-yellow-400 text-white ring-yellow-300",
   },
   {
     value: 4,
-    emoji: "😊",
-    color: "bg-blue-100 hover:bg-blue-200",
+    label: "4",
+    color: "bg-blue-100 hover:bg-blue-200 text-blue-700",
     selected: "bg-blue-500 text-white ring-blue-300",
   },
   {
     value: 5,
-    emoji: "🤩",
-    color: "bg-green-100 hover:bg-green-200",
+    label: "5",
+    color: "bg-green-100 hover:bg-green-200 text-green-700",
     selected: "bg-green-500 text-white ring-green-300",
   },
 ];
@@ -130,7 +130,7 @@ export function EndSessionCard() {
   return (
     <Card className="mx-auto max-w-sm w-full border">
       <CardHeader>
-        <CardTitle>Session Complete 🎉</CardTitle>
+        <CardTitle>Session Complete</CardTitle>
 
         <CardDescription>
           Reflect on your productivity and how the session went.
@@ -159,14 +159,14 @@ export function EndSessionCard() {
                 key={r.value}
                 onClick={() => setRating(r.value)}
                 className={`
-                    text-3xl h-14 w-14 rounded-md
+                    text-xl font-bold h-14 w-14 rounded-md
                     transition
                     hover:scale-110
 
                     ${isSelected ? `ring-2 ${r.selected}` : r.color}
                 `}
               >
-                {r.emoji}
+                {r.label}
               </button>
             );
           })}

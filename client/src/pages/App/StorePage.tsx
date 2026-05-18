@@ -121,14 +121,13 @@ export function StorePage() {
       {purchaseResult && (
         <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
           <div className="pointer-events-auto bg-background border shadow-2xl shadow-primary/20 rounded-2xl p-8 max-w-sm w-full mx-4 text-center animate-in fade-in zoom-in-95 duration-300">
-            <div className="text-5xl mb-4">🎉</div>
-            <h2 className="text-2xl font-bold text-foreground mb-2">Enjoy your treat!</h2>
+            <h2 className="text-2xl font-bold text-foreground mb-2 mt-4">Enjoy your treat!</h2>
             <p className="text-muted-foreground text-sm mb-4">
               You redeemed{" "}
               <span className="font-semibold text-foreground">
                 {purchaseResult.reward.name}
               </span>{" "}
-              — you've earned it! 🌟
+              — you've earned it!
             </p>
             {purchaseResult.reward.isOneTime && (
               <p className="text-xs text-muted-foreground/60 mb-6">
@@ -251,7 +250,7 @@ export function StorePage() {
                 <Label htmlFor="reward-name">Reward name</Label>
                 <Input
                   id="reward-name"
-                  placeholder="e.g. Watch a movie 🎬"
+                  placeholder="e.g. Watch a movie"
                   value={newRewardName}
                   onChange={(e) => setNewRewardName(e.target.value)}
                 />
