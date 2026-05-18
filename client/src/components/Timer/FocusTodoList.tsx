@@ -75,14 +75,11 @@ function SortableTodoItem({ todo, isFirst, onRemove }: SortableTodoItemProps) {
         </span>
       </div>
 
-      <Button
-        variant="ghost"
-        size="icon"
-        className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10 shrink-0"
-        onClick={() => onRemove(todo.id)}
-      >
-        <Trash2 className="h-4 w-4" />
-      </Button>
+      <input
+        type="checkbox"
+        className="h-5 w-5 rounded border-muted-foreground/35 text-primary focus:ring-primary accent-primary cursor-pointer shrink-0 mr-1 transition-all"
+        onChange={() => onRemove(todo.id)}
+      />
     </div>
   );
 }
@@ -139,12 +136,9 @@ export function FocusTodoList() {
         <h3 className="font-semibold text-lg flex items-center gap-2">
           Focus Session Tasks
         </h3>
-        <p className="text-sm text-muted-foreground mt-1">
-          Drag to prioritize. The top task is your current focus.
-        </p>
       </div>
 
-      <ScrollArea className="flex-1 p-4">
+      <ScrollArea className="flex-1 min-h-0 p-4">
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
@@ -174,7 +168,7 @@ export function FocusTodoList() {
         </DndContext>
       </ScrollArea>
 
-      <div className="p-4 bg-muted/20 border-t">
+      <div className="p-4 bg-muted/20 border-t mt-auto">
         <form onSubmit={handleAddTodo} className="flex gap-2">
           <Input
             value={newTaskText}
