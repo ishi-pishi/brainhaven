@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Sparkles, History, Clock } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { History, Clock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { getSessions, type StudySession as Session } from "@/storage/session";
 import { callMyStudyTipsFunction } from "@/lib/firebase";
 
 export function ReflectionsPage() {
   const [tips, setTips] = useState<string | null>(null);
-  const [loadingTips, setLoadingTips] = useState(true);
+  const [loadingTips, setLoadingTips] = useState(false);
   const [sessions, setSessions] = useState<Session[]>([]);
 
   useEffect(() => {
@@ -21,37 +22,38 @@ export function ReflectionsPage() {
         (a, b) => new Date(b.endTime).getTime() - new Date(a.endTime).getTime()
       );
       setSessions(sorted);
-
-      // 2. Fetch AI Tips
-      setLoadingTips(true);
-      try {
-        const recentSessions = sorted.slice(0, 7);
-        if (recentSessions.length === 0) {
-          setTips("No recent study sessions to generate tips.");
-          return;
-        }
-
-        const result = await callMyStudyTipsFunction(recentSessions);
-        if (!result) {
-          setTips(null);
-          return;
-        }
-
-        let tipsText = null;
-        if (result.data && typeof (result.data as any).tips === 'string') {
-          tipsText = (result.data as any).tips;
-        }
-        setTips(tipsText);
-      } catch (error: any) {
-        console.error("Failed to fetch tips:", error);
-        setTips("AI Service Error: " + (error.message || "Unknown error"));
-      } finally {
-        setLoadingTips(false);
-      }
     }
 
     fetchData();
   }, []);
+
+  const handleRequestTips = async () => {
+    setLoadingTips(true);
+    try {
+      const recentSessions = sessions.slice(0, 7);
+      if (recentSessions.length === 0) {
+        setTips("No recent study sessions to generate tips.");
+        return;
+      }
+
+      const result = await callMyStudyTipsFunction(recentSessions);
+      if (!result) {
+        setTips("No tips generated.");
+        return;
+      }
+
+      let tipsText = null;
+      if (result.data && typeof (result.data as any).tips === 'string') {
+        tipsText = (result.data as any).tips;
+      }
+      setTips(tipsText || "No tips generated.");
+    } catch (error: any) {
+      console.error("Failed to fetch tips:", error);
+      setTips("AI Service Error: " + (error.message || "Unknown error"));
+    } finally {
+      setLoadingTips(false);
+    }
+  };
 
   const formatDuration = (ms: number) => {
     const minutes = Math.floor(ms / 60000);
@@ -89,9 +91,6 @@ export function ReflectionsPage() {
         <Card className="rounded-3xl border-0 shadow-xl bg-primary/5 mt-4">
           <CardHeader className="bg-primary/10 pb-8 pt-8 mb-2 rounded-t-3xl border-b border-primary/10">
             <CardTitle className="flex items-center gap-3 text-3xl font-serif">
-              <div className="p-3 bg-primary/20 rounded-full">
-                <Sparkles className="h-7 w-7 text-primary" />
-              </div>
               Your AI Insight
             </CardTitle>
             <CardDescription className="text-lg ml-16 opacity-80">
@@ -102,15 +101,22 @@ export function ReflectionsPage() {
             <div className="prose prose-sm md:prose-base prose-p:text-foreground/80 prose-headings:font-serif prose-headings:text-foreground prose-a:text-primary max-w-full">
               {loadingTips ? (
                 <div className="flex items-center gap-3 text-muted-foreground animate-pulse">
-                  <Sparkles className="h-5 w-5" />
                   Generating your insights...
                 </div>
               ) : tips ? (
                 <ReactMarkdown>{tips}</ReactMarkdown>
               ) : (
-                <p className="text-muted-foreground">
-                  No tips today! Go take a cozy break
-                </p>
+                <div className="flex flex-col items-start gap-4">
+                  <p className="text-muted-foreground m-0">
+                    Get AI-powered personalized tips based on your recent study sessions.
+                  </p>
+                  <Button 
+                    onClick={handleRequestTips}
+                    disabled={sessions.length === 0}
+                  >
+                    Generate Insights
+                  </Button>
+                </div>
               )}
             </div>
           </CardContent>
