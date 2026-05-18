@@ -1,11 +1,11 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
-import { generateStudyTips } from "./OpenAI";
+import { generateStudyTips } from "./Gemini";
 
 /**
  * Callable endpoint for retrieving generated study tips (renamed to trigger fresh IAM).
  */
-export const getAIInsights = onCall({ 
-  cors: true, 
+export const getAIInsights = onCall({
+  cors: true,
   invoker: "public",
   region: "us-central1"
 }, async (request) => {

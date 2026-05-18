@@ -63,7 +63,7 @@ export function SettingsMenu() {
               )}
             </div>
           </div>
-          
+
           {/* Glass track timeline */}
           <div className="w-full h-3.5 bg-muted/60 dark:bg-muted/30 border border-primary/5 rounded-full overflow-hidden flex shadow-inner">
             {Array.from({ length: 2 * numCycles - 1 }).map((_, index) => {
@@ -71,22 +71,21 @@ export function SettingsMenu() {
               const blockDuration = isWork ? workTime : breakTime;
               const totalDuration = workTime * numCycles + breakTime * (numCycles - 1);
               const percentWidth = totalDuration > 0 ? (blockDuration / totalDuration) * 100 : 0;
-              
+
               return (
                 <div
                   key={index}
-                  className={`h-full transition-all duration-500 ${
-                    isWork
+                  className={`h-full transition-all duration-500 ${isWork
                       ? "bg-primary"
                       : "bg-secondary"
-                  }`}
+                    }`}
                   style={{ width: `${percentWidth}%` }}
                 />
               );
             })}
           </div>
         </div>
-        
+
         <div className="flex-shrink-0 text-center md:text-right pl-0 md:pl-6 border-t md:border-t-0 md:border-l border-primary/10 pt-4 md:pt-0 w-full md:w-auto">
           <div className="text-xs text-muted-foreground uppercase tracking-wider font-bold">Total Duration</div>
           <div className="text-3xl font-bold text-foreground font-serif mt-1">
@@ -108,7 +107,7 @@ export function SettingsMenu() {
             <Clock className="h-4 w-4 text-primary" />
             Interval Settings
           </div>
-          
+
           <div className="grid grid-cols-3 gap-4">
             {/* Focus */}
             <div className="space-y-2 text-center">
