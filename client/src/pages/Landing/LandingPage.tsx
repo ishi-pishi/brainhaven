@@ -77,29 +77,6 @@ export function LandingPage() {
         </div>
       </div>
 
-      {/* Note Section (Now its own "page") */}
-      <div className="relative z-10 w-full min-h-screen flex flex-col items-center justify-center py-24 px-6">
-        <div className="max-w-2xl w-full p-12 md:p-16 rounded-[60px] bg-white/40 backdrop-blur-xl border border-primary/10 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-3 h-full bg-primary/30" />
-          
-          <h2 className="text-3xl font-serif font-bold text-primary mb-8 italic">A note from the creator</h2>
-          
-          <div className="space-y-6 text-xl text-muted-foreground leading-relaxed font-light">
-            <p>
-              Hello! I found studying was getting more and more stressful, so for my first 
-              big personal project, I wanted to make a relaxing study app to make things 
-              a bit easier. I hope you find it helpful!
-            </p>
-            <p className="pt-6 text-primary font-serif italic text-2xl">— Isha</p>
-          </div>
-        </div>
-
-        {/* Final CTA */}
-        <div className="mt-16 text-center">
-          <p className="text-xl text-muted-foreground mb-8 font-serif italic">I hope you enjoy!</p>
-          <LoginButton label="Welcome!" />
-        </div>
-      </div>
     </div>
   );
 }
