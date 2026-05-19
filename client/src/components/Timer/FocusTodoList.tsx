@@ -68,7 +68,7 @@ function SortableTodoItem({ todo, isFirst, onRemove }: SortableTodoItemProps) {
           </span>
         )}
         <span
-          className={`block truncate ${isFirst && !isDragging ? "font-bold text-lg text-primary" : "text-card-foreground"
+          className={`block break-words ${isFirst && !isDragging ? "font-bold text-lg text-primary" : "text-card-foreground"
             }`}
         >
           {todo.text}
