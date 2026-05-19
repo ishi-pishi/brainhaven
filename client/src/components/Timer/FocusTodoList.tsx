@@ -131,7 +131,7 @@ export function FocusTodoList() {
   };
 
   return (
-    <div className="w-full max-w-sm bg-card/80 backdrop-blur-xl border border-border shadow-xl rounded-2xl overflow-hidden flex flex-col h-[400px]">
+    <div className="w-full max-w-sm bg-card/80 backdrop-blur-xl border border-border shadow-xl rounded-2xl overflow-hidden flex flex-col h-full">
       <div className="p-4 border-b bg-muted/30">
         <h3 className="font-semibold text-lg flex items-center gap-2">
           Focus Session Tasks

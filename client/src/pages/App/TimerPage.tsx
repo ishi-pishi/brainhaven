@@ -44,7 +44,7 @@ export function TimerPage() {
 
     session.addListener(checkFinished);
     session.addListener(playSound);
-    return () => {};
+    return () => { };
   }, [session, navigate]);
 
   if (!session) {
@@ -57,14 +57,15 @@ export function TimerPage() {
       <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px] pointer-events-none animate-pulse duration-10000" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-[20%] right-[10%] w-[300px] h-[300px] bg-accent/10 rounded-full blur-[80px] pointer-events-none" />
-      
-      {/* Absolute positioning for sidebar gadgets */}
-      <div className="absolute left-8 bottom-8 z-10">
-        <SpotifyEmbed />
-      </div>
 
-      <div className="absolute right-8 top-1/2 -translate-y-1/2 z-10 h-auto">
-        <FocusTodoList />
+      {/* Absolute positioning for sidebar gadgets */}
+      <div className="absolute right-8 top-28 bottom-8 z-10 flex flex-col gap-4 w-[384px]">
+        <div className="flex-1 min-h-0">
+          <FocusTodoList />
+        </div>
+        <div className="shrink-0">
+          <SpotifyEmbed />
+        </div>
       </div>
 
       {/* Main Centered Timer */}
