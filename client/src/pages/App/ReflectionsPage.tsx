@@ -1,59 +1,58 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Button } from "@/components/ui/button";
-import { History, Clock } from "lucide-react";
+import { Sparkles, History, Clock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { getSessions, type StudySession as Session } from "@/storage/session";
 import { callMyStudyTipsFunction } from "@/lib/firebase";
+import { subjectColor } from "@/lib/utils";
 
 export function ReflectionsPage() {
   const [tips, setTips] = useState<string | null>(null);
-  const [loadingTips, setLoadingTips] = useState(false);
+  const [loadingTips, setLoadingTips] = useState(true);
   const [sessions, setSessions] = useState<Session[]>([]);
 
   useEffect(() => {
     async function fetchData() {
       // 1. Fetch sessions
       const allSessions = await getSessions();
-      
+
       // Sort sessions descending
       const sorted = [...allSessions].sort(
         (a, b) => new Date(b.endTime).getTime() - new Date(a.endTime).getTime()
       );
       setSessions(sorted);
+
+      // 2. Fetch AI Tips
+      setLoadingTips(true);
+      try {
+        const recentSessions = sorted.slice(0, 7);
+        if (recentSessions.length === 0) {
+          setTips("No recent study sessions to generate tips.");
+          return;
+        }
+
+        const result = await callMyStudyTipsFunction(recentSessions);
+        if (!result) {
+          setTips(null);
+          return;
+        }
+
+        let tipsText = null;
+        if (result.data && typeof (result.data as any).tips === 'string') {
+          tipsText = (result.data as any).tips;
+        }
+        setTips(tipsText);
+      } catch (error: any) {
+        console.error("Failed to fetch tips:", error);
+        setTips("AI Service Error: " + (error.message || "Unknown error"));
+      } finally {
+        setLoadingTips(false);
+      }
     }
 
     fetchData();
   }, []);
-
-  const handleRequestTips = async () => {
-    setLoadingTips(true);
-    try {
-      const recentSessions = sessions.slice(0, 7);
-      if (recentSessions.length === 0) {
-        setTips("No recent study sessions to generate tips.");
-        return;
-      }
-
-      const result = await callMyStudyTipsFunction(recentSessions);
-      if (!result) {
-        setTips("No tips generated.");
-        return;
-      }
-
-      let tipsText = null;
-      if (result.data && typeof (result.data as any).tips === 'string') {
-        tipsText = (result.data as any).tips;
-      }
-      setTips(tipsText || "No tips generated.");
-    } catch (error: any) {
-      console.error("Failed to fetch tips:", error);
-      setTips("AI Service Error: " + (error.message || "Unknown error"));
-    } finally {
-      setLoadingTips(false);
-    }
-  };
 
   const formatDuration = (ms: number) => {
     const minutes = Math.floor(ms / 60000);
@@ -91,6 +90,9 @@ export function ReflectionsPage() {
         <Card className="rounded-3xl border-0 shadow-xl bg-primary/5 mt-4">
           <CardHeader className="bg-primary/10 pb-8 pt-8 mb-2 rounded-t-3xl border-b border-primary/10">
             <CardTitle className="flex items-center gap-3 text-3xl font-serif">
+              <div className="p-3 bg-primary/20 rounded-full">
+                <Sparkles className="h-7 w-7 text-primary" />
+              </div>
               Your AI Insight
             </CardTitle>
             <CardDescription className="text-lg ml-16 opacity-80">
@@ -101,22 +103,15 @@ export function ReflectionsPage() {
             <div className="prose prose-sm md:prose-base prose-p:text-foreground/80 prose-headings:font-serif prose-headings:text-foreground prose-a:text-primary max-w-full">
               {loadingTips ? (
                 <div className="flex items-center gap-3 text-muted-foreground animate-pulse">
+                  <Sparkles className="h-5 w-5" />
                   Generating your insights...
                 </div>
               ) : tips ? (
                 <ReactMarkdown>{tips}</ReactMarkdown>
               ) : (
-                <div className="flex flex-col items-start gap-4">
-                  <p className="text-muted-foreground m-0">
-                    Get AI-powered personalized tips based on your recent study sessions.
-                  </p>
-                  <Button 
-                    onClick={handleRequestTips}
-                    disabled={sessions.length === 0}
-                  >
-                    Generate Insights
-                  </Button>
-                </div>
+                <p className="text-muted-foreground">
+                  No tips today! Go take a cozy break
+                </p>
               )}
             </div>
           </CardContent>
@@ -145,26 +140,31 @@ export function ReflectionsPage() {
                     >
                       {/* Top Row: Meta & Time */}
                       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-                        <div className="flex flex-col gap-1.5">
-                          <h3 className="font-serif font-bold text-2xl text-foreground">
-                            {session.subject}
-                          </h3>
+                        <div className="flex flex-col gap-1.5 min-w-0">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span 
+                              className="w-4 h-4 shrink-0 rounded-full shadow-sm border border-black/10 dark:border-white/10"
+                              style={{ backgroundColor: subjectColor(session.subject) }}
+                            />
+                            <h3 className="font-serif font-bold text-2xl text-foreground truncate">
+                              {session.subject}
+                            </h3>
+                          </div>
                           <div className="text-sm text-muted-foreground flex items-center gap-2">
                             <Clock className="h-4 w-4" />
                             {formatDate(session.startTime)}
                           </div>
                         </div>
-                        
+
                         <div className="flex items-center gap-3">
                           <div className="px-5 py-2 rounded-full bg-secondary/20 text-secondary-foreground font-semibold text-sm border border-secondary/10">
                             {formatDuration(session.workBlockMs)} focus / {formatDuration(session.breakBlockMs)} break
                           </div>
                           <div
-                            className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest ${
-                              session.status === "finished"
+                            className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest ${session.status === "finished"
                                 ? "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300"
                                 : "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300"
-                            }`}
+                              }`}
                           >
                             {session.status}
                           </div>

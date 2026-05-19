@@ -11,6 +11,7 @@ import type { Subject } from "../../storage/subject";
 import { CreateSubjectPopup } from "./CreateSubjectPopup";
 
 import { ActiveSession } from "@/logic/timer/ActiveSession";
+import { subjectColor } from "@/lib/utils";
 
 import {
   Command,
@@ -72,7 +73,17 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
             className="w-[320px] justify-between"
             onClick={() => inputRef.current?.focus()}
           >
-            {selected ?? "Select a subject"}
+            {selected ? (
+              <div className="flex items-center gap-2 min-w-0">
+                <span
+                  className="w-3 h-3 shrink-0 rounded-full shadow-sm border border-black/10 dark:border-white/10"
+                  style={{ backgroundColor: subjectColor(selected) }}
+                />
+                <span className="truncate">{selected}</span>
+              </div>
+            ) : (
+              "Select a subject"
+            )}
           </Button>
         </PopoverTrigger>
 
@@ -97,15 +108,19 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
                         setOpen(false);
                       }}
                     >
-                      <div className="flex items-center justify-between w-full">
-                        <div className="flex items-center">
+                      <div className="flex items-center justify-between w-full min-w-0">
+                        <div className="flex items-center min-w-0 flex-1 pr-2">
                           <Check
-                            className={`mr-2 h-4 w-4 ${selected === subject.name
+                            className={`mr-2 h-4 w-4 shrink-0 ${selected === subject.name
                               ? "opacity-100"
                               : "opacity-0"
                               }`}
                           />
-                          {subject.name}
+                          <span
+                            className="w-3 h-3 shrink-0 rounded-full shadow-sm border border-black/10 dark:border-white/10 mr-2"
+                            style={{ backgroundColor: subjectColor(subject.name) }}
+                          />
+                          <span className="truncate">{subject.name}</span>
                         </div>
 
                         <button

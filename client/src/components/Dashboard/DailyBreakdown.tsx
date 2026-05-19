@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import type { StudySession } from "../../storage/session";
 import DefaultQueries from "@/logic/insights/IInsightFacade";
 import { executeQueryString } from "@/logic/insights/QueryDoer";
+import { subjectColor } from "@/lib/utils";
 
 import {
   Card,
@@ -43,23 +44,7 @@ const chartConfig = {
   },
 };
 
-/** deterministic hash -> hue */
-function hashToHue(str: string) {
-  let h = 2167; // seed
-  for (let i = 0; i < str.length; i++) {
-    h = (h * 31 + str.charCodeAt(i)) | 0;
-  }
-  // positive
-  const hue = Math.abs(h) % 360;
-  return hue;
-}
-function subjectColor(subjectIdOrName: string) {
-  const hue = hashToHue(subjectIdOrName);
-  // Soft pastel: Saturation 45-60%, Lightness 75-85%
-  const saturation = 50 + (hue % 10); 
-  const lightness = 80 + (hue % 5);
-  return `hsl(${hue} ${saturation}% ${lightness}%)`;
-}
+
 
 /** simple legend component (outside ChartContainer to keep ChartContainer single child) */
 function SubjectsLegend({
@@ -290,10 +275,10 @@ export function WeeklyBreakdown({
         topSubjectsResult && topSubjectsResult.length > 0
           ? topSubjectsResult.map((t: any) => t.subjectId ?? "no-subject")
           : Array.from(
-              new Set(
-                (sessions || []).map((s: any) => s.subjectId).filter(Boolean),
-              ),
-            );
+            new Set(
+              (sessions || []).map((s: any) => s.subjectId).filter(Boolean),
+            ),
+          );
       try {
         const promises = subjectIds.map((id) =>
           DefaultQueries.subjectThisWeek(id),
@@ -330,10 +315,10 @@ export function WeeklyBreakdown({
     topSubjectsResult && topSubjectsResult.length > 0
       ? topSubjectsResult.map((t: any) => t.subjectId ?? "no-subject")
       : Array.from(
-          new Set(
-            (sessions || []).map((s: any) => s.subjectId).filter(Boolean),
-          ),
-        );
+        new Set(
+          (sessions || []).map((s: any) => s.subjectId).filter(Boolean),
+        ),
+      );
 
   // Build data array: each day is an object { date: 'MM-DD', [subjectName]: minutes }
   const data = dayDates.map((dateIso: string, idx: number) => {
