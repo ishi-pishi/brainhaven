@@ -21,7 +21,7 @@ export function LandingPage() {
           brainhaven
         </h1>
         <p className="text-2xl md:text-3xl text-center mb-12 text-muted-foreground font-medium max-w-2xl">
-          A cozy corner for balanced focus!
+          A calm corner for balanced focus!
         </p>
 
         <LoginButton label="Step Inside" />

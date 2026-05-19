@@ -249,11 +249,7 @@ export function SettingsMenu() {
               <span>Begin Study Session</span>
               <ArrowRight className="h-4 w-4" />
             </Button>
-            {!isSubSelected && (
-              <p className="text-center text-[10px] text-destructive font-bold flex items-center justify-center gap-1 animate-pulse">
-                <Zap className="h-3 w-3" /> Select a study subject to begin
-              </p>
-            )}
+
           </div>
         </div>
       </div>

@@ -82,7 +82,7 @@ export function ReflectionsPage() {
             Reflections
           </h1>
           <p className="text-muted-foreground text-lg">
-            Review your AI insights and scan through your cozy past study sessions.
+            Review your insights and scan through your past study sessions.
           </p>
         </div>
 
@@ -95,9 +95,7 @@ export function ReflectionsPage() {
               </div>
               Your AI Insight
             </CardTitle>
-            <CardDescription className="text-lg ml-16 opacity-80">
-              Cozy suggestions based on your recent focus flow.
-            </CardDescription>
+
           </CardHeader>
           <CardContent className="pt-6">
             <div className="prose prose-sm md:prose-base prose-p:text-foreground/80 prose-headings:font-serif prose-headings:text-foreground prose-a:text-primary max-w-full">
@@ -110,7 +108,7 @@ export function ReflectionsPage() {
                 <ReactMarkdown>{tips}</ReactMarkdown>
               ) : (
                 <p className="text-muted-foreground">
-                  No tips today! Go take a cozy break
+                  No tips today! Go take a break.
                 </p>
               )}
             </div>

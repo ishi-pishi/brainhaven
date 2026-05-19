@@ -103,7 +103,7 @@
 }
 
 .dark {
-  /* Cozy Dark Espresso Theme */
+  /* Dark Espresso Theme */
   --background: oklch(0.2 0.02 50);         /* Very dark brown/espresso */
   --foreground: oklch(0.95 0.02 50);        /* Soft warm cream text */
   --card: oklch(0.24 0.02 50);              /* Slightly lighter dark brown */
