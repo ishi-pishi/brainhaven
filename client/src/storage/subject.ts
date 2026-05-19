@@ -11,17 +11,13 @@ export type Subject = {
 
 // Saves a subject to the database
 export async function saveSubject(name: string) {
-  if (await subjectNameAlreadyExists(name)) {
-    throw new Error("Subject name already exists");
-  }
-
   const res = await createSubject({ name });
   return res;
 }
 
 // Returns all subject names in a user's database
-export async function getSubjectNames() {
-  const subjects = await getSubjects();
+export async function getSubjectNames({ networkOnly = false }: { networkOnly?: boolean } = {}) {
+  const subjects = await getSubjects({ networkOnly });
   return subjects.map((subject) => subject.name); // not the problem - get subjects is returning nothing.
 }
 
@@ -36,7 +32,7 @@ export async function getSubjects({ networkOnly = false }: { networkOnly?: boole
 // Checks if a subject name already exists in the database
 // Returns true if it does, false if it doesn't
 export async function subjectNameAlreadyExists(name: string) {
-  const existingSubjs = await getSubjectNames();
+  const existingSubjs = await getSubjectNames({ networkOnly: true });
   return existingSubjs.some(
     (subject) => subject.toLowerCase() === name.toLowerCase(),
   );

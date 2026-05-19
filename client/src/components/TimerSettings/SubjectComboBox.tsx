@@ -101,7 +101,7 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
                 <CommandGroup>
                   {filteredSubjects.map((subject) => (
                     <CommandItem
-                      key={subject.name}
+                      key={subject.id}
                       onSelect={() => {
                         ActiveSession.getInstance()?.setSubject(subject.id);
                         setSelected(subject.name);
@@ -127,7 +127,7 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
                           onClick={async (e) => {
                             e.stopPropagation();
                             await deleteSubjectById(subject.id);
-                            setSubjects((prev) => prev.filter((s) => s.name !== subject.name));
+                            setSubjects((prev) => prev.filter((s) => s.id !== subject.id));
                             if (selected === subject.name) setSelected(null);
                           }}
                           aria-label={`Delete ${subject.name}`}
@@ -162,6 +162,7 @@ export function SubjectComboBox(prop: SubjectComboBoxProp) {
       <CreateSubjectPopup
         open={showCreatePopup}
         onOpenChange={setShowCreatePopup}
+        existingNames={subjects.map((s) => s.name)}
         onCreate={async (name, id) => {
           setSubjects((prev) => [...prev, { name, id }]);
           setShowCreatePopup(false);
