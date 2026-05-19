@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { SubjectComboBox } from "./SubjectComboBox";
 
-import { Clock, Coffee, Repeat, Zap, ArrowRight, Brain, Minus, Plus } from "lucide-react";
+import { Clock, Zap, ArrowRight, Brain, Minus, Plus } from "lucide-react";
 
 // Represents the settings menu before going into a timer session
 // showing timer settings and customizing difficulty

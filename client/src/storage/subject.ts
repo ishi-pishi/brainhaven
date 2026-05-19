@@ -24,7 +24,7 @@ export async function getSubjectNames({ networkOnly = false }: { networkOnly?: b
 // Returns all subjects in a user's database.
 // Pass { networkOnly: true } after a mutation to bypass the Firebase query cache.
 export async function getSubjects({ networkOnly = false }: { networkOnly?: boolean } = {}) {
-  const res = await mySubjects(networkOnly ? { fetchPolicy: 'network-only' } : undefined);
+  const res = await mySubjects(networkOnly ? { fetchPolicy: 'network-only' as any } : undefined);
   const subjects = res.data.subjects;
   return subjects.map((subject) => ({ name: subject.name, id: subject.id }));
 }

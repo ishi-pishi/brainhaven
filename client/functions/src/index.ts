@@ -15,6 +15,17 @@ export const getAIInsights = onCall({
     return { tips };
   } catch (error: any) {
     console.error("AI Tips Error:", error);
+    
+    const isQuotaError = 
+      error.message?.includes("Resource Exhausted") ||
+      error.message?.includes("RESOURCE_EXHAUSTED") ||
+      error.message?.toLowerCase().includes("quota") ||
+      error.message?.includes("429");
+
+    if (isQuotaError) {
+      throw new HttpsError("resource-exhausted", error.message || "AI credits or daily quota has been run out.");
+    }
+
     throw new HttpsError("internal", "Failed to generate tips: " + error.message);
   }
 });

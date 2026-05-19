@@ -46,7 +46,7 @@ async function callMyStudyTipsFunction(sessions: any[] = []) {
         return tips;
     } catch (error) {
         console.error("OH NO! Error calling the function:", error);
-        return null;
+        throw error;
     }
 }
 

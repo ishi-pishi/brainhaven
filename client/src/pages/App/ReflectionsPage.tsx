@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Sparkles, History, Clock } from "lucide-react";
+import { Sparkles, History, Clock, AlertTriangle, AlertCircle } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { getSessions, type StudySession as Session } from "@/storage/session";
 import { callMyStudyTipsFunction } from "@/lib/firebase";
@@ -10,6 +10,7 @@ import { subjectColor } from "@/lib/utils";
 export function ReflectionsPage() {
   const [tips, setTips] = useState<string | null>(null);
   const [loadingTips, setLoadingTips] = useState(true);
+  const [tipsError, setTipsError] = useState<{ type: "credits" | "generic"; message: string } | null>(null);
   const [sessions, setSessions] = useState<Session[]>([]);
 
   useEffect(() => {
@@ -25,6 +26,7 @@ export function ReflectionsPage() {
 
       // 2. Fetch AI Tips
       setLoadingTips(true);
+      setTipsError(null);
       try {
         const recentSessions = sorted.slice(0, 7);
         if (recentSessions.length === 0) {
@@ -34,18 +36,40 @@ export function ReflectionsPage() {
 
         const result = await callMyStudyTipsFunction(recentSessions);
         if (!result) {
-          setTips(null);
-          return;
+          throw new Error("No study tips could be generated.");
         }
 
         let tipsText = null;
         if (result.data && typeof (result.data as any).tips === 'string') {
           tipsText = (result.data as any).tips;
         }
+
+        if (!tipsText) {
+          throw new Error("No study tips returned from the AI service.");
+        }
         setTips(tipsText);
       } catch (error: any) {
         console.error("Failed to fetch tips:", error);
-        setTips("AI Service Error: " + (error.message || "Unknown error"));
+
+        // Let's determine if this is a credits / quota error
+        const isQuotaError = 
+          error.code === "resource-exhausted" || 
+          error.message?.includes("resource-exhausted") ||
+          error.message?.includes("Resource Exhausted") ||
+          error.message?.toLowerCase().includes("quota") ||
+          error.message?.includes("429");
+
+        if (isQuotaError) {
+          setTipsError({
+            type: "credits",
+            message: "Our daily AI insights daily quota or credits have been exhausted. Please check back tomorrow!"
+          });
+        } else {
+          setTipsError({
+            type: "generic",
+            message: "Unable to generate insights at the moment. Please try again in a bit!"
+          });
+        }
       } finally {
         setLoadingTips(false);
       }
@@ -98,20 +122,46 @@ export function ReflectionsPage() {
 
           </CardHeader>
           <CardContent className="pt-6">
-            <div className="prose prose-sm md:prose-base prose-p:text-foreground/80 prose-headings:font-serif prose-headings:text-foreground prose-a:text-primary max-w-full">
-              {loadingTips ? (
-                <div className="flex items-center gap-3 text-muted-foreground animate-pulse">
-                  <Sparkles className="h-5 w-5" />
-                  Generating your insights...
+            {loadingTips ? (
+              <div className="flex items-center gap-3 text-muted-foreground animate-pulse py-2">
+                <Sparkles className="h-5 w-5 text-primary" />
+                Generating your insights...
+              </div>
+            ) : tipsError ? (
+              tipsError.type === "credits" ? (
+                <div className="flex flex-col gap-3 p-5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-950 dark:text-amber-200 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-amber-500/20 rounded-xl">
+                      <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+                    </div>
+                    <div className="font-serif font-bold text-lg">Daily AI Quota Reached</div>
+                  </div>
+                  <p className="text-sm leading-relaxed text-amber-900/80 dark:text-amber-200/80">
+                    {tipsError.message}
+                  </p>
                 </div>
-              ) : tips ? (
-                <ReactMarkdown>{tips}</ReactMarkdown>
               ) : (
-                <p className="text-muted-foreground">
-                  No tips today! Go take a break.
-                </p>
-              )}
-            </div>
+                <div className="flex flex-col gap-3 p-5 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive-foreground dark:text-red-200 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-destructive/20 rounded-xl">
+                      <AlertTriangle className="h-5 w-5 text-destructive dark:text-red-400" />
+                    </div>
+                    <div className="font-serif font-bold text-lg">AI Service Issue</div>
+                  </div>
+                  <p className="text-sm leading-relaxed text-destructive-foreground/80 dark:text-red-200/80">
+                    {tipsError.message}
+                  </p>
+                </div>
+              )
+            ) : tips ? (
+              <div className="prose prose-sm md:prose-base prose-p:text-foreground/80 prose-headings:font-serif prose-headings:text-foreground prose-a:text-primary max-w-full animate-in fade-in duration-300">
+                <ReactMarkdown>{tips}</ReactMarkdown>
+              </div>
+            ) : (
+              <p className="text-muted-foreground py-2">
+                No tips today! Go take a break.
+              </p>
+            )}
           </CardContent>
         </Card>
 
@@ -142,7 +192,7 @@ export function ReflectionsPage() {
                           <div className="flex items-center gap-2 min-w-0">
                             <span 
                               className="w-4 h-4 shrink-0 rounded-full shadow-sm border border-black/10 dark:border-white/10"
-                              style={{ backgroundColor: subjectColor(session.subject) }}
+                              style={{ backgroundColor: subjectColor(session.subject || "") }}
                             />
                             <h3 className="font-serif font-bold text-2xl text-foreground truncate">
                               {session.subject}
