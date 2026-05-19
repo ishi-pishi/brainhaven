@@ -46,7 +46,7 @@ function SortableTodoItem({ todo, isFirst, onRemove }: SortableTodoItemProps) {
     <div
       ref={setNodeRef}
       style={style}
-      className={`relative flex items-center gap-2 p-3 rounded-lg border transition-all duration-200 bg-card ${isDragging ? "opacity-50 border-primary" : "border-border"
+      className={`relative w-full max-w-full flex items-center gap-2 p-3 rounded-lg border transition-all duration-200 bg-card ${isDragging ? "opacity-50 border-primary" : "border-border"
         } ${isFirst && !isDragging
           ? "scale-[1.02] shadow-md border-primary/40 bg-primary/5 py-4"
           : "hover:bg-accent/50"
@@ -68,7 +68,7 @@ function SortableTodoItem({ todo, isFirst, onRemove }: SortableTodoItemProps) {
           </span>
         )}
         <span
-          className={`block break-words ${isFirst && !isDragging ? "font-bold text-lg text-primary" : "text-card-foreground"
+          className={`block break-words break-all ${isFirst && !isDragging ? "font-bold text-lg text-primary" : "text-card-foreground"
             }`}
         >
           {todo.text}
