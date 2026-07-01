@@ -12,4 +12,4 @@ To run:
 - Clone the repo
 - Add a `.env` file to `\client` and set `OPENAI_API_KEY` and `VITE_FIREBASE_API_KEY`
 - Add a `.env` file to `\client\functions` and set `OPENAI_API_KEY`
-- `npm start`
+- From the repo root, run `npm start`

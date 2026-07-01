@@ -32,8 +32,8 @@ export function calculateEarnedCurrency(workMs: number): number {
 }
 
 // Fetch all rewards for the user
-export async function getRewards(): Promise<Reward[]> {
-  const { data } = await listRewards();
+export async function getRewards({ networkOnly = false }: { networkOnly?: boolean } = {}): Promise<Reward[]> {
+  const { data } = await listRewards(networkOnly ? { fetchPolicy: 'network-only' as any } : undefined);
   return data.rewards.map((r) => ({
     id: r.id,
     name: r.name,
@@ -53,8 +53,8 @@ export async function removeReward(id: string): Promise<void> {
 }
 
 // Get current user data (currencyBalance, streak, etc.)
-export async function getUserData() {
-  const { data } = await me();
+export async function getUserData({ networkOnly = false }: { networkOnly?: boolean } = {}) {
+  const { data } = await me(networkOnly ? { fetchPolicy: 'network-only' as any } : undefined);
   return data.user;
 }
 

@@ -12,6 +12,7 @@ import {
   Check,
   Star,
   Sparkles,
+  AlertTriangle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,11 +50,16 @@ export function StorePage() {
   const [newRewardIsOneTime, setNewRewardIsOneTime] = useState(false);
   const [addingDefaults, setAddingDefaults] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const loadData = useCallback(async () => {
+  const loadData = useCallback(async (forceRefresh = false) => {
     setLoading(true);
+    setError(null);
     try {
-      const [rewardList, user] = await Promise.all([getRewards(), getUserData()]);
+      const [rewardList, user] = await Promise.all([
+        getRewards({ networkOnly: forceRefresh }),
+        getUserData({ networkOnly: forceRefresh }),
+      ]);
       setRewards(rewardList);
       if (user) {
         setUserData({
@@ -62,6 +68,9 @@ export function StorePage() {
           dailyGoalMinutes: user.dailyGoalMinutes,
         });
       }
+    } catch (err: any) {
+      console.error("Failed to load store data:", err);
+      setError(err.message || "Failed to load store data. Please make sure you are logged in.");
     } finally {
       setLoading(false);
     }
@@ -72,27 +81,47 @@ export function StorePage() {
   }, [loadData]);
 
   const handlePurchase = async (reward: Reward) => {
-    if (!userData || userData.currencyBalance < reward.cost) return;
+    if (!userData) return;
+    if (userData.currencyBalance < reward.cost) {
+      setError("Insufficient coins!");
+      return;
+    }
+    setError(null);
     try {
       await purchaseReward(reward, userData.currencyBalance);
       setPurchaseResult({ reward, success: true });
-      await loadData();
+      await loadData(true);
       setTimeout(() => setPurchaseResult(null), 4000);
-    } catch {
-      // not enough coins
+    } catch (err: any) {
+      console.error("Failed to purchase reward:", err);
+      setError(err.message || "Failed to purchase reward.");
     }
   };
 
   const handleAddReward = async () => {
     if (!newRewardName.trim() || !newRewardCost) return;
+
+    // Check for duplicate reward name locally
+    const nameExists = rewards.some(
+      (r) => r.name.toLowerCase() === newRewardName.trim().toLowerCase()
+    );
+    if (nameExists) {
+      setError("A reward with this name already exists.");
+      return;
+    }
+
     setSubmitting(true);
+    setError(null);
     try {
       await addReward(newRewardName.trim(), parseInt(newRewardCost), newRewardIsOneTime);
       setNewRewardName("");
       setNewRewardCost("100");
       setNewRewardIsOneTime(false);
       setShowAddForm(false);
-      await loadData();
+      await loadData(true);
+    } catch (err: any) {
+      console.error("Failed to add reward:", err);
+      setError(err.message || "Failed to add reward.");
     } finally {
       setSubmitting(false);
     }
@@ -100,19 +129,29 @@ export function StorePage() {
 
   const handleAddDefaults = async () => {
     setAddingDefaults(true);
+    setError(null);
     try {
       for (const r of DEFAULT_REWARDS) {
         await addReward(r.name, r.cost, r.isOneTime);
       }
-      await loadData();
+      await loadData(true);
+    } catch (err: any) {
+      console.error("Failed to add default rewards:", err);
+      setError(err.message || "Failed to add default rewards.");
     } finally {
       setAddingDefaults(false);
     }
   };
 
   const handleDelete = async (id: string) => {
-    await removeReward(id);
-    await loadData();
+    setError(null);
+    try {
+      await removeReward(id);
+      await loadData(true);
+    } catch (err: any) {
+      console.error("Failed to delete reward:", err);
+      setError(err.message || "Failed to delete reward.");
+    }
   };
 
   return (
@@ -168,6 +207,17 @@ export function StorePage() {
           </div>
         )}
       </div>
+
+      {/* Error Banner */}
+      {error && (
+        <div className="bg-destructive/10 border border-destructive/20 text-destructive-foreground dark:text-red-200 p-4 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+          <AlertTriangle className="h-5 w-5 shrink-0 text-destructive dark:text-red-400" />
+          <div className="text-sm font-medium flex-1">{error}</div>
+          <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setError(null)}>
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
 
       {/* Streak / Goal bar */}
       {userData && (
@@ -373,7 +423,7 @@ export function StorePage() {
 
       {/* Refresh button */}
       <div className="text-right">
-        <Button variant="ghost" size="sm" onClick={loadData} className="text-muted-foreground">
+        <Button variant="ghost" size="sm" onClick={() => loadData(true)} className="text-muted-foreground">
           <RotateCcw className="h-3.5 w-3.5 mr-1" />
           Refresh
         </Button>

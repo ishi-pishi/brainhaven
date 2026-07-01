@@ -1,0 +1,7 @@
+{
+  "name": "brainhaven-root",
+  "private": true,
+  "scripts": {
+    "start": "node start-dev.js"
+  }
+}
