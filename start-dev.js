@@ -2,8 +2,6 @@
 const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const readline = require('readline/promises');
-const { stdin, stdout } = require('process');
 
 const rootDir = __dirname;
 const clientDir = path.join(rootDir, 'client');
@@ -75,83 +73,36 @@ function readEnvValue(filePaths, key) {
   return '';
 }
 
-function writeEnvValue(filePaths, key, value) {
-  for (const filePath of filePaths) {
-    const existing = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : '';
-    const lines = existing.split(/\r?\n/);
-    const normalizedLines = lines.filter((line) => line.trim() !== '');
-    const keyPattern = new RegExp(`^${key}=`);
-    let updated = false;
+function warnAboutMissingEnv() {
+  const missing = [];
 
-    const nextLines = normalizedLines.map((line) => {
-      if (keyPattern.test(line)) {
-        updated = true;
-        return `${key}=${value}`;
-      }
-      return line;
-    });
-
-    if (!updated) {
-      nextLines.push(`${key}=${value}`);
-    }
-
-    fs.writeFileSync(filePath, `${nextLines.join('\n')}\n`);
-  }
-}
-
-async function promptForMissingValues() {
-  const rl = readline.createInterface({ input: stdin, output: stdout });
-  const prompts = [
-    {
-      filePaths: [clientEnvFile, functionsEnvFile],
-      key: 'OPENAI_API_KEY',
-      label: 'OpenAI API key',
-      helpText: 'Used by the app and Cloud Functions. Checked in client/.env and client/functions/.env.',
-      writeTargets: [clientEnvFile, functionsEnvFile],
-    },
-    {
-      filePaths: [clientEnvFile],
-      key: 'VITE_FIREBASE_API_KEY',
-      label: 'Firebase web API key',
-      helpText: 'Used to connect the frontend to Firebase. Checked in client/.env.',
-      writeTargets: [clientEnvFile],
-    },
-  ];
-
-  const missing = prompts.filter(({ filePaths, key }) => !readEnvValue(filePaths, key));
-
-  if (missing.length === 0) {
-    rl.close();
-    return;
+  if (!readEnvValue([clientEnvFile], 'OPENAI_API_KEY')) {
+    missing.push({ file: path.relative(rootDir, clientEnvFile), key: 'OPENAI_API_KEY' });
   }
 
-  console.log('Some environment values are missing. You can enter them now or press Enter to skip.');
-
-  for (const prompt of missing) {
-    const currentValue = readEnvValue(prompt.filePaths, prompt.key);
-    if (currentValue) {
-      console.log(`Using existing value for ${prompt.key} from the current environment or the checked .env files.`);
-      continue;
-    }
-
-    const answer = await rl.question(`${prompt.label} (${prompt.key}) - ${prompt.helpText} [press Enter to skip]: `);
-    const trimmed = answer.trim();
-    if (trimmed && !/^(skip|s)$/i.test(trimmed)) {
-      writeEnvValue(prompt.writeTargets, prompt.key, trimmed);
-      const destinations = prompt.writeTargets.map((target) => path.relative(rootDir, target)).join(', ');
-      console.log(`Saved ${prompt.key} to ${destinations}.`);
-    } else {
-      console.log(`Skipped ${prompt.key}. Some features may not work until you add it later.`);
-    }
+  if (!readEnvValue([clientEnvFile], 'VITE_FIREBASE_API_KEY')) {
+    missing.push({ file: path.relative(rootDir, clientEnvFile), key: 'VITE_FIREBASE_API_KEY' });
   }
 
-  rl.close();
+  if (!readEnvValue([functionsEnvFile], 'OPENAI_API_KEY')) {
+    missing.push({ file: path.relative(rootDir, functionsEnvFile), key: 'OPENAI_API_KEY' });
+  }
+
+  if (missing.length > 0) {
+    console.log('Environment values are not set yet. Add them to the following files:');
+    for (const item of missing) {
+      console.log(`- ${item.file}: ${item.key}`);
+    }
+    console.log('Example:');
+    console.log(`- ${path.relative(rootDir, clientEnvFile)} -> OPENAI_API_KEY=... and VITE_FIREBASE_API_KEY=...`);
+    console.log(`- ${path.relative(rootDir, functionsEnvFile)} -> OPENAI_API_KEY=...`);
+  }
 }
 
 async function main() {
   await ensureFile(clientEnvFile, 'OPENAI_API_KEY=\nVITE_FIREBASE_API_KEY=\n');
   await ensureFile(functionsEnvFile, 'OPENAI_API_KEY=\n');
-  await promptForMissingValues();
+  warnAboutMissingEnv();
 
   if (!fs.existsSync(path.join(clientDir, 'node_modules'))) {
     console.log('Installing client dependencies...');
